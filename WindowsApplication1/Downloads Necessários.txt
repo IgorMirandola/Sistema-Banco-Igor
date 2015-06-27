@@ -1,0 +1,11 @@
+Instalar o gerenciador de Banco de Dados (confiável, mais usado no mundo).
+http://dev.mysql.com/downloads/windows/installer/
+
+Instalar a interface gráfica para acessar o MySQL
+http://dev.mysql.com/downloads/workbench/
+
+Instalar biblioteca que permite acessar o MySQL usando C#
+http://dev.mysql.com/downloads/connector/net/
+
+Visual Studio para abrir o programa. 
+https://www.visualstudio.com/
