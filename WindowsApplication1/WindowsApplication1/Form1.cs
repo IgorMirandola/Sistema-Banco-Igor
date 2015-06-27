@@ -126,7 +126,10 @@ namespace WindowsApplication1
 
             if (Category == category.Transmission && Data == data.Bus && Operation == "Remove")
             {
-
+                label41.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
+                button19.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button20.Text = GetGenericInfoLabel(fileName, "FormClear");
+                SetTransmissionItemList(comboBox8);
             }
 
             if (Category == category.Transmission && Data == data.Bus && Operation == "Insert")
@@ -1962,7 +1965,7 @@ namespace WindowsApplication1
 
         private void button20_Click(object sender, EventArgs e)
         {
-
+            comboBox8.Text = string.Empty;
         }
     }
 }
