@@ -17,8 +17,72 @@ namespace BusTable
             {
                 connection = new MySqlConnection(path);
                 connection.Open();
+                string insert = string.Empty;
+                string busNumber = model.BusNumber.ToString();
+                string caseID = model.CaseID.ToString();
+                string busSequencialNumber = model.SequencialBusNumber.ToString();
+                string busName = model.BusName;
+                string voltage = string.Empty;
+                try
+                {
+                    voltage = model.Voltage.ToString().Split(',')[0] + "." + model.Voltage.ToString().Split(',')[1];
+                }
+                catch
+                {
+                    voltage = model.Voltage.ToString();
+                }
+                string phase = string.Empty;
+                try
+                {
+                    phase = model.Phase.ToString().Split(',')[0] + "." + model.Phase.ToString().Split(',')[1];
+                }
+                catch
+                {
+                    phase = model.Phase.ToString();
+                }
 
-                string insert = "INSERT INTO `" + databasename + "`.`" + CurrentDatabaseTable + "` (`Bus Number`, `Case ID`, `Sequencial Number`, `Bus Name`, `Voltage`, `Phase`, `Voltage Base`, `Desired Voltage`, `Max Power Voltage`, `Min Power Voltage`) VALUES ('" + model.BusNumber + "','" + model.CaseID + "','" + model.SequencialBusNumber.ToString() + "','" + model.BusName + "','" + model.Voltage.ToString() + model.Phase.ToString() + "','" + model.VoltageBase + "','" + "','" + model.DesiredVoltage + "','" + model.MaxPowerVoltage + "','" + model.MinPowerVoltage + "');";
+                string voltageBase = string.Empty;
+                try
+                {
+                    voltageBase = model.VoltageBase.ToString().Split(',')[0] + "." + model.VoltageBase.ToString().Split(',')[1];
+                }
+                catch
+                {
+                    voltageBase = model.VoltageBase.ToString();
+                }
+
+                string desiredVoltage = string.Empty;
+                try
+                {
+                    desiredVoltage = model.DesiredVoltage.ToString().Split(',')[0] + "." + model.DesiredVoltage.ToString().Split(',')[1];
+                }
+                catch
+                {
+                    desiredVoltage = model.DesiredVoltage.ToString();
+                }
+
+                string maxPower = string.Empty;
+                try
+                {
+                    maxPower = model.MaxPowerVoltage.ToString().Split(',')[0] + "." + model.MaxPowerVoltage.ToString().Split(',')[1];
+                }
+                catch
+                {
+                    maxPower = model.MaxPowerVoltage.ToString();
+                }
+
+                string minPower = string.Empty;
+                try
+                {
+                    minPower = model.MinPowerVoltage.ToString().Split(',')[0] + "." + model.MinPowerVoltage.ToString().Split(',')[1];
+                }
+                catch
+                {
+                    minPower = model.MinPowerVoltage.ToString();
+                }
+                string buffer = "'" + busNumber + "','" + caseID + "','" + busSequencialNumber + "','" + busName + "','" + voltage + "','" + phase + "','" + voltageBase + "','" + desiredVoltage + "','" + maxPower + "','" + minPower + "'";
+                insert = "INSERT INTO `" + databasename + "`.`" + CurrentDatabaseTable + "` (`Bus Number`, `Case ID`, `Sequencial Number`, `Bus Name`, `Voltage`, `Phase`, `Voltage Base`, `Desired Voltage`, `Max Power Voltage`, `Min Power Voltage`) VALUES ("+buffer+");";
+                
                 MySqlCommand comandos = new MySqlCommand(insert, connection);
                 comandos.ExecuteNonQuery();
 

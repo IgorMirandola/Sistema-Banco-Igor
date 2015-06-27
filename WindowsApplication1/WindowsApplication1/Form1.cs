@@ -1783,16 +1783,26 @@ namespace WindowsApplication1
             number = 0;
             try
             {
-                int numberRight = Convert.ToInt32(texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0])[0]);
-                if (texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0]).Length == 1)
+                int numberLeft = Convert.ToInt32(texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0])[0]);
+                if (texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0]).Length == 2)
                 {
-                    int numberLeft = Convert.ToInt32(texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0])[1]);
+                    int numberRigth = Convert.ToInt32(texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0])[1]);
                     int sizeOfNumber = texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0])[1].Length;
-
+                    int Power10 = 1;
+                    for (int u = 0; u<sizeOfNumber; u++)
+                    {
+                        Power10 = Power10 * 10;
+                    }
+                    double decimalValue = (double)numberRigth / (double)Power10;
+                    number = numberLeft + decimalValue;
                 }
-                else if (texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0]).Length == 0)
+                else if (texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0]).Length == 1)
                 {
                     number = Convert.ToDouble(texbox.Text);
+                }
+                else
+                {
+                    return false;
                 }
                 return true;
             }
@@ -1907,8 +1917,10 @@ namespace WindowsApplication1
                 model.MaxPowerVoltage = busmaxpowervoltage;
                 model.MinPowerVoltage = busminpowervoltage;
                 model.SequencialBusNumber = bussequencialnumber;
+                model.Phase = busphase;
                 model.Voltage = busvoltage;
                 model.VoltageBase = busvoltagebase;
+                model.DesiredVoltage = busdesiredvoltage;
 
                 BusTable.Insert_Bus databaseAccess = new BusTable.Insert_Bus();
                 string msg = databaseAccess.insert(model, textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text);

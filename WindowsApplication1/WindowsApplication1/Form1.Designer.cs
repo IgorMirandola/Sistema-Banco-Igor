@@ -1287,35 +1287,35 @@ namespace WindowsApplication1
             // 
             // textBox24
             // 
-            this.textBox24.Location = new System.Drawing.Point(173, 275);
+            this.textBox24.Location = new System.Drawing.Point(181, 275);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(262, 22);
             this.textBox24.TabIndex = 9;
             // 
             // textBox23
             // 
-            this.textBox23.Location = new System.Drawing.Point(173, 247);
+            this.textBox23.Location = new System.Drawing.Point(181, 247);
             this.textBox23.Name = "textBox23";
             this.textBox23.Size = new System.Drawing.Size(262, 22);
             this.textBox23.TabIndex = 8;
             // 
             // textBox22
             // 
-            this.textBox22.Location = new System.Drawing.Point(173, 219);
+            this.textBox22.Location = new System.Drawing.Point(181, 219);
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new System.Drawing.Size(262, 22);
             this.textBox22.TabIndex = 7;
             // 
             // textBox21
             // 
-            this.textBox21.Location = new System.Drawing.Point(173, 193);
+            this.textBox21.Location = new System.Drawing.Point(181, 193);
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(262, 22);
             this.textBox21.TabIndex = 6;
             // 
             // textBox20
             // 
-            this.textBox20.Location = new System.Drawing.Point(173, 165);
+            this.textBox20.Location = new System.Drawing.Point(181, 165);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(262, 22);
             this.textBox20.TabIndex = 5;
@@ -1323,7 +1323,7 @@ namespace WindowsApplication1
             // 
             // textBox19
             // 
-            this.textBox19.Location = new System.Drawing.Point(173, 137);
+            this.textBox19.Location = new System.Drawing.Point(181, 137);
             this.textBox19.Name = "textBox19";
             this.textBox19.Size = new System.Drawing.Size(262, 22);
             this.textBox19.TabIndex = 4;
@@ -1331,7 +1331,7 @@ namespace WindowsApplication1
             // 
             // textBox18
             // 
-            this.textBox18.Location = new System.Drawing.Point(173, 109);
+            this.textBox18.Location = new System.Drawing.Point(181, 109);
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new System.Drawing.Size(262, 22);
             this.textBox18.TabIndex = 3;
@@ -1339,7 +1339,7 @@ namespace WindowsApplication1
             // 
             // textBox17
             // 
-            this.textBox17.Location = new System.Drawing.Point(173, 81);
+            this.textBox17.Location = new System.Drawing.Point(181, 81);
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(262, 22);
             this.textBox17.TabIndex = 2;
@@ -1347,7 +1347,7 @@ namespace WindowsApplication1
             // 
             // textBox16
             // 
-            this.textBox16.Location = new System.Drawing.Point(173, 53);
+            this.textBox16.Location = new System.Drawing.Point(181, 53);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(262, 22);
             this.textBox16.TabIndex = 1;
@@ -1356,9 +1356,9 @@ namespace WindowsApplication1
             // comboBox7
             // 
             this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Location = new System.Drawing.Point(178, 23);
+            this.comboBox7.Location = new System.Drawing.Point(181, 23);
             this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(257, 24);
+            this.comboBox7.Size = new System.Drawing.Size(262, 24);
             this.comboBox7.TabIndex = 0;
             this.comboBox7.SelectedIndexChanged += new System.EventHandler(this.comboBox7_SelectedIndexChanged);
             // 
