@@ -124,6 +124,11 @@ namespace WindowsApplication1
             category Category = TranslateCategoryID(categorystring);
             data Data = TranslateDataID(datastring);
 
+            if (Category == category.Transmission && Data == data.Bus && Operation == "Remove")
+            {
+
+            }
+
             if (Category == category.Transmission && Data == data.Bus && Operation == "Insert")
             {
                 label31.Text = GetGenericInfoLabel(fileName, "Bus.Case");
@@ -575,6 +580,9 @@ namespace WindowsApplication1
             panel13.Size = new Size(PanelLocationH, PanelLocationW);
             panel14.Location = new Point(PanelLocationX, PanelLocationY);
             panel14.Size = new Size(PanelLocationH, PanelLocationW);
+            panel15.Location = new Point(PanelLocationX, PanelLocationY);
+            panel15.Size = new Size(PanelLocationH, PanelLocationW);
+
 
             // The first label must be the msg ok for user. 
             // User msg No error
@@ -1928,6 +1936,16 @@ namespace WindowsApplication1
                 if (msg.ToLower().Equals("ok"))
                 {
                     label5.Text = GetGenericInfoLabel(fileName, "InsertSuccess");
+                    textBox16.Text = string.Empty;
+                    textBox17.Text = string.Empty;
+                    textBox18.Text = string.Empty;
+                    textBox19.Text = string.Empty;
+                    textBox20.Text = string.Empty;
+                    textBox21.Text = string.Empty;
+                    textBox22.Text = string.Empty;
+                    textBox23.Text = string.Empty;
+                    textBox24.Text = string.Empty;
+                    comboBox7.Text = string.Empty;
                 }
                 else
                 {
@@ -1935,6 +1953,16 @@ namespace WindowsApplication1
                 }
 
             }
+        }
+
+        private void comboBox8_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
