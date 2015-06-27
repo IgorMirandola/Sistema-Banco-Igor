@@ -130,6 +130,7 @@ namespace WindowsApplication1
                 button19.Text = GetGenericInfoLabel(fileName, "FormSubmit");
                 button20.Text = GetGenericInfoLabel(fileName, "FormClear");
                 SetTransmissionItemList(comboBox8);
+                panel15.Visible = true;
             }
 
             if (Category == category.Transmission && Data == data.Bus && Operation == "Insert")
@@ -852,7 +853,7 @@ namespace WindowsApplication1
                 panel12.Visible = false;
                 panel13.Visible = false;
                 panel14.Visible = false;
-
+                panel15.Visible = false;
             }
         }
 
@@ -1960,7 +1961,7 @@ namespace WindowsApplication1
 
         private void comboBox8_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void button20_Click(object sender, EventArgs e)
