@@ -1,0 +1,79 @@
+System Information:
+SystemName <Sistema de Acesso ao Banco de Dados de Sistemas Elétricos de Potência>
+
+Category Information:
+CategoryLabel <Selecione o tipo de sistema>
+CategoryInformation.Distribution <Distribuição>
+CategoryInformation.Transmission <Transmissão>
+
+Data Information:
+DataLabel <Selecione o tipo de dado>
+DataInformation.Case <Caso Base>
+DataInformation.Bus <Barra>
+DataInformation.Line <Linha>
+
+Operation Information:
+OperationLabel <Selecione o tipo de operação>
+OperationInformation.Insert <Inserir>
+OperationInformation.Remove <Remover>
+OperationInformation.Update <Alterar>
+OperationInformation.Query <Buscar>
+
+Connection Information:
+ConnectionLabel <Informações para conexão com o banco de dados>
+Connection.Host <Host>
+Connection.UserID <User ID>
+Connection.DatabaseName <Nome do banco de dados>
+Connection.DatabasePassword <Senha de acesso>
+
+Label for the buttons:
+RunButton <Executar>
+StopButton <Parar>
+FormSubmit <Submeter>
+FormClear <Limpar>
+
+Case.Title <Título>
+Case.Author <Autor>
+Case.Description <Descrição>
+Case.PowerBase <Base de potência>
+Case.CaseDate <Data do caso>
+Case.PublicationDate <Data de publicação>
+
+Bus.Case <Caso base>
+Bus.Number <Número da barra>
+Bus.SequencialNumber <Número sequencial>
+Bus.Name <Nome da barra>
+Bus.Voltage <Magnitude de tensão>
+Bus.Phase <Ângulo de fase>
+Bus.VoltageBase <Tensão Base>
+Bus.DesiredVoltage <Tensão Especificada>
+Bus.MaxReactivePowerOrVoltage <Potência/Tensão máxima>
+Bus.MinReactivePowerOrVoltage <Potência/Tensão mínima>
+
+GenericItem.Select <Selecionar Item>
+
+InsertSuccess <Item inserido com sucesso>
+RemoveSuccess <Item removido com sucesso>
+UpdateSuccess <Item alterado com sucesso>
+ReturnedSuccess <Pronto para reiniciar processos com o banco de dados selecionado>
+
+User Message Information:
+UserMsgLabel <Mensagens para o usuário>
+
+Error.RunMsg <Estado atual: pronto para ser executado.>
+VerifyInfo <Verifique>
+NoError.OK <Você selecionou os dados corretamente.>
+Error.999 <Erro 999: Parâmetro não foi corretamente selecionado.>
+Error.998 <Erro 998: Erro em dictionary.dat.>
+Error.997 <Erro 997: Acesso negado ao usuário. Senha ou usuário possivelmente incorretos.>
+Error.996 <Erro 996: Não foi possível efetuar comunicação com o banco de dados.>  
+Error.995 <Erro 995: Host não encontrado.>  
+Error.994 <Erro 994: Database não encontrado.>  
+Error.993 <Erro 993: Informação nula não é permitida. >
+Error.992 <Erro 992: Erro não conhecido.>
+Error.991 <Erro 991: Excel não está instalado corretamente.>
+Error.990 <Erro 990: Exceção ocorrida enquanto tentava liberar objeto Excel.>
+Error.989 <Erro 989: Pelo menos um item deve ser selecionado.>
+Error.989 <Erro 988: Informação incorreta.>
+Error.988 <Erro 988: Valor deve ser número inteiro.>
+Error.987 <Erro 987: Valor deve ser número.>
