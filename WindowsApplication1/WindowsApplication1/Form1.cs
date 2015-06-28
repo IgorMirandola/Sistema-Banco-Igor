@@ -1532,10 +1532,8 @@ namespace WindowsApplication1
                     CaseTable.Query_Case DatabaseAccess1 = new CaseTable.Query_Case();
                     List<string[]> matrix1 = new List<string[]>();
                     matrix1 = DatabaseAccess1.query(null, textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text);
-
                     int MaxRows1 = matrix1.Count;
                     int MaxCol1 = matrix1[0].Length;
-
                     for (int i = 0; i < MaxRows1; i++)
                     {
                         if (matrix1[i][7].Equals("0"))
