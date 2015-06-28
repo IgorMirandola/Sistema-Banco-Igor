@@ -124,6 +124,24 @@ namespace WindowsApplication1
             category Category = TranslateCategoryID(categorystring);
             data Data = TranslateDataID(datastring);
 
+            if (Category == category.Transmission && Data == data.Bus && Operation == "Update")
+            {
+                label43.Text = GetGenericInfoLabel(fileName, "Bus.MinReactivePowerOrVoltage");
+                label44.Text = GetGenericInfoLabel(fileName, "Bus.MaxReactivePowerOrVoltage");
+                label45.Text = GetGenericInfoLabel(fileName, "Bus.DesiredVoltage");
+                label46.Text = GetGenericInfoLabel(fileName, "Bus.VoltageBase");
+                label47.Text = GetGenericInfoLabel(fileName, "Bus.Phase");
+                label48.Text = GetGenericInfoLabel(fileName, "Bus.Voltage");
+                label49.Text = GetGenericInfoLabel(fileName, "Bus.Name");
+                label50.Text = GetGenericInfoLabel(fileName, "Bus.SequencialNumber");
+                label52.Text = GetGenericInfoLabel(fileName, "Bus.Number");
+                label53.Text = GetGenericInfoLabel(fileName, "Bus.Case");
+                button21.Text = GetGenericInfoLabel(fileName, "FormClear");
+                button22.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                SetTransmissionItemList(comboBox11);
+                panel16.Visible = true;
+            }
+
             if (Category == category.Transmission && Data == data.Bus && Operation == "Remove")
             {
                 label41.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
@@ -555,17 +573,8 @@ namespace WindowsApplication1
             return label;
         }
 
-        
-
-        private void Form1_Load_1(object sender, EventArgs e)
+        private void SetPanelLocation(int PanelLocationX, int PanelLocationY, int PanelLocationH, int PanelLocationW)
         {
-            // Correct the place of painels. 
-            int PanelLocationX = 412;
-            int PanelLocationY = 15;
-            int PanelLocationH = 457;
-            int PanelLocationW = 395;
-
-            // FIRST PLACE TO GO WHEN YOU ADD NEW TABLE
             panel6.Location = new Point(PanelLocationX, PanelLocationY);
             panel6.Size = new Size(PanelLocationH, PanelLocationW);
             panel7.Location = new Point(PanelLocationX, PanelLocationY);
@@ -586,7 +595,20 @@ namespace WindowsApplication1
             panel14.Size = new Size(PanelLocationH, PanelLocationW);
             panel15.Location = new Point(PanelLocationX, PanelLocationY);
             panel15.Size = new Size(PanelLocationH, PanelLocationW);
+            panel16.Location = new Point(PanelLocationX, PanelLocationY);
+            panel16.Size = new Size(PanelLocationH, PanelLocationW);
+        }
 
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+            // Correct the place of painels. 
+            int PanelLocationX = 412;
+            int PanelLocationY = 15;
+            int PanelLocationH = 457;
+            int PanelLocationW = 395;
+
+            // FIRST PLACE TO GO WHEN YOU ADD NEW TABLE
+            SetPanelLocation(PanelLocationX, PanelLocationY, PanelLocationH, PanelLocationW);
 
             // The first label must be the msg ok for user. 
             // User msg No error
@@ -854,6 +876,7 @@ namespace WindowsApplication1
                 panel13.Visible = false;
                 panel14.Visible = false;
                 panel15.Visible = false;
+                panel16.Visible = false;
             }
         }
 
@@ -1779,32 +1802,12 @@ namespace WindowsApplication1
             number = 0;
             try
             {
-                int numberLeft = Convert.ToInt32(texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0])[0]);
-                if (texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0]).Length == 2)
-                {
-                    int numberRigth = Convert.ToInt32(texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0])[1]);
-                    int sizeOfNumber = texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0])[1].Length;
-                    int Power10 = 1;
-                    for (int u = 0; u<sizeOfNumber; u++)
-                    {
-                        Power10 = Power10 * 10;
-                    }
-                    double decimalValue = (double)numberRigth / (double)Power10;
-                    number = numberLeft + decimalValue;
-                }
-                else if (texbox.Text.Split(GetGenericInfoLabel("config.ini", "SplitterForDecimalNumbers")[0]).Length == 1)
-                {
-                    number = Convert.ToDouble(texbox.Text);
-                }
-                else
-                {
-                    return false;
-                }
+                number = Convert.ToDouble(texbox.Text.Replace('.',','));
                 return true;
             }
             catch
             {
-                ShowError(987, label.Text);
+                ShowError(987,label.Text);
                 return false;
             }
         }
@@ -1984,6 +1987,142 @@ namespace WindowsApplication1
             else
             {
                 ShowError(988, GetGenericInfoLabel(fileName, "GenericItem.Select"));
+            }
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            textBox25.Text = string.Empty;
+            textBox26.Text = string.Empty;
+            textBox27.Text = string.Empty;
+            textBox28.Text = string.Empty;
+            textBox29.Text = string.Empty;
+            textBox30.Text = string.Empty;
+            textBox31.Text = string.Empty;
+            textBox32.Text = string.Empty;
+            comboBox10.Text = string.Empty;
+            comboBox11.Text = string.Empty;
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            int CaseIDselectedIndex = comboBox11.SelectedIndex;
+            int BusNumberSelectedIndex = comboBox10.SelectedIndex;
+
+            if ((CaseIDselectedIndex > -1) && (BusNumberSelectedIndex > -1))
+            {
+                List<string[]> matrix = new List<string[]>();
+                matrix = GetTransmissionMatrix();
+                int CaseID = Convert.ToInt32(matrix[CaseIDselectedIndex][0]);
+
+                GeneralDatabaseAccess.Query databaseAccess = new GeneralDatabaseAccess.Query();
+                List<string[]> BusMatrix = new List<string[]>();
+                BusMatrix = databaseAccess.query(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, "SELECT * FROM power_system_database.bus WHERE `Case ID` = " + CaseID + ";");
+                int busNumber = Convert.ToInt32(BusMatrix[BusNumberSelectedIndex][0]);
+
+                List<bool> TotalValidation = new List<bool>();
+                TotalValidation.Add(ValidateAsNotNullText(textBox31, label49));
+
+                int sequencialNumber = 0;
+                TotalValidation.Add(ValidateAsInt(textBox32, label50, out sequencialNumber));
+
+                double voltage = 0;
+                TotalValidation.Add(ValidateAsDouble(textBox30, label48, out voltage));
+
+                double phase = 0;
+                TotalValidation.Add(ValidateAsDouble(textBox29, label47, out phase));
+
+                double voltageBase = 0;
+                TotalValidation.Add(ValidateAsDouble(textBox28, label46, out voltageBase));
+
+                double desiredVoltage = 0;
+                TotalValidation.Add(ValidateAsDouble(textBox27, label45, out desiredVoltage));
+
+                double maxPower = 0;
+                TotalValidation.Add(ValidateAsDouble(textBox26, label44, out maxPower));
+
+                double minPower = 0;
+                TotalValidation.Add(ValidateAsDouble(textBox25, label43, out minPower));
+
+                if(CompleteValidation(TotalValidation) == true)
+                {
+                    string MsgUpdate = "UPDATE `power_system_database`.`bus` SET `Sequencial Number`='" + sequencialNumber + "', `Bus name`='" + textBox31.Text + "', `Voltage`='" + voltage.ToString().Replace(',', '.') + "', `Phase`='" + phase.ToString().Replace(',', '.') + "', `Voltage Base`='" + voltageBase.ToString().Replace(',', '.') + "', `Desired Voltage`='" + desiredVoltage.ToString().Replace(',', '.') + "', `Max Power Voltage`='" + maxPower.ToString().Replace(',', '.') + "', `Min Power Voltage`='" + minPower.ToString().Replace(',', '.') + "' WHERE `Bus Number`='" + busNumber + "' and`case ID`='" + CaseID + "';";
+                    GeneralDatabaseAccess.Update databaseAccess1 = new GeneralDatabaseAccess.Update();
+                    string error = databaseAccess1.update(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, MsgUpdate);
+                    if (!error.ToLower().Equals("ok"))
+                    {
+                        ShowError(992, error);
+                    }
+                    else
+                    {
+                        textBox5.Text = GetGenericInfoLabel(fileName, "UpdateSuccess");
+                        textBox25.Text = string.Empty;
+                        textBox26.Text = string.Empty;
+                        textBox27.Text = string.Empty;
+                        textBox28.Text = string.Empty;
+                        textBox29.Text = string.Empty;
+                        textBox30.Text = string.Empty;
+                        textBox31.Text = string.Empty;
+                        textBox32.Text = string.Empty;
+                        comboBox10.Text = string.Empty;
+                        comboBox11.Text = string.Empty;
+                    }
+                }
+            }
+            else
+            {
+                ShowError(989, GetGenericInfoLabel(fileName, "Bus.Case") + " / " + GetGenericInfoLabel(fileName, "Bus.Number"));
+            }
+        }
+
+        private bool CompleteValidation(List<bool> TotalValidation)
+        {
+            for (int i = 0; i< TotalValidation.Count; i++)
+            {
+                if (TotalValidation[i] == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void comboBox10_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = GetTransmissionMatrix();
+            int CaseIDselectedIndex = comboBox11.SelectedIndex;
+            int CaseID = Convert.ToInt32(matrix[CaseIDselectedIndex][0]);
+            GeneralDatabaseAccess.Query databaseAccess = new GeneralDatabaseAccess.Query();
+            List<string[]> BusMatrix = new List<string[]>();
+            BusMatrix = databaseAccess.query(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, "SELECT * FROM power_system_database.bus WHERE `Case ID` = " + CaseID + ";");
+            int busNumber = Convert.ToInt32(BusMatrix[comboBox10.SelectedIndex][0]);
+            textBox32.Text = Convert.ToString(Convert.ToInt32(BusMatrix[comboBox10.SelectedIndex][2]));
+            textBox31.Text = Convert.ToString(BusMatrix[comboBox10.SelectedIndex][3]);
+            textBox30.Text = Convert.ToString(Convert.ToDouble(BusMatrix[comboBox10.SelectedIndex][4])).Replace(',','.');
+            textBox29.Text = Convert.ToString(Convert.ToDouble(BusMatrix[comboBox10.SelectedIndex][5])).Replace(',', '.');
+            textBox28.Text = Convert.ToString(Convert.ToDouble(BusMatrix[comboBox10.SelectedIndex][6])).Replace(',', '.');
+            textBox27.Text = Convert.ToString(Convert.ToDouble(BusMatrix[comboBox10.SelectedIndex][7])).Replace(',', '.');
+            textBox26.Text = Convert.ToString(Convert.ToDouble(BusMatrix[comboBox10.SelectedIndex][8])).Replace(',', '.');
+            textBox25.Text = Convert.ToString(Convert.ToDouble(BusMatrix[comboBox10.SelectedIndex][9])).Replace(',', '.');
+        }
+
+        private void comboBox11_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = GetTransmissionMatrix();
+            int CaseIDselectedIndex = comboBox11.SelectedIndex;
+            int CaseID = Convert.ToInt32(matrix[CaseIDselectedIndex][0]);
+            GeneralDatabaseAccess.Query databaseAccess = new GeneralDatabaseAccess.Query();
+            List<string[]> BusMatrix = new List<string[]>();
+            BusMatrix = databaseAccess.query(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, "SELECT * FROM power_system_database.bus WHERE `Case ID` = " + CaseID + ";");
+            comboBox10.Items.Clear();
+            if (BusMatrix.Count > 0)
+            {
+                for (int i = 0; i < BusMatrix.Count; i++)
+                {
+                    comboBox10.Items.Add("BusNumber: " + BusMatrix[i][0] + ", SequencialNumber: " + BusMatrix[i][2] + ", BusName: " + BusMatrix[i][3]);
+                }
             }
         }
     }

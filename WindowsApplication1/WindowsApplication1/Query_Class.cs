@@ -5,6 +5,33 @@ using MySql.Data.MySqlClient;
 
 namespace GeneralDatabaseAccess
 {
+    class Update
+    {
+        private MySqlConnection connection;
+        public string update(string server, string UID, string databasename, string password, string UpdateMsg)
+        {
+            string path = "SERVER=" + server + ";DATABASE=" + databasename + ";UID=" + UID + ";PASSWORD=" + password + ";";
+            try
+            {
+                connection = new MySqlConnection(path);
+                connection.Open();
+                string update = UpdateMsg;
+                MySqlCommand comandos = new MySqlCommand(update, connection);
+                comandos.ExecuteNonQuery();
+                connection.Close();
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+#pragma warning disable
+                string read = string.Empty;
+#pragma warning restore
+                read = ex.Message;
+                return read;
+            }
+        }
+    }
+
     class Remove
     {
         private MySqlConnection connection;
