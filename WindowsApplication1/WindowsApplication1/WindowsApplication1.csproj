@@ -68,6 +68,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Query_Class.cs" />
     <Compile Include="TestCommunication.cs" />
   </ItemGroup>
   <ItemGroup>
