@@ -30,6 +30,12 @@ namespace WindowsApplication1
             category Category = TranslateCategoryID(categorystring);
             data Data = TranslateDataID(datastring);
 
+            if (Category == category.Distribution && Data == data.Bus && Operation == "Update")
+            {
+                label58.Text = GetGenericInfoLabel(fileName, "FormNotUsed");
+                panel20.Visible = true;
+            }
+
             if (Category == category.Distribution && Data == data.Bus && Operation == "Remove")
             {
                 SetDistribuctionItemList(comboBox14);
@@ -79,6 +85,7 @@ namespace WindowsApplication1
 
             if (Category == category.Transmission && Data == data.Bus && Operation == "Remove")
             {
+                label42.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
                 label41.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
                 button19.Text = GetGenericInfoLabel(fileName, "FormSubmit");
                 button20.Text = GetGenericInfoLabel(fileName, "FormClear");
@@ -631,6 +638,8 @@ namespace WindowsApplication1
             panel18.Size = new Size(PanelLocationH, PanelLocationW);
             panel19.Location = new Point(PanelLocationX, PanelLocationY);
             panel19.Size = new Size(PanelLocationH, PanelLocationW);
+            panel20.Location = new Point(PanelLocationX, PanelLocationY);
+            panel20.Size = new Size(PanelLocationH, PanelLocationW);
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -776,6 +785,7 @@ namespace WindowsApplication1
                 panel17.Visible = false;
                 panel18.Visible = false;
                 panel19.Visible = false;
+                panel20.Visible = false;
 
                 // Clear all important forms.
                 textBox1.Enabled = true;

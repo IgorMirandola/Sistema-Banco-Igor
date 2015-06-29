@@ -60,6 +60,8 @@ ReturnedSuccess <Pronto para reiniciar processos com o banco de dados selecionad
 User Message Information:
 UserMsgLabel <Mensagens para o usuário>
 
+FormNotUsed <Esta opção não é aplicável nesta situação.>
+
 Error.RunMsg <Estado atual: pronto para ser executado.>
 VerifyInfo <Verifique>
 NoError.OK <Você selecionou os dados corretamente.>
