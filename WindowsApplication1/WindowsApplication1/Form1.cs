@@ -25,6 +25,187 @@ namespace WindowsApplication1
         
         public enum data { Case, Bus, Line, Unknown };
 
+        public void GenerateNewForm(string host, string UserID, string databaseName, string password, int categorystring, int datastring, string Operation)
+        {
+            category Category = TranslateCategoryID(categorystring);
+            data Data = TranslateDataID(datastring);
+
+            if (Category == category.Transmission && Data == data.Bus && Operation == "Query")
+            {
+                label51.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
+                SetTransmissionItemList(comboBox12);
+                button23.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button24.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel17.Visible = true;
+            }
+
+            if (Category == category.Transmission && Data == data.Bus && Operation == "Update")
+            {
+                label43.Text = GetGenericInfoLabel(fileName, "Bus.MinReactivePowerOrVoltage");
+                label44.Text = GetGenericInfoLabel(fileName, "Bus.MaxReactivePowerOrVoltage");
+                label45.Text = GetGenericInfoLabel(fileName, "Bus.DesiredVoltage");
+                label46.Text = GetGenericInfoLabel(fileName, "Bus.VoltageBase");
+                label47.Text = GetGenericInfoLabel(fileName, "Bus.Phase");
+                label48.Text = GetGenericInfoLabel(fileName, "Bus.Voltage");
+                label49.Text = GetGenericInfoLabel(fileName, "Bus.Name");
+                label50.Text = GetGenericInfoLabel(fileName, "Bus.SequencialNumber");
+                label52.Text = GetGenericInfoLabel(fileName, "Bus.Number");
+                label53.Text = GetGenericInfoLabel(fileName, "Bus.Case");
+                button21.Text = GetGenericInfoLabel(fileName, "FormClear");
+                button22.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                SetTransmissionItemList(comboBox11);
+                panel16.Visible = true;
+            }
+
+            if (Category == category.Transmission && Data == data.Bus && Operation == "Remove")
+            {
+                label41.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
+                button19.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button20.Text = GetGenericInfoLabel(fileName, "FormClear");
+                SetTransmissionItemList(comboBox8);
+                panel15.Visible = true;
+            }
+
+            if (Category == category.Transmission && Data == data.Bus && Operation == "Insert")
+            {
+                label31.Text = GetGenericInfoLabel(fileName, "Bus.Case");
+                label32.Text = GetGenericInfoLabel(fileName, "Bus.Number");
+                label33.Text = GetGenericInfoLabel(fileName, "Bus.SequencialNumber");
+                label34.Text = GetGenericInfoLabel(fileName, "Bus.Name");
+                label35.Text = GetGenericInfoLabel(fileName, "Bus.Voltage");
+                label36.Text = GetGenericInfoLabel(fileName, "Bus.Phase");
+                label37.Text = GetGenericInfoLabel(fileName, "Bus.VoltageBase");
+                label38.Text = GetGenericInfoLabel(fileName, "Bus.DesiredVoltage");
+                label39.Text = GetGenericInfoLabel(fileName, "Bus.MaxReactivePowerOrVoltage");
+                label40.Text = GetGenericInfoLabel(fileName, "Bus.MinReactivePowerOrVoltage");
+                button17.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button18.Text = GetGenericInfoLabel(fileName, "FormClear");
+                SetTransmissionItemList(comboBox7);
+                panel14.Visible = true;
+            }
+
+            if (Category == category.Distribution && Data == data.Case && Operation == "Query")
+            {
+                button16.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                panel13.Visible = true;
+            }
+
+            if (Category == category.Distribution && Data == data.Case && Operation == "Update")
+            {
+                label28.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
+                label29.Text = GetGenericInfoLabel(fileName, "Case.Title");
+                label30.Text = GetGenericInfoLabel(fileName, "Case.Description");
+                button14.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button15.Text = GetGenericInfoLabel(fileName, "FormClear");
+                SetDistribuctionItemList(comboBox6);
+                panel12.Visible = true;
+            }
+            if (Category == category.Transmission && Data == data.Case && Operation == "Insert")
+            {
+                label11.Text = GetGenericInfoLabel(fileName, "Case.Title") + ":";
+                label12.Text = GetGenericInfoLabel(fileName, "Case.Author") + ":";
+                label13.Text = GetGenericInfoLabel(fileName, "Case.Description") + ":";
+                label14.Text = GetGenericInfoLabel(fileName, "Case.PowerBase") + ":";
+                label15.Text = GetGenericInfoLabel(fileName, "Case.CaseDate") + ":";
+                label16.Text = GetGenericInfoLabel(fileName, "Case.PublicationDate") + ":";
+                button3.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button4.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel6.Visible = true;
+            }
+            if (Category == category.Transmission && Data == data.Case && Operation == "Remove")
+            {
+                comboBox3.Items.Clear();
+                label22.Text = GetGenericInfoLabel(fileName, "GenericItem.Select") + ":";
+                CaseTable.Query_Case DatabaseAccess = new CaseTable.Query_Case();
+                List<string[]> queryresult = new List<string[]>();
+                queryresult = DatabaseAccess.query(null, textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text);
+                for (int j = 0; j < queryresult.Count; j++)
+                {
+                    if (queryresult[j][7].Equals("1")) // 1 means transmission, 0 means distribuction
+                    {
+                        comboBox3.Items.Add(queryresult[j][1] + ", " + queryresult[j][2] + ". " + queryresult[j][3]);
+                    }
+                }
+                button5.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button2.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel7.Visible = true;
+            }
+
+            if (Category == category.Transmission && Data == data.Case && Operation == "Update")
+            {
+                label24.Text = GetGenericInfoLabel(fileName, "GenericItem.Select") + ":";
+                label23.Text = GetGenericInfoLabel(fileName, "Case.Title") + ":";
+                label21.Text = GetGenericInfoLabel(fileName, "Case.Author") + ":";
+                label20.Text = GetGenericInfoLabel(fileName, "Case.Description") + ":";
+                label19.Text = GetGenericInfoLabel(fileName, "Case.PowerBase") + ":";
+                label18.Text = GetGenericInfoLabel(fileName, "Case.CaseDate") + ":";
+                label17.Text = GetGenericInfoLabel(fileName, "Case.PublicationDate") + ":";
+                comboBox4.Items.Clear();
+                CaseTable.Query_Case DatabaseAccess = new CaseTable.Query_Case();
+                List<string[]> queryresult = new List<string[]>();
+                queryresult = DatabaseAccess.query(null, textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text);
+                for (int j = 0; j < queryresult.Count; j++)
+                {
+                    if (queryresult[j][7].Equals("1")) // 1 means transmission, 0 means distribuction
+                    {
+                        comboBox4.Items.Add(queryresult[j][1] + ", " + queryresult[j][2] + ". " + queryresult[j][3]);
+                    }
+                }
+                button7.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button6.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel8.Visible = true;
+            }
+
+            if (Category == category.Transmission && Data == data.Case && Operation == "Query")
+            {
+                checkBox1.Text = GetGenericInfoLabel(fileName, "Case.Title");
+                checkBox2.Text = GetGenericInfoLabel(fileName, "Case.Author");
+                checkBox3.Text = GetGenericInfoLabel(fileName, "Case.Description");
+                checkBox4.Text = GetGenericInfoLabel(fileName, "Case.PowerBase");
+                checkBox5.Text = GetGenericInfoLabel(fileName, "Case.CaseDate");
+                checkBox6.Text = GetGenericInfoLabel(fileName, "Case.PublicationDate");
+                checkBox1.Checked = true;
+                checkBox2.Checked = true;
+                checkBox3.Checked = true;
+                checkBox4.Checked = true;
+                checkBox5.Checked = true;
+                checkBox6.Checked = true;
+                button8.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button9.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel9.Visible = true;
+            }
+            if (Category == category.Distribution && Data == data.Case && Operation == "Insert")
+            {
+                label25.Text = GetGenericInfoLabel(fileName, "Case.Title");
+                label26.Text = GetGenericInfoLabel(fileName, "Case.Description");
+                button10.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button11.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel10.Visible = true;
+            }
+            if (Category == category.Distribution && Data == data.Case && Operation == "Remove")
+            {
+                comboBox5.Items.Clear();
+                CaseTable.Query_Case DatabaseAccess = new CaseTable.Query_Case();
+                List<string[]> matrix = new List<string[]>();
+                matrix = DatabaseAccess.query(null, textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text);
+
+                int MaxRows = matrix.Count;
+                int MaxCol = matrix[0].Length;
+
+                for (int i = 0; i < MaxRows; i++)
+                {
+                    if (matrix[i][7].Equals("0"))
+                    {
+                        comboBox5.Items.Add(matrix[i][1] + " / " + matrix[i][3]);
+                    }
+                }
+                label27.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
+                button12.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button13.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel11.Visible = true;
+            }
+        }
+
         public category TranslateCategoryID(int categoryID)
         {
             switch (categoryID)
@@ -115,182 +296,6 @@ namespace WindowsApplication1
                 }
             }
             return filteredMatrix;
-        }
-
-
-        public void NewFormProcessRun(string host, string UserID, string databaseName, string password, int categorystring, int datastring, string Operation)
-        {
-            // SECOND PLACE TO GO IF YOU WANT TO ADD NEW TABLE
-            category Category = TranslateCategoryID(categorystring);
-            data Data = TranslateDataID(datastring);
-
-            if (Category == category.Transmission && Data == data.Bus && Operation == "Update")
-            {
-                label43.Text = GetGenericInfoLabel(fileName, "Bus.MinReactivePowerOrVoltage");
-                label44.Text = GetGenericInfoLabel(fileName, "Bus.MaxReactivePowerOrVoltage");
-                label45.Text = GetGenericInfoLabel(fileName, "Bus.DesiredVoltage");
-                label46.Text = GetGenericInfoLabel(fileName, "Bus.VoltageBase");
-                label47.Text = GetGenericInfoLabel(fileName, "Bus.Phase");
-                label48.Text = GetGenericInfoLabel(fileName, "Bus.Voltage");
-                label49.Text = GetGenericInfoLabel(fileName, "Bus.Name");
-                label50.Text = GetGenericInfoLabel(fileName, "Bus.SequencialNumber");
-                label52.Text = GetGenericInfoLabel(fileName, "Bus.Number");
-                label53.Text = GetGenericInfoLabel(fileName, "Bus.Case");
-                button21.Text = GetGenericInfoLabel(fileName, "FormClear");
-                button22.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                SetTransmissionItemList(comboBox11);
-                panel16.Visible = true;
-            }
-
-            if (Category == category.Transmission && Data == data.Bus && Operation == "Remove")
-            {
-                label41.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
-                button19.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button20.Text = GetGenericInfoLabel(fileName, "FormClear");
-                SetTransmissionItemList(comboBox8);
-                panel15.Visible = true;
-            }
-
-            if (Category == category.Transmission && Data == data.Bus && Operation == "Insert")
-            {
-                label31.Text = GetGenericInfoLabel(fileName, "Bus.Case");
-                label32.Text = GetGenericInfoLabel(fileName, "Bus.Number");
-                label33.Text = GetGenericInfoLabel(fileName, "Bus.SequencialNumber");
-                label34.Text = GetGenericInfoLabel(fileName, "Bus.Name");
-                label35.Text = GetGenericInfoLabel(fileName, "Bus.Voltage");
-                label36.Text = GetGenericInfoLabel(fileName, "Bus.Phase");
-                label37.Text = GetGenericInfoLabel(fileName, "Bus.VoltageBase");
-                label38.Text = GetGenericInfoLabel(fileName, "Bus.DesiredVoltage");
-                label39.Text = GetGenericInfoLabel(fileName, "Bus.MaxReactivePowerOrVoltage");
-                label40.Text = GetGenericInfoLabel(fileName, "Bus.MinReactivePowerOrVoltage");
-                button17.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button18.Text = GetGenericInfoLabel(fileName, "FormClear");
-                SetTransmissionItemList(comboBox7);
-                panel14.Visible = true;
-            }
-
-            if (Category == category.Distribution && Data == data.Case && Operation == "Query")
-            {
-                button16.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                panel13.Visible = true;
-            }
-
-            if (Category == category.Distribution && Data == data.Case && Operation == "Update")
-            {
-                label28.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
-                label29.Text = GetGenericInfoLabel(fileName, "Case.Title");
-                label30.Text = GetGenericInfoLabel(fileName, "Case.Description");
-                button14.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button15.Text = GetGenericInfoLabel(fileName, "FormClear");
-                SetDistribuctionItemList(comboBox6);
-                panel12.Visible = true;
-            }
-            if (Category == category.Transmission && Data == data.Case && Operation == "Insert")
-            {
-                label11.Text = GetGenericInfoLabel(fileName, "Case.Title") + ":";
-                label12.Text = GetGenericInfoLabel(fileName, "Case.Author") + ":";
-                label13.Text = GetGenericInfoLabel(fileName, "Case.Description") + ":";
-                label14.Text = GetGenericInfoLabel(fileName, "Case.PowerBase") + ":";
-                label15.Text = GetGenericInfoLabel(fileName, "Case.CaseDate") + ":";
-                label16.Text = GetGenericInfoLabel(fileName, "Case.PublicationDate") + ":";
-                button3.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button4.Text = GetGenericInfoLabel(fileName, "FormClear");
-                panel6.Visible = true;
-            }
-            if (Category == category.Transmission && Data == data.Case && Operation == "Remove")
-            {
-                comboBox3.Items.Clear();
-                label22.Text = GetGenericInfoLabel(fileName, "GenericItem.Select") + ":";
-                CaseTable.Query_Case DatabaseAccess = new CaseTable.Query_Case();
-                List<string[]> queryresult = new List<string[]>();
-                queryresult = DatabaseAccess.query(null, textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text);
-                for (int j = 0;j<queryresult.Count;j++)
-                {
-                    if (queryresult[j][7].Equals("1")) // 1 means transmission, 0 means distribuction
-                    {
-                        comboBox3.Items.Add(queryresult[j][1] + ", " + queryresult[j][2] + ". " + queryresult[j][3]);
-                    }
-                }
-                button5.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button2.Text = GetGenericInfoLabel(fileName, "FormClear");
-                panel7.Visible = true;
-            }
-
-            if (Category == category.Transmission && Data == data.Case && Operation == "Update")
-            {
-                label24.Text = GetGenericInfoLabel(fileName, "GenericItem.Select") + ":";
-                label23.Text = GetGenericInfoLabel(fileName, "Case.Title") + ":";
-                label21.Text = GetGenericInfoLabel(fileName, "Case.Author") + ":";
-                label20.Text = GetGenericInfoLabel(fileName, "Case.Description") + ":";
-                label19.Text = GetGenericInfoLabel(fileName, "Case.PowerBase") + ":";
-                label18.Text = GetGenericInfoLabel(fileName, "Case.CaseDate") + ":";
-                label17.Text = GetGenericInfoLabel(fileName, "Case.PublicationDate") + ":";
-                comboBox4.Items.Clear();
-                CaseTable.Query_Case DatabaseAccess = new CaseTable.Query_Case();
-                List<string[]> queryresult = new List<string[]>();
-                queryresult = DatabaseAccess.query(null, textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text);
-                for (int j = 0; j < queryresult.Count; j++)
-                {
-                    if (queryresult[j][7].Equals("1")) // 1 means transmission, 0 means distribuction
-                    {
-                        comboBox4.Items.Add(queryresult[j][1] + ", " + queryresult[j][2] + ". " + queryresult[j][3]);
-                    }
-                }
-                button7.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button6.Text = GetGenericInfoLabel(fileName, "FormClear");
-                panel8.Visible = true;
-            }
-
-            if (Category == category.Transmission && Data == data.Case && Operation == "Query")
-            {
-                checkBox1.Text = GetGenericInfoLabel(fileName, "Case.Title");
-                checkBox2.Text = GetGenericInfoLabel(fileName, "Case.Author");
-                checkBox3.Text = GetGenericInfoLabel(fileName, "Case.Description");
-                checkBox4.Text = GetGenericInfoLabel(fileName, "Case.PowerBase");
-                checkBox5.Text = GetGenericInfoLabel(fileName, "Case.CaseDate");
-                checkBox6.Text = GetGenericInfoLabel(fileName, "Case.PublicationDate");
-                checkBox1.Checked = true;
-                checkBox2.Checked = true;
-                checkBox3.Checked = true;
-                checkBox4.Checked = true;
-                checkBox5.Checked = true;
-                checkBox6.Checked = true;
-                button8.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button9.Text = GetGenericInfoLabel(fileName, "FormClear");
-                panel9.Visible = true;
-            }
-            if (Category == category.Distribution && Data == data.Case && Operation == "Insert")
-            {
-                label25.Text = GetGenericInfoLabel(fileName, "Case.Title");
-                label26.Text = GetGenericInfoLabel(fileName, "Case.Description");
-                button10.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button11.Text = GetGenericInfoLabel(fileName, "FormClear");
-                panel10.Visible = true;
-            }
-            if (Category == category.Distribution && Data == data.Case && Operation == "Remove")
-            {
-                comboBox5.Items.Clear();
-                CaseTable.Query_Case DatabaseAccess = new CaseTable.Query_Case();
-                List<string[]> matrix = new List<string[]>();
-                matrix = DatabaseAccess.query(null, textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text);
-
-                int MaxRows = matrix.Count;
-                int MaxCol = matrix[0].Length;
-
-                for (int i = 0; i < MaxRows; i++)
-                {
-                    if (matrix[i][7].Equals("0"))
-                    {
-                        comboBox5.Items.Add(matrix[i][1] + " / " + matrix[i][3]);
-                    }
-                }
-
-                label27.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
-                button12.Text = GetGenericInfoLabel(fileName, "FormSubmit");
-                button13.Text = GetGenericInfoLabel(fileName, "FormClear");
-                panel11.Visible = true;
-            }
-
         }
 
         public string GetErrorLabel(string fileName, int ErrorCode)
@@ -597,6 +602,8 @@ namespace WindowsApplication1
             panel15.Size = new Size(PanelLocationH, PanelLocationW);
             panel16.Location = new Point(PanelLocationX, PanelLocationY);
             panel16.Size = new Size(PanelLocationH, PanelLocationW);
+            panel17.Location = new Point(PanelLocationX, PanelLocationY);
+            panel17.Size = new Size(PanelLocationH, PanelLocationW);
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -724,7 +731,43 @@ namespace WindowsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (button1.Text == GetRunLabel(fileName))
+            if (button1.Text != GetRunLabel(fileName))
+            {
+                // Clear all important panels
+                panel6.Visible = false;
+                panel7.Visible = false;
+                panel8.Visible = false;
+                panel9.Visible = false;
+                panel10.Visible = false;
+                panel11.Visible = false;
+                panel12.Visible = false;
+                panel13.Visible = false;
+                panel14.Visible = false;
+                panel15.Visible = false;
+                panel16.Visible = false;
+                panel17.Visible = false;
+
+                // Clear all important forms.
+                textBox1.Enabled = true;
+                textBox2.Enabled = true;
+                textBox3.Enabled = true;
+                maskedTextBox1.Enabled = true;
+                comboBox1.Enabled = true;
+                comboBox1.Text = string.Empty;
+                comboBox2.Enabled = true;
+                comboBox2.Text = string.Empty;
+                radioButton1.Enabled = true;
+                radioButton1.Checked = false;
+                radioButton2.Enabled = true;
+                radioButton2.Checked = false;
+                radioButton3.Enabled = true;
+                radioButton3.Checked = false;
+                radioButton4.Enabled = true;
+                radioButton4.Checked = false;
+                button1.Text = GetRunLabel(fileName);
+                label5.Text = GetGenericInfoLabel(fileName, "ReturnedSuccess");
+            }
+            else
             {
                 button1.Visible = false;
                 bool ErrorFound = false;
@@ -821,7 +864,7 @@ namespace WindowsApplication1
                         radioButton3.Enabled = false;
                         radioButton4.Enabled = false;
                         button1.Text = GetStopLabel(fileName);
-                        NewFormProcessRun(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, comboBox1.SelectedIndex, comboBox2.SelectedIndex, Operation);
+                        GenerateNewForm(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, comboBox1.SelectedIndex, comboBox2.SelectedIndex, Operation);
                         label5.Text = GetGenericInfoLabel(fileName,"NoError.OK");
                     }
                     else if (read.Contains("Unknown database"))
@@ -842,41 +885,6 @@ namespace WindowsApplication1
                     }
                 }
                 button1.Visible = true;
-            }
-            else
-            {
-                // Clear all important forms.
-                textBox1.Enabled = true;
-                textBox2.Enabled = true;
-                textBox3.Enabled = true;
-                maskedTextBox1.Enabled = true;
-                comboBox1.Enabled = true;
-                comboBox1.Text = string.Empty;
-                comboBox2.Enabled = true;
-                comboBox2.Text = string.Empty;
-                radioButton1.Enabled = true;
-                radioButton1.Checked = false;
-                radioButton2.Enabled = true;
-                radioButton2.Checked = false;
-                radioButton3.Enabled = true;
-                radioButton3.Checked = false;
-                radioButton4.Enabled = true;
-                radioButton4.Checked = false;
-                button1.Text = GetRunLabel(fileName);
-                label5.Text = GetGenericInfoLabel(fileName, "ReturnedSuccess");
-
-                // Clear all important panels
-                panel6.Visible = false;
-                panel7.Visible = false;
-                panel8.Visible = false;
-                panel9.Visible = false;
-                panel10.Visible = false;
-                panel11.Visible = false;
-                panel12.Visible = false;
-                panel13.Visible = false;
-                panel14.Visible = false;
-                panel15.Visible = false;
-                panel16.Visible = false;
             }
         }
 
@@ -2123,6 +2131,45 @@ namespace WindowsApplication1
                 {
                     comboBox10.Items.Add("BusNumber: " + BusMatrix[i][0] + ", SequencialNumber: " + BusMatrix[i][2] + ", BusName: " + BusMatrix[i][3]);
                 }
+            }
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            comboBox12.Text = string.Empty;
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            int selectedIndex = comboBox12.SelectedIndex;
+            if (selectedIndex < 0)
+            {
+                ShowError(988, GetGenericInfoLabel(fileName, "GenericItem.Select"));
+            }
+            else
+            {
+                int CaseID = 0;
+                List<string[]> CaseMatrix = new List<string[]>();
+                CaseMatrix = GetTransmissionMatrix();
+                CaseID = Convert.ToInt32(CaseMatrix[selectedIndex][0]);
+
+                string queryMsg = "SELECT * FROM power_system_database.bus WHERE `case ID` = " + CaseID + ";";
+                List<string[]> queryResult = new List<string[]>();
+                GeneralDatabaseAccess.Query databaseAccess = new GeneralDatabaseAccess.Query();
+                queryResult = databaseAccess.query(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, queryMsg);
+
+                List<string> header = new List<string>();
+                header.Add(GetGenericInfoLabel(fileName, "Bus.Number"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.Case"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.SequencialNumber"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.Name"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.Voltage"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.Phase"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.VoltageBase"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.DesiredVoltage"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.MaxReactivePowerOrVoltage"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.MinReactivePowerOrVoltage"));
+                GenerateNewSpreadSheet(queryResult, header);
             }
         }
     }
