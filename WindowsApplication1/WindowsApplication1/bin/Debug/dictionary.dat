@@ -74,6 +74,7 @@ Error.992 <Erro 992: Erro não conhecido.>
 Error.991 <Erro 991: Excel não está instalado corretamente.>
 Error.990 <Erro 990: Exceção ocorrida enquanto tentava liberar objeto Excel.>
 Error.989 <Erro 989: Pelo menos um item deve ser selecionado.>
-Error.989 <Erro 988: Informação incorreta.>
-Error.988 <Erro 988: Valor deve ser número inteiro.>
-Error.987 <Erro 987: Valor deve ser número.>
+Error.988 <Erro 988: Informação incorreta.>
+Error.987 <Erro 987: Valor deve ser número inteiro.>
+Error.986 <Erro 986: Valor deve ser número.>
+Error.985 <Erro 985: Cheve primária já cadastrada. >

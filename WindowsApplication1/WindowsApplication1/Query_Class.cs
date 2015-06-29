@@ -5,6 +5,31 @@ using MySql.Data.MySqlClient;
 
 namespace GeneralDatabaseAccess
 {
+    class Insert
+    {
+        private MySqlConnection connection;
+        public string insert(string server, string UID, string databasename, string password, string InsertMsg)
+        {
+            string path = "SERVER=" + server + ";DATABASE=" + databasename + ";UID=" + UID + ";PASSWORD=" + password + ";";
+            try
+            {
+                connection = new MySqlConnection(path);
+                connection.Open();
+                MySqlCommand comandos = new MySqlCommand(InsertMsg, connection);
+                comandos.ExecuteNonQuery();
+                connection.Close();
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+#pragma warning disable
+                string read = string.Empty;
+#pragma warning restore
+                read = ex.Message;
+                return read;
+            }
+        }
+    }
     class Update
     {
         private MySqlConnection connection;

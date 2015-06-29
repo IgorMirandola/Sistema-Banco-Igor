@@ -30,6 +30,26 @@ namespace WindowsApplication1
             category Category = TranslateCategoryID(categorystring);
             data Data = TranslateDataID(datastring);
 
+            if (Category == category.Distribution && Data == data.Bus && Operation == "Remove")
+            {
+                SetDistribuctionItemList(comboBox14);
+                label56.Text = GetGenericInfoLabel(fileName, "Bus.Case");
+                label57.Text = GetGenericInfoLabel(fileName, "Bus.Number");
+                button27.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button28.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel19.Visible = true;
+            }
+
+            if (Category == category.Distribution && Data == data.Bus && Operation == "Insert")
+            {
+                label54.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
+                label55.Text = GetGenericInfoLabel(fileName, "Bus.Number");
+                button25.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button26.Text = GetGenericInfoLabel(fileName, "FormClear");
+                SetDistribuctionItemList(comboBox13);
+                panel18.Visible = true;
+            }
+
             if (Category == category.Transmission && Data == data.Bus && Operation == "Query")
             {
                 label51.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
@@ -580,6 +600,9 @@ namespace WindowsApplication1
 
         private void SetPanelLocation(int PanelLocationX, int PanelLocationY, int PanelLocationH, int PanelLocationW)
         {
+            panel5.Location = new Point(PanelLocationX, PanelLocationY);
+            panel5.Size = new Size(PanelLocationH, PanelLocationW);
+            panel5.Visible = true;
             panel6.Location = new Point(PanelLocationX, PanelLocationY);
             panel6.Size = new Size(PanelLocationH, PanelLocationW);
             panel7.Location = new Point(PanelLocationX, PanelLocationY);
@@ -604,6 +627,10 @@ namespace WindowsApplication1
             panel16.Size = new Size(PanelLocationH, PanelLocationW);
             panel17.Location = new Point(PanelLocationX, PanelLocationY);
             panel17.Size = new Size(PanelLocationH, PanelLocationW);
+            panel18.Location = new Point(PanelLocationX, PanelLocationY);
+            panel18.Size = new Size(PanelLocationH, PanelLocationW);
+            panel19.Location = new Point(PanelLocationX, PanelLocationY);
+            panel19.Size = new Size(PanelLocationH, PanelLocationW);
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -614,7 +641,7 @@ namespace WindowsApplication1
             int PanelLocationH = 457;
             int PanelLocationW = 395;
 
-            // FIRST PLACE TO GO WHEN YOU ADD NEW TABLE
+            // Location of panels with forms.
             SetPanelLocation(PanelLocationX, PanelLocationY, PanelLocationH, PanelLocationW);
 
             // The first label must be the msg ok for user. 
@@ -734,6 +761,7 @@ namespace WindowsApplication1
             if (button1.Text != GetRunLabel(fileName))
             {
                 // Clear all important panels
+                panel5.Visible = true;
                 panel6.Visible = false;
                 panel7.Visible = false;
                 panel8.Visible = false;
@@ -746,6 +774,8 @@ namespace WindowsApplication1
                 panel15.Visible = false;
                 panel16.Visible = false;
                 panel17.Visible = false;
+                panel18.Visible = false;
+                panel19.Visible = false;
 
                 // Clear all important forms.
                 textBox1.Enabled = true;
@@ -864,6 +894,7 @@ namespace WindowsApplication1
                         radioButton3.Enabled = false;
                         radioButton4.Enabled = false;
                         button1.Text = GetStopLabel(fileName);
+                        panel5.Visible = false;
                         GenerateNewForm(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, comboBox1.SelectedIndex, comboBox2.SelectedIndex, Operation);
                         label5.Text = GetGenericInfoLabel(fileName,"NoError.OK");
                     }
@@ -1815,7 +1846,7 @@ namespace WindowsApplication1
             }
             catch
             {
-                ShowError(987,label.Text);
+                ShowError(986,label.Text);
                 return false;
             }
         }
@@ -1830,7 +1861,7 @@ namespace WindowsApplication1
             }
             catch
             {
-                ShowError(988, label.Text);
+                ShowError(987, label.Text);
                 return false;
             }
         }
@@ -2171,6 +2202,116 @@ namespace WindowsApplication1
                 header.Add(GetGenericInfoLabel(fileName, "Bus.MinReactivePowerOrVoltage"));
                 GenerateNewSpreadSheet(queryResult, header);
             }
+        }
+
+        private void panel19_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            int selectedIndex = comboBox13.SelectedIndex;
+            List<string[]> DistribuctionMatrix = new List<string[]>();
+            DistribuctionMatrix = GetDistributionMatrix();
+            int CaseID = Convert.ToInt32(DistribuctionMatrix[selectedIndex][0]);
+
+            int busNumber = 0;
+            bool validated = ValidateAsInt(textBox33, label55, out busNumber);
+            
+            if (validated == true)
+            {
+                string InsertMsg = "INSERT INTO `power_system_database`.`bus` (`Bus Number`, `case ID`) VALUES ('" + busNumber + "', '" + CaseID + "');";
+                GeneralDatabaseAccess.Insert databaseAccess = new GeneralDatabaseAccess.Insert();
+                string error = databaseAccess.insert(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, InsertMsg);
+                if (error.ToLower().Equals("ok"))
+                {
+                    label5.Text = GetGenericInfoLabel(fileName, "InsertSuccess");
+                    comboBox13.Text = string.Empty;
+                    textBox33.Text = string.Empty;
+                }
+                else if ((error.Contains("Duplicate entry")) && (error.Contains("for key 'PRIMARY'")))
+                {
+                    ShowError(985, GetGenericInfoLabel(fileName, "Bus.Number"));
+                }
+                else
+                {
+                    ShowError(992, error);
+                }
+            }
+            else
+            {
+                ShowError(988, GetGenericInfoLabel(fileName, "Bus.Number"));
+            }
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            comboBox13.Text = string.Empty;
+            textBox33.Text = string.Empty;
+        }
+
+        private void comboBox14_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = comboBox14.SelectedIndex;
+            comboBox15.Items.Clear();
+            if (selectedIndex > -1)
+            {
+                List<string[]> DistribuctionMatrix = new List<string[]>();
+                DistribuctionMatrix = GetDistributionMatrix();
+                int CaseID = Convert.ToInt32(DistribuctionMatrix[selectedIndex][0]);
+
+                List<string[]> BusFilterdMatrix = new List<string[]>();
+                string QueryMsg = "SELECT * FROM power_system_database.bus WHERE `case ID` = " + CaseID + ";";
+                GeneralDatabaseAccess.Query databaseAccess = new GeneralDatabaseAccess.Query();
+                BusFilterdMatrix = databaseAccess.query(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, QueryMsg);
+
+                for(int i = 0; i < BusFilterdMatrix.Count; i++)
+                {
+                    comboBox15.Items.Add("Bus Number: " + BusFilterdMatrix[i][0]);
+                }
+
+            }
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+            int selectedIndex1 = comboBox14.SelectedIndex;
+            int selectedIndex2 = comboBox15.SelectedIndex;
+            
+            if ((selectedIndex1 > -1)&&(selectedIndex2 > -1))
+            {
+                List<string[]> DistributionMatrix = new List<string[]>();
+                DistributionMatrix = GetDistributionMatrix();
+                int CaseID = Convert.ToInt32(DistributionMatrix[selectedIndex1][0]);
+
+                GeneralDatabaseAccess.Query databaseAccess = new GeneralDatabaseAccess.Query();
+                List<string[]> BusMatrix = new List<string[]>();
+                BusMatrix = databaseAccess.query(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, "SELECT * FROM power_system_database.bus WHERE `case ID` = " + CaseID + ";");
+                int BusNumber = Convert.ToInt32(BusMatrix[selectedIndex2][0]);
+
+                GeneralDatabaseAccess.Remove databaseAccess1 = new GeneralDatabaseAccess.Remove();
+                string error = databaseAccess1.remove(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, "DELETE FROM `power_system_database`.`bus` WHERE `Bus Number`='" + BusNumber + "' and`case ID`='" + CaseID + "';");
+
+                if (error.ToLower().Equals("ok"))
+                {
+                    label5.Text = GetGenericInfoLabel(fileName, "RemoveSuccess");
+                    comboBox14.Text = string.Empty;
+                    comboBox15.Text = string.Empty;
+                    SetDistribuctionItemList(comboBox14);
+                }
+
+            }
+            else
+            {
+                ShowError(988, GetGenericInfoLabel(fileName, "GenericItem.Select"));
+            }
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            comboBox14.Text = string.Empty;
+            comboBox15.Text = string.Empty;
         }
     }
 }
