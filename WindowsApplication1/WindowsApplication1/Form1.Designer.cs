@@ -196,8 +196,13 @@ namespace WindowsApplication1
             this.comboBox14 = new System.Windows.Forms.ComboBox();
             this.label56 = new System.Windows.Forms.Label();
             this.panel20 = new System.Windows.Forms.Panel();
-            this.panel21 = new System.Windows.Forms.Panel();
             this.label58 = new System.Windows.Forms.Label();
+            this.panel21 = new System.Windows.Forms.Panel();
+            this.comboBox16 = new System.Windows.Forms.ComboBox();
+            this.label59 = new System.Windows.Forms.Label();
+            this.button30 = new System.Windows.Forms.Button();
+            this.button29 = new System.Windows.Forms.Button();
+            this.panel22 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -217,6 +222,7 @@ namespace WindowsApplication1
             this.panel18.SuspendLayout();
             this.panel19.SuspendLayout();
             this.panel20.SuspendLayout();
+            this.panel21.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -1905,21 +1911,11 @@ namespace WindowsApplication1
             this.panel20.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.panel20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel20.Controls.Add(this.label58);
-            this.panel20.Location = new System.Drawing.Point(886, 39);
+            this.panel20.Location = new System.Drawing.Point(1147, 15);
             this.panel20.Name = "panel20";
-            this.panel20.Size = new System.Drawing.Size(457, 395);
+            this.panel20.Size = new System.Drawing.Size(10, 10);
             this.panel20.TabIndex = 16;
             this.panel20.Visible = false;
-            // 
-            // panel21
-            // 
-            this.panel21.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.panel21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel21.Location = new System.Drawing.Point(412, 12);
-            this.panel21.Name = "panel21";
-            this.panel21.Size = new System.Drawing.Size(457, 395);
-            this.panel21.TabIndex = 17;
-            this.panel21.Visible = false;
             // 
             // label58
             // 
@@ -1930,12 +1926,74 @@ namespace WindowsApplication1
             this.label58.TabIndex = 0;
             this.label58.Text = "label58";
             // 
+            // panel21
+            // 
+            this.panel21.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.panel21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel21.Controls.Add(this.comboBox16);
+            this.panel21.Controls.Add(this.label59);
+            this.panel21.Controls.Add(this.button30);
+            this.panel21.Controls.Add(this.button29);
+            this.panel21.Location = new System.Drawing.Point(412, 12);
+            this.panel21.Name = "panel21";
+            this.panel21.Size = new System.Drawing.Size(457, 395);
+            this.panel21.TabIndex = 17;
+            this.panel21.Visible = false;
+            // 
+            // comboBox16
+            // 
+            this.comboBox16.FormattingEnabled = true;
+            this.comboBox16.Location = new System.Drawing.Point(183, 20);
+            this.comboBox16.Name = "comboBox16";
+            this.comboBox16.Size = new System.Drawing.Size(264, 24);
+            this.comboBox16.TabIndex = 3;
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(18, 23);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(54, 17);
+            this.label59.TabIndex = 2;
+            this.label59.Text = "label59";
+            // 
+            // button30
+            // 
+            this.button30.Location = new System.Drawing.Point(242, 61);
+            this.button30.Name = "button30";
+            this.button30.Size = new System.Drawing.Size(205, 44);
+            this.button30.TabIndex = 1;
+            this.button30.Text = "button30";
+            this.button30.UseVisualStyleBackColor = true;
+            this.button30.Click += new System.EventHandler(this.button30_Click);
+            // 
+            // button29
+            // 
+            this.button29.Location = new System.Drawing.Point(21, 62);
+            this.button29.Name = "button29";
+            this.button29.Size = new System.Drawing.Size(208, 44);
+            this.button29.TabIndex = 0;
+            this.button29.Text = "button29";
+            this.button29.UseVisualStyleBackColor = true;
+            this.button29.Click += new System.EventHandler(this.button29_Click);
+            // 
+            // panel22
+            // 
+            this.panel22.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.panel22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel22.Location = new System.Drawing.Point(893, 42);
+            this.panel22.Name = "panel22";
+            this.panel22.Size = new System.Drawing.Size(457, 395);
+            this.panel22.TabIndex = 18;
+            this.panel22.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1370, 499);
+            this.Controls.Add(this.panel22);
             this.Controls.Add(this.panel21);
             this.Controls.Add(this.panel20);
             this.Controls.Add(this.panel19);
@@ -1996,6 +2054,8 @@ namespace WindowsApplication1
             this.panel19.PerformLayout();
             this.panel20.ResumeLayout(false);
             this.panel20.PerformLayout();
+            this.panel21.ResumeLayout(false);
+            this.panel21.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2172,6 +2232,11 @@ namespace WindowsApplication1
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.Panel panel21;
         private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.Panel panel22;
+        private System.Windows.Forms.ComboBox comboBox16;
+        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.Button button30;
+        private System.Windows.Forms.Button button29;
     }
 }
 

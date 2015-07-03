@@ -30,6 +30,15 @@ namespace WindowsApplication1
             category Category = TranslateCategoryID(categorystring);
             data Data = TranslateDataID(datastring);
 
+            if (Category == category.Distribution && Data == data.Bus && Operation == "Query")
+            {
+                label59.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
+                button29.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button30.Text = GetGenericInfoLabel(fileName, "FormClear");
+                SetDistribuctionItemList(comboBox16);
+                panel21.Visible = true;
+            }
+
             if (Category == category.Distribution && Data == data.Bus && Operation == "Update")
             {
                 label58.Text = GetGenericInfoLabel(fileName, "FormNotUsed");
@@ -640,6 +649,8 @@ namespace WindowsApplication1
             panel19.Size = new Size(PanelLocationH, PanelLocationW);
             panel20.Location = new Point(PanelLocationX, PanelLocationY);
             panel20.Size = new Size(PanelLocationH, PanelLocationW);
+            panel21.Location = new Point(PanelLocationX, PanelLocationY);
+            panel21.Size = new Size(PanelLocationH, PanelLocationW);
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -786,6 +797,7 @@ namespace WindowsApplication1
                 panel18.Visible = false;
                 panel19.Visible = false;
                 panel20.Visible = false;
+                panel21.Visible = false;
 
                 // Clear all important forms.
                 textBox1.Enabled = true;
@@ -793,17 +805,17 @@ namespace WindowsApplication1
                 textBox3.Enabled = true;
                 maskedTextBox1.Enabled = true;
                 comboBox1.Enabled = true;
-                comboBox1.Text = string.Empty;
+                //comboBox1.Text = string.Empty;
                 comboBox2.Enabled = true;
-                comboBox2.Text = string.Empty;
+                //comboBox2.Text = string.Empty;
                 radioButton1.Enabled = true;
-                radioButton1.Checked = false;
+                //radioButton1.Checked = false;
                 radioButton2.Enabled = true;
-                radioButton2.Checked = false;
+                //radioButton2.Checked = false;
                 radioButton3.Enabled = true;
-                radioButton3.Checked = false;
+                //radioButton3.Checked = false;
                 radioButton4.Enabled = true;
-                radioButton4.Checked = false;
+                //radioButton4.Checked = false;
                 button1.Text = GetRunLabel(fileName);
                 label5.Text = GetGenericInfoLabel(fileName, "ReturnedSuccess");
             }
@@ -2322,6 +2334,63 @@ namespace WindowsApplication1
         {
             comboBox14.Text = string.Empty;
             comboBox15.Text = string.Empty;
+        }
+
+        private void button30_Click(object sender, EventArgs e)
+        {
+            comboBox16.Text = string.Empty;
+        }
+
+        private List<string[]> MakeQuery(string queryMsg)
+        {
+            GeneralDatabaseAccess.Query databaseAccess = new GeneralDatabaseAccess.Query();
+            return databaseAccess.query(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, queryMsg);
+        }
+
+        private void button29_Click(object sender, EventArgs e)
+        {
+            int indexSelected = comboBox16.SelectedIndex;
+            if (indexSelected < 0)
+            {
+                if (comboBox16.Text.Equals(string.Empty))
+                {
+                    string queryMsg = "SELECT `Title`, `Bus Number`  FROM power_system_database.bus, power_system_database.power_system_case where power_system_database.bus.`case ID` = power_system_database.power_system_case.ID and `System Type` = 0;";
+                    List<string[]> queryResult = new List<string[]>();
+                    queryResult = MakeQuery(queryMsg);
+
+                    List<string> header = new List<string>();
+                    header.Add(GetGenericInfoLabel(fileName, "Bus.Case"));
+                    header.Add(GetGenericInfoLabel(fileName, "Bus.Number"));
+
+                    GenerateNewSpreadSheet(queryResult, header);
+
+                    label5.Text = GetGenericInfoLabel(fileName, "QuerySuccess");
+                    comboBox16.Text = string.Empty;
+                }
+                else
+                {
+                    ShowError(988, GetGenericInfoLabel(fileName, "Bus.Case"));
+                }
+            }
+            else
+            {
+                List<string[]> distrMatrix = new List<string[]>();
+                distrMatrix = GetDistributionMatrix();
+                int caseID = Convert.ToInt32(distrMatrix[indexSelected][0]);
+
+                string queryMsg = "SELECT `Title`, `Bus Number`  FROM power_system_database.bus, power_system_database.power_system_case where power_system_database.bus.`case ID` = power_system_database.power_system_case.ID and `System Type` = 0 and power_system_database.bus.`case ID` = " + caseID + ";";
+                List<string[]> queryResult = new List<string[]>();
+                queryResult = MakeQuery(queryMsg);
+
+                List<string> header = new List<string>();
+                header.Add(GetGenericInfoLabel(fileName, "Bus.Case"));
+                header.Add(GetGenericInfoLabel(fileName, "Bus.Number"));
+
+                GenerateNewSpreadSheet(queryResult, header);
+
+                label5.Text = GetGenericInfoLabel(fileName, "QuerySuccess");
+                comboBox16.Text = string.Empty;
+            }
         }
     }
 }
