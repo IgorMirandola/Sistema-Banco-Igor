@@ -16,34 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `power_system_case`
+-- Table structure for table `bus_bustype`
 --
 
-DROP TABLE IF EXISTS `power_system_case`;
+DROP TABLE IF EXISTS `bus_bustype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `power_system_case` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Title` varchar(255) NOT NULL,
-  `Author` varchar(255) DEFAULT NULL,
-  `Description` varchar(255) DEFAULT NULL,
-  `Power Base` int(11) DEFAULT NULL,
-  `Case Date` date DEFAULT NULL,
-  `Publication Date` date DEFAULT NULL,
-  `System Type` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='This is the table for new case';
+CREATE TABLE `bus_bustype` (
+  `busNumber` int(10) unsigned NOT NULL,
+  `busType` int(11) NOT NULL,
+  `CaseID` int(11) NOT NULL,
+  PRIMARY KEY (`CaseID`,`busType`),
+  KEY `Bus_idx` (`busNumber`,`CaseID`),
+  CONSTRAINT `Bus` FOREIGN KEY (`busNumber`, `CaseID`) REFERENCES `bus` (`Bus Number`, `case ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `BusType` FOREIGN KEY (`CaseID`, `busType`) REFERENCES `bustype` (`caseID`, `busTypeID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `power_system_case`
+-- Dumping data for table `bus_bustype`
 --
 
-LOCK TABLES `power_system_case` WRITE;
-/*!40000 ALTER TABLE `power_system_case` DISABLE KEYS */;
-INSERT INTO `power_system_case` VALUES (14,'IEEE 14-BUS TEST SYSTEM','UW ARCHIVE','IEEE 14-BUS TEST SYSTEM',100,'1962-06-22','1993-08-19',1),(29,'IEEE 13 Node Test Feeder','','IEEE 13 Node Test Feeder',0,'1900-01-01','1900-01-01',0),(30,'Only for tests','','yeah',0,'1900-01-01','1900-01-01',0),(31,'For tests only','Igor','Just testing ',1,'2015-07-02','2015-07-02',1);
-/*!40000 ALTER TABLE `power_system_case` ENABLE KEYS */;
+LOCK TABLES `bus_bustype` WRITE;
+/*!40000 ALTER TABLE `bus_bustype` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bus_bustype` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

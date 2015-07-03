@@ -16,34 +16,43 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `power_system_case`
+-- Table structure for table `line`
 --
 
-DROP TABLE IF EXISTS `power_system_case`;
+DROP TABLE IF EXISTS `line`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `power_system_case` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Title` varchar(255) NOT NULL,
-  `Author` varchar(255) DEFAULT NULL,
-  `Description` varchar(255) DEFAULT NULL,
-  `Power Base` int(11) DEFAULT NULL,
-  `Case Date` date DEFAULT NULL,
-  `Publication Date` date DEFAULT NULL,
-  `System Type` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='This is the table for new case';
+CREATE TABLE `line` (
+  `lineID` int(11) NOT NULL AUTO_INCREMENT,
+  `caseID` int(11) NOT NULL,
+  `inicialBusNumber` int(10) unsigned NOT NULL,
+  `finalBusNumber` int(10) unsigned NOT NULL,
+  `sequencialNumber` int(11) DEFAULT NULL,
+  `length` double DEFAULT NULL,
+  `resistence` double DEFAULT NULL,
+  `reactance` double DEFAULT NULL,
+  `shuntSusceptance` double DEFAULT NULL,
+  `rating1` double DEFAULT NULL,
+  `rating2` double DEFAULT NULL,
+  `rating3` double DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `circuitoNumber` int(11) DEFAULT NULL,
+  PRIMARY KEY (`lineID`,`inicialBusNumber`,`caseID`,`finalBusNumber`),
+  UNIQUE KEY `LineID_UNIQUE` (`lineID`),
+  KEY `inicialBusNumber_idx` (`caseID`,`inicialBusNumber`),
+  KEY `finalBusNumber_idx` (`finalBusNumber`,`caseID`),
+  CONSTRAINT `finalBusNumber` FOREIGN KEY (`finalBusNumber`, `caseID`) REFERENCES `bus` (`Bus Number`, `case ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `inicialBusNumber` FOREIGN KEY (`caseID`, `inicialBusNumber`) REFERENCES `bus` (`case ID`, `Bus Number`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `power_system_case`
+-- Dumping data for table `line`
 --
 
-LOCK TABLES `power_system_case` WRITE;
-/*!40000 ALTER TABLE `power_system_case` DISABLE KEYS */;
-INSERT INTO `power_system_case` VALUES (14,'IEEE 14-BUS TEST SYSTEM','UW ARCHIVE','IEEE 14-BUS TEST SYSTEM',100,'1962-06-22','1993-08-19',1),(29,'IEEE 13 Node Test Feeder','','IEEE 13 Node Test Feeder',0,'1900-01-01','1900-01-01',0),(30,'Only for tests','','yeah',0,'1900-01-01','1900-01-01',0),(31,'For tests only','Igor','Just testing ',1,'2015-07-02','2015-07-02',1);
-/*!40000 ALTER TABLE `power_system_case` ENABLE KEYS */;
+LOCK TABLES `line` WRITE;
+/*!40000 ALTER TABLE `line` DISABLE KEYS */;
+/*!40000 ALTER TABLE `line` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
