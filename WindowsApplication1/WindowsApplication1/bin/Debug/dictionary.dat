@@ -55,6 +55,7 @@ GenericItem.Select <Selecionar Item>
 InsertSuccess <Item inserido com sucesso>
 RemoveSuccess <Item removido com sucesso>
 UpdateSuccess <Item alterado com sucesso>
+QuerySuccess <Busca feita com sucesso>
 ReturnedSuccess <Pronto para reiniciar processos com o banco de dados selecionado>
 
 User Message Information:

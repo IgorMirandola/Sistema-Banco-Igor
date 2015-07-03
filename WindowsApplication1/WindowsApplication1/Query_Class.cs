@@ -117,9 +117,10 @@ namespace GeneralDatabaseAccess
             catch (Exception ex)
             {
                 List<string[]> read2 = new List<string[]>();
-                string[] read = new string[0];
-                read[0] = ex.Message;
-                read2.Add(read);
+                List<string> read = new List<string>();
+                string error = string.Concat("*ERROR*", ex.Message.ToString());
+                read.Add(error);
+                read2.Add(read.ToArray());
                 return read2;
             }
         }

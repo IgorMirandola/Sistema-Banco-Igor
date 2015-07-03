@@ -2347,6 +2347,19 @@ namespace WindowsApplication1
             return databaseAccess.query(textBox1.Text, textBox2.Text, textBox3.Text, maskedTextBox1.Text, queryMsg);
         }
 
+        private bool ValidatedQuery(List<string[]> queryResult)
+        {
+            if (queryResult[0][0].ToLower().Contains("*error*"))
+            {
+                ShowError(992, queryResult[0][0].Split('*')[2]);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         private void button29_Click(object sender, EventArgs e)
         {
             int indexSelected = comboBox16.SelectedIndex;
@@ -2358,14 +2371,17 @@ namespace WindowsApplication1
                     List<string[]> queryResult = new List<string[]>();
                     queryResult = MakeQuery(queryMsg);
 
-                    List<string> header = new List<string>();
-                    header.Add(GetGenericInfoLabel(fileName, "Bus.Case"));
-                    header.Add(GetGenericInfoLabel(fileName, "Bus.Number"));
+                    if (ValidatedQuery(queryResult) == true)
+                    {
+                        List<string> header = new List<string>();
+                        header.Add(GetGenericInfoLabel(fileName, "Bus.Case"));
+                        header.Add(GetGenericInfoLabel(fileName, "Bus.Number"));
 
-                    GenerateNewSpreadSheet(queryResult, header);
+                        GenerateNewSpreadSheet(queryResult, header);
 
-                    label5.Text = GetGenericInfoLabel(fileName, "QuerySuccess");
-                    comboBox16.Text = string.Empty;
+                        label5.Text = GetGenericInfoLabel(fileName, "QuerySuccess");
+                        comboBox16.Text = string.Empty;
+                    }
                 }
                 else
                 {
@@ -2382,14 +2398,17 @@ namespace WindowsApplication1
                 List<string[]> queryResult = new List<string[]>();
                 queryResult = MakeQuery(queryMsg);
 
-                List<string> header = new List<string>();
-                header.Add(GetGenericInfoLabel(fileName, "Bus.Case"));
-                header.Add(GetGenericInfoLabel(fileName, "Bus.Number"));
+                if (ValidatedQuery(queryResult) == true)
+                {
+                    List<string> header = new List<string>();
+                    header.Add(GetGenericInfoLabel(fileName, "Bus.Case"));
+                    header.Add(GetGenericInfoLabel(fileName, "Bus.Number"));
 
-                GenerateNewSpreadSheet(queryResult, header);
+                    GenerateNewSpreadSheet(queryResult, header);
 
-                label5.Text = GetGenericInfoLabel(fileName, "QuerySuccess");
-                comboBox16.Text = string.Empty;
+                    label5.Text = GetGenericInfoLabel(fileName, "QuerySuccess");
+                    comboBox16.Text = string.Empty;
+                }
             }
         }
     }
