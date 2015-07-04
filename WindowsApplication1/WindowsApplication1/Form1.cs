@@ -23,13 +23,22 @@ namespace WindowsApplication1
 
         public enum category { Distribution, Transmission, Unknown };
         
-        public enum data { Case, Bus, Line, Unknown };
+        public enum data { Case, Bus, BusType, Line, Unknown };
 
         public void GenerateNewForm(string host, string UserID, string databaseName, string password, int categorystring, int datastring, string Operation)
         {
             category Category = TranslateCategoryID(categorystring);
             data Data = TranslateDataID(datastring);
 
+            if (Category == category.Transmission && Data == data.BusType && Operation == "Insert")
+            {
+                label60.Text = GetGenericInfoLabel(fileName, "BusType.CaseID");
+                label61.Text = GetGenericInfoLabel(fileName, "BusType.ID");
+                label62.Text = GetGenericInfoLabel(fileName, "BusType.Description");
+                button31.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button32.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel21.Visible = true;
+            }
             if (Category == category.Distribution && Data == data.Bus && Operation == "Query")
             {
                 label59.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
@@ -263,7 +272,7 @@ namespace WindowsApplication1
                 case 1:
                     return data.Bus;
                 case 2:
-                    return data.Line;
+                    return data.BusType;
             }
             return data.Unknown;
         }
@@ -651,6 +660,8 @@ namespace WindowsApplication1
             panel20.Size = new Size(PanelLocationH, PanelLocationW);
             panel21.Location = new Point(PanelLocationX, PanelLocationY);
             panel21.Size = new Size(PanelLocationH, PanelLocationW);
+            panel22.Location = new Point(PanelLocationX, PanelLocationY);
+            panel22.Size = new Size(PanelLocationH, PanelLocationW);
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -798,6 +809,7 @@ namespace WindowsApplication1
                 panel19.Visible = false;
                 panel20.Visible = false;
                 panel21.Visible = false;
+                panel22.Visible = false;
 
                 // Clear all important forms.
                 textBox1.Enabled = true;
@@ -2410,6 +2422,11 @@ namespace WindowsApplication1
                     comboBox16.Text = string.Empty;
                 }
             }
+        }
+
+        private void label61_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
