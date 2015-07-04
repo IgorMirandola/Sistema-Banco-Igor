@@ -11,6 +11,10 @@ DataLabel <Selecione o tipo de dado>
 DataInformation.Case <Caso Base>
 DataInformation.Bus <Barra>
 DataInformation.Line <Linha>
+DataInformation.BusType <Tipo de barra>
+DataInformation.BusTypeByBus <Tipo de barra por barra>
+DataInformation.LineSpacing <Espaçamento da linha>
+DataInformation.ConductorData <Dados de condutores>
 
 Operation Information:
 OperationLabel <Selecione o tipo de operação>
