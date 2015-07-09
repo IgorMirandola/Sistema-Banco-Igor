@@ -2201,7 +2201,7 @@ namespace WindowsApplication1
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1355, 498);
+            this.ClientSize = new System.Drawing.Size(1315, 498);
             this.Controls.Add(this.panel22);
             this.Controls.Add(this.panel21);
             this.Controls.Add(this.panel20);

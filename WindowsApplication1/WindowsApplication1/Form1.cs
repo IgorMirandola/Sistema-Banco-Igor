@@ -414,7 +414,16 @@ namespace WindowsApplication1
         public Form1()
         {
             InitializeComponent();
-            this.Text = GetSystemTitleLabel();    
+            this.Text = GetSystemTitleLabel();
+            this.Size = new Size(900, 543);
+            panel1.Location = new Point(12, 14);
+            panel1.Size = new Size(383, 215);
+            panel2.Location = new Point(12, 427);
+            panel2.Size = new Size(857, 25);
+            panel3.Location = new Point(12, 449);
+            panel3.Size = new Size(857, 39);
+            panel4.Location = new Point(12, 244);
+            panel4.Size = new Size(857, 166);
         }
 
 
