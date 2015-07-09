@@ -54,6 +54,10 @@ Bus.DesiredVoltage <Tensão Especificada>
 Bus.MaxReactivePowerOrVoltage <Potência/Tensão máxima>
 Bus.MinReactivePowerOrVoltage <Potência/Tensão mínima>
 
+BusType.CaseID <ID Case Base>
+BusType.ID <ID do tipo de barra>
+BusType.Description <Descrição>
+
 GenericItem.Select <Selecionar Item>
 
 InsertSuccess <Item inserido com sucesso>

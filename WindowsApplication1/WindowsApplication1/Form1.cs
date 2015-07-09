@@ -23,13 +23,22 @@ namespace WindowsApplication1
 
         public enum category { Distribution, Transmission, Unknown };
         
-        public enum data { Case, Bus, Line, Unknown };
+        public enum data { Case, Bus, BusType, Line, Unknown };
 
         public void GenerateNewForm(string host, string UserID, string databaseName, string password, int categorystring, int datastring, string Operation)
         {
             category Category = TranslateCategoryID(categorystring);
             data Data = TranslateDataID(datastring);
 
+            if (Category == category.Transmission && Data == data.BusType && Operation == "Insert")
+            {
+                label60.Text = GetGenericInfoLabel(fileName, "BusType.CaseID");
+                label61.Text = GetGenericInfoLabel(fileName, "BusType.ID");
+                label62.Text = GetGenericInfoLabel(fileName, "BusType.Description");
+                button31.Text = GetGenericInfoLabel(fileName, "FormSubmit");
+                button32.Text = GetGenericInfoLabel(fileName, "FormClear");
+                panel21.Visible = true;
+            }
             if (Category == category.Distribution && Data == data.Bus && Operation == "Query")
             {
                 label59.Text = GetGenericInfoLabel(fileName, "GenericItem.Select");
@@ -263,7 +272,7 @@ namespace WindowsApplication1
                 case 1:
                     return data.Bus;
                 case 2:
-                    return data.Line;
+                    return data.BusType;
             }
             return data.Unknown;
         }
@@ -405,8 +414,7 @@ namespace WindowsApplication1
         public Form1()
         {
             InitializeComponent();
-            this.Text = GetSystemTitleLabel();
-            this.Size = new Size(897, 544);
+            this.Text = GetSystemTitleLabel();    
         }
 
 
@@ -617,15 +625,6 @@ namespace WindowsApplication1
 
         private void SetPanelLocation(int PanelLocationX, int PanelLocationY, int PanelLocationH, int PanelLocationW)
         {
-            panel1.Location = new Point(12, 14);
-            panel1.Size = new Size(384, 215);
-            panel2.Location = new Point(12, 427);
-            panel2.Size = new Size(857, 25);
-            panel3.Location = new Point(12, 449);
-            panel3.Size = new Size(857, 39);
-            panel4.Location = new Point(12, 244);
-            panel4.Size = new Size(384, 166);
-
             panel5.Location = new Point(PanelLocationX, PanelLocationY);
             panel5.Size = new Size(PanelLocationH, PanelLocationW);
             panel5.Visible = true;
@@ -661,6 +660,8 @@ namespace WindowsApplication1
             panel20.Size = new Size(PanelLocationH, PanelLocationW);
             panel21.Location = new Point(PanelLocationX, PanelLocationY);
             panel21.Size = new Size(PanelLocationH, PanelLocationW);
+            panel22.Location = new Point(PanelLocationX, PanelLocationY);
+            panel22.Size = new Size(PanelLocationH, PanelLocationW);
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
@@ -791,6 +792,7 @@ namespace WindowsApplication1
             if (button1.Text != GetRunLabel(fileName))
             {
                 // Clear all important panels
+                panel5.Visible = true;
                 panel6.Visible = false;
                 panel7.Visible = false;
                 panel8.Visible = false;
@@ -807,9 +809,9 @@ namespace WindowsApplication1
                 panel19.Visible = false;
                 panel20.Visible = false;
                 panel21.Visible = false;
+                panel22.Visible = false;
 
                 // Clear all important forms.
-                panel5.Visible = true;
                 textBox1.Enabled = true;
                 textBox2.Enabled = true;
                 textBox3.Enabled = true;
@@ -2420,6 +2422,11 @@ namespace WindowsApplication1
                     comboBox16.Text = string.Empty;
                 }
             }
+        }
+
+        private void label61_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
