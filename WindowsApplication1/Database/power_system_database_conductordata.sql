@@ -16,43 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `line`
+-- Table structure for table `conductordata`
 --
 
-DROP TABLE IF EXISTS `line`;
+DROP TABLE IF EXISTS `conductordata`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `line` (
-  `lineID` int(11) NOT NULL AUTO_INCREMENT,
-  `caseID` int(11) NOT NULL,
-  `inicialBusNumber` int(10) unsigned NOT NULL,
-  `finalBusNumber` int(10) unsigned NOT NULL,
-  `sequencialNumber` int(11) DEFAULT NULL,
-  `length` double DEFAULT NULL,
+CREATE TABLE `conductordata` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `size` varchar(45) DEFAULT NULL,
+  `type` enum('AA','ACSR','CU') DEFAULT NULL,
   `resistence` double DEFAULT NULL,
-  `reactance` double DEFAULT NULL,
-  `shuntSusceptance` double DEFAULT NULL,
-  `rating1` double DEFAULT NULL,
-  `rating2` double DEFAULT NULL,
-  `rating3` double DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  `circuitoNumber` int(11) DEFAULT NULL,
-  PRIMARY KEY (`lineID`,`inicialBusNumber`,`caseID`,`finalBusNumber`),
-  UNIQUE KEY `LineID_UNIQUE` (`lineID`),
-  KEY `inicialBusNumber_idx` (`caseID`,`inicialBusNumber`),
-  KEY `finalBusNumber_idx` (`finalBusNumber`,`caseID`),
-  CONSTRAINT `finalBusNumber` FOREIGN KEY (`finalBusNumber`, `caseID`) REFERENCES `bus` (`Bus Number`, `case ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `inicialBusNumber` FOREIGN KEY (`caseID`, `inicialBusNumber`) REFERENCES `bus` (`case ID`, `Bus Number`) ON DELETE CASCADE ON UPDATE CASCADE
+  `MeanRadius` double DEFAULT NULL,
+  `ampacity` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `line`
+-- Dumping data for table `conductordata`
 --
 
-LOCK TABLES `line` WRITE;
-/*!40000 ALTER TABLE `line` DISABLE KEYS */;
-/*!40000 ALTER TABLE `line` ENABLE KEYS */;
+LOCK TABLES `conductordata` WRITE;
+/*!40000 ALTER TABLE `conductordata` DISABLE KEYS */;
+/*!40000 ALTER TABLE `conductordata` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -64,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-09 16:31:10
+-- Dump completed on 2015-07-09 16:31:08

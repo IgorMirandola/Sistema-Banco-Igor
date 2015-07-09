@@ -16,43 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `line`
+-- Table structure for table `neutralconductor`
 --
 
-DROP TABLE IF EXISTS `line`;
+DROP TABLE IF EXISTS `neutralconductor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `line` (
-  `lineID` int(11) NOT NULL AUTO_INCREMENT,
-  `caseID` int(11) NOT NULL,
-  `inicialBusNumber` int(10) unsigned NOT NULL,
-  `finalBusNumber` int(10) unsigned NOT NULL,
-  `sequencialNumber` int(11) DEFAULT NULL,
-  `length` double DEFAULT NULL,
-  `resistence` double DEFAULT NULL,
-  `reactance` double DEFAULT NULL,
-  `shuntSusceptance` double DEFAULT NULL,
-  `rating1` double DEFAULT NULL,
-  `rating2` double DEFAULT NULL,
-  `rating3` double DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  `circuitoNumber` int(11) DEFAULT NULL,
-  PRIMARY KEY (`lineID`,`inicialBusNumber`,`caseID`,`finalBusNumber`),
-  UNIQUE KEY `LineID_UNIQUE` (`lineID`),
-  KEY `inicialBusNumber_idx` (`caseID`,`inicialBusNumber`),
-  KEY `finalBusNumber_idx` (`finalBusNumber`,`caseID`),
-  CONSTRAINT `finalBusNumber` FOREIGN KEY (`finalBusNumber`, `caseID`) REFERENCES `bus` (`Bus Number`, `case ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `inicialBusNumber` FOREIGN KEY (`caseID`, `inicialBusNumber`) REFERENCES `bus` (`case ID`, `Bus Number`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `neutralconductor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `size` varchar(45) DEFAULT NULL,
+  `diameterOverInsulation` double DEFAULT NULL,
+  `diameterOverScreen` double DEFAULT NULL,
+  `outsideDiameter` double DEFAULT NULL,
+  `cooperNeutral` varchar(45) DEFAULT NULL,
+  `ampacity` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `line`
+-- Dumping data for table `neutralconductor`
 --
 
-LOCK TABLES `line` WRITE;
-/*!40000 ALTER TABLE `line` DISABLE KEYS */;
-/*!40000 ALTER TABLE `line` ENABLE KEYS */;
+LOCK TABLES `neutralconductor` WRITE;
+/*!40000 ALTER TABLE `neutralconductor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `neutralconductor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
