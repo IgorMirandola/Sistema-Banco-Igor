@@ -1722,7 +1722,7 @@ namespace WindowsApplication1
             this.panel17.Controls.Add(this.button23);
             this.panel17.Controls.Add(this.label51);
             this.panel17.Controls.Add(this.comboBox12);
-            this.panel17.Location = new System.Drawing.Point(1067, 15);
+            this.panel17.Location = new System.Drawing.Point(1063, 14);
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(10, 10);
             this.panel17.TabIndex = 14;
@@ -1981,9 +1981,9 @@ namespace WindowsApplication1
             // 
             this.panel22.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.panel22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel22.Location = new System.Drawing.Point(893, 42);
+            this.panel22.Location = new System.Drawing.Point(1245, 274);
             this.panel22.Name = "panel22";
-            this.panel22.Size = new System.Drawing.Size(457, 395);
+            this.panel22.Size = new System.Drawing.Size(10, 11);
             this.panel22.TabIndex = 18;
             this.panel22.Visible = false;
             // 
