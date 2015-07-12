@@ -37,12 +37,12 @@ namespace WindowsApplication1
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -168,14 +168,15 @@ namespace WindowsApplication1
             this.panel1.TabIndex = 7;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // label6
+            // label4
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(5, 2);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 17);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "label6";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(5, 290);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 17);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "label4";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // maskedTextBox1
             // 
@@ -204,6 +205,15 @@ namespace WindowsApplication1
             this.comboBox2.TabIndex = 7;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(5, 2);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 17);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "label6";
+            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -214,16 +224,6 @@ namespace WindowsApplication1
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(810, 25);
             this.panel2.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(5, 290);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 17);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "label4";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -254,13 +254,14 @@ namespace WindowsApplication1
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(550, 410);
             this.panel4.TabIndex = 12;
+            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(834, 498);
+            this.ClientSize = new System.Drawing.Size(1370, 498);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);

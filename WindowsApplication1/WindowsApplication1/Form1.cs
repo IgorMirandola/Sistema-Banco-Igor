@@ -296,6 +296,33 @@ namespace WindowsApplication1
             label4.Text = GetLabel(DictionaryFileName, "Connection.DatabasePassword") + ":";
 
             label6.Text = GetLabel(DictionaryFileName, "UserMsgLabel") + ":";
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Case"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Bus"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.BusType"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Bus_BusTypeRelationship"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Line"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.LineSpacing"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Conductor"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.LineType"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Line_LineTypeRelationship"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.LossZone"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Bus_LossZoneRelationship"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Line_LossZoneRelationship"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.LoadModel"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Load"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.DistributedLoad"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.ShuntElement"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Transformer"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Line_TransformerRelationship"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Bus_BusControl"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Line_BusControl"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Generation"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Regulator"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.TieLines"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Interchange"));
+            comboBox2.Items.Add(GetLabel(DictionaryFileName, "DataInformation.Area"));
+            comboBox1.Items.Add(GetLabel(DictionaryFileName, "CategoryInformation.Distribution"));
+            comboBox1.Items.Add(GetLabel(DictionaryFileName, "CategoryInformation.Transmission"));
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -378,28 +405,36 @@ namespace WindowsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(button1.Text == GetLabel(DictionaryFileName,"StopButton"))
+            button1.Visible = false;
+            if(button1.Text.Equals(GetLabel(DictionaryFileName,"StopButton")))
             {
-                
+                comboBox1.Enabled = true;
+                comboBox2.Enabled = true;
+                maskedTextBox1.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                radioButton3.Enabled = true;
+                radioButton4.Enabled = true;
+                button1.Text = GetLabel(DictionaryFileName, "RunButton");
             }
-            else if (button1.Text == GetLabel(DictionaryFileName,"RunButton"))
+            else if (button1.Text.Equals(GetLabel(DictionaryFileName,"RunButton")))
             {
                 List<bool> validation = new List<bool>();
                 validation.Add(ValidateAsSelectedfromCombobox(comboBox1, label1));
                 if (validation[0]==false)
                 {
-                    ShowError(984, label1.Text.Split(':')[0]);
+                    ShowError(989, label1.Text.Split(':')[0]);
                 }
                 validation.Add(ValidateAsSelectedfromCombobox(comboBox2, label3));
                 if (validation[1] == false)
                 {
-                    ShowError(984, label3.Text.Split(':')[0]);
+                    ShowError(989, label3.Text.Split(':')[0]);
                 }
 
                 if (radioButton1.Checked == false && radioButton2.Checked == false && radioButton3.Checked == false && radioButton4.Checked == false)
                 {
                     validation.Add(false);
-                    ShowError(984, label2.Text.Split(':')[0]);
+                    ShowError(989, label2.Text.Split(':')[0]);
                 }
                 else
                 {
@@ -408,16 +443,71 @@ namespace WindowsApplication1
 
                 if (CompleteValidation(validation) == true)
                 {
+                    bool noerror = false;
                     // Testar conexão
                     DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
                     List<string[]> matrix = new List<string[]>();
-                    matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "SELECT * FROM `case`");
+                    try
+                    { 
+                       matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "SELECT * FROM `case`");
+                       if (!matrix[0][0].ToLower().Contains("*error*"))
+                       {
+                           noerror = true;
+                       }
+                    }
+                    catch
+                    {
+                        if (matrix.Count == 0)
+                        {
+                            // Means that read ok but there  isn't anything on the database
+                            noerror = true;
+                        }
+                    }
+                    if (noerror == false)
+                    {
+                        ShowError(997, label4.Text.Split(':')[0]);
+                    }
+                    else
+                    {
+                        comboBox1.Enabled = false;
+                        comboBox2.Enabled = false;
+                        maskedTextBox1.Enabled = false;
+                        radioButton1.Enabled = false;
+                        int operationSelectedValue = -1;
+                        if (radioButton1.Checked == true)
+                        {
+                            operationSelectedValue = 0;
+                        }
+                        radioButton2.Enabled = false;
+                        if (radioButton2.Checked == true)
+                        {
+                            operationSelectedValue = 1;
+                        }
+                        radioButton3.Enabled = false;
+                        if (radioButton3.Checked == true)
+                        {
+                            operationSelectedValue = 2;
+                        }
+                        radioButton4.Enabled = false;
+                        if (radioButton4.Checked == true)
+                        {
+                            operationSelectedValue = 3;
+                        }
+
+                        GenerateNewForm(maskedTextBox1.Text, comboBox1.SelectedIndex, comboBox2.SelectedIndex, operationSelectedValue);
+                        button1.Text = GetLabel(DictionaryFileName, "StopButton");
+                    }
+                }
+                else
+                {
+
                 }
             }
             else
             {
                 ShowError(992, "dictionary.dat");
             }
+            button1.Visible = true;
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
@@ -789,6 +879,11 @@ namespace WindowsApplication1
             {
                 return true;
             }
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+            // INSERT INTO `sql583577`.`case` (`id`, `title`, `description`, `powerBase`, `caseDate`, `publicationDate`) VALUES ('1', 'teste', 'teste', '1.1', '2015-07-08', '2015-07-08');
         }
     }
 }

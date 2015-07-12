@@ -10,11 +10,29 @@ Data Information:
 DataLabel <Selecione o tipo de dado>
 DataInformation.Case <Caso Base>
 DataInformation.Bus <Barra>
-DataInformation.Line <Linha>
 DataInformation.BusType <Tipo de barra>
-DataInformation.BusTypeByBus <Tipo de barra por barra>
-DataInformation.LineSpacing <Espaçamento da linha>
-DataInformation.ConductorData <Dados de condutores>
+DataInformation.Bus_BusTypeRelationship <Tipo de barra por barra> 
+DataInformation.Line <Ramo> 
+DataInformation.LineSpacing <Espaçamento> 
+DataInformation.Conductor <Condutor> 
+DataInformation.LineType <Tipo de ramo>  
+DataInformation.Line_LineTypeRelationship <Tipo de ramo por ramo>
+DataInformation.LossZone <Zona de perdas>
+DataInformation.Bus_LossZoneRelationship <Zona de perdas por barra>
+DataInformation.Line_LossZoneRelationship <Zona de perdas por ramo>
+DataInformation.LoadModel <Modelo de carga>
+DataInformation.Load <Carga> 
+DataInformation.DistributedLoad <Carga Distribuída>
+DataInformation.ShuntElement <Elemento Shunt> 
+DataInformation.Transformer <Transfomador>
+DataInformation.Line_TransformerRelationship <Transformador por ramo> 
+DataInformation.Bus_BusControl <Barra controla barra> 
+DataInformation.Line_BusControl <Ramo controla barra>
+DataInformation.Generation <Geração> 
+DataInformation.Regulator <Regulador de Tensão>
+DataInformation.TieLines <Tie Lines> 
+DataInformation.Interchange <Intercâmbio> 
+DataInformation.Area <Área>
 
 Operation Information:
 OperationLabel <Selecione o tipo de operação>
@@ -76,7 +94,7 @@ VerifyInfo <Verifique>
 NoError.OK <Você selecionou os dados corretamente.>
 Error.999 <Erro 999: Parâmetro não foi corretamente selecionado.>
 Error.998 <Erro 998: Erro em dictionary.dat.>
-Error.997 <Erro 997: Acesso negado ao usuário. Senha ou usuário possivelmente incorretos.>
+Error.997 <Erro 997: Acesso negado ao usuário. Senha incorreta. >
 Error.996 <Erro 996: Não foi possível efetuar comunicação com o banco de dados.>  
 Error.995 <Erro 995: Host não encontrado.>  
 Error.994 <Erro 994: Database não encontrado.>  
@@ -89,4 +107,3 @@ Error.988 <Erro 988: Informação incorreta.>
 Error.987 <Erro 987: Valor deve ser número inteiro.>
 Error.986 <Erro 986: Valor deve ser número.>
 Error.985 <Erro 985: Cheve primária já cadastrada. >
-Error.984 <Erro 984: Nem todos os itens foram selecionados corretamente. >
