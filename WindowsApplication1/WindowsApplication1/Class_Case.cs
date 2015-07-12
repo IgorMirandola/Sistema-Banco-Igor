@@ -110,7 +110,7 @@ namespace CaseTable
 
         public List<string[]> query(List<bool> selectedItems, string server, string UID, string databasename, string password)
         {
-            string CurrentDatabaseTable = "power_system_case";
+            string CurrentDatabaseTable = "case";
             string path = "SERVER=" + server + ";DATABASE=" + databasename + ";UID=" + UID + ";PASSWORD=" + password + ";";
 
             if (selectedItems == null) // It means that no filter is necessary
