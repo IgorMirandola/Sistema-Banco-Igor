@@ -254,13 +254,13 @@ namespace WindowsApplication1
         {
             InitializeComponent();
             this.Text = GetSystemTitleLabel();
-            this.Size = new Size(900, 543);
+            this.Size = new Size(852, 543);
             panel1.Location = new Point(12, 14);
-            panel1.Size = new Size(857, 94);
+            panel1.Size = new Size(254, 408);
             panel2.Location = new Point(12, 427);
-            panel2.Size = new Size(857, 25);
+            panel2.Size = new Size(810, 25);
             panel3.Location = new Point(12, 449);
-            panel3.Size = new Size(857, 39);
+            panel3.Size = new Size(810, 39);
         }
 
 
@@ -275,10 +275,10 @@ namespace WindowsApplication1
             label5.Text = GetLabel(DictionaryFileName, "Error.RunMsg");
 
             // Correct the place of painels. 
-            int PanelLocationX = 12;
-            int PanelLocationY = 113;
-            int PanelLocationH = 857;
-            int PanelLocationW = 309;
+            int PanelLocationX = 272;
+            int PanelLocationY = 12;
+            int PanelLocationH = 550;
+            int PanelLocationW = 410;
 
             // Location of panels with forms.
             SetPanelLocation(PanelLocationX, PanelLocationY, PanelLocationH, PanelLocationW);
@@ -293,7 +293,9 @@ namespace WindowsApplication1
 
             button1.Text = GetLabel(DictionaryFileName, "RunButton");
 
-            label4.Text = GetLabel(DictionaryFileName, "UserMsgLabel") + ":";
+            label4.Text = GetLabel(DictionaryFileName, "Connection.DatabasePassword") + ":";
+
+            label6.Text = GetLabel(DictionaryFileName, "UserMsgLabel") + ":";
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -376,7 +378,46 @@ namespace WindowsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            if(button1.Text == GetLabel(DictionaryFileName,"StopButton"))
+            {
+                
+            }
+            else if (button1.Text == GetLabel(DictionaryFileName,"RunButton"))
+            {
+                List<bool> validation = new List<bool>();
+                validation.Add(ValidateAsSelectedfromCombobox(comboBox1, label1));
+                if (validation[0]==false)
+                {
+                    ShowError(984, label1.Text.Split(':')[0]);
+                }
+                validation.Add(ValidateAsSelectedfromCombobox(comboBox2, label3));
+                if (validation[1] == false)
+                {
+                    ShowError(984, label3.Text.Split(':')[0]);
+                }
+
+                if (radioButton1.Checked == false && radioButton2.Checked == false && radioButton3.Checked == false && radioButton4.Checked == false)
+                {
+                    validation.Add(false);
+                    ShowError(984, label2.Text.Split(':')[0]);
+                }
+                else
+                {
+                    validation.Add(true);
+                }
+
+                if (CompleteValidation(validation) == true)
+                {
+                    // Testar conexão
+                    DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
+                    List<string[]> matrix = new List<string[]>();
+                    matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "SELECT * FROM `case`");
+                }
+            }
+            else
+            {
+                ShowError(992, "dictionary.dat");
+            }
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
