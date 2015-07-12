@@ -18,19 +18,39 @@ namespace WindowsApplication1
         public System.Drawing.Color ExcelQueryHeaderColor = System.Drawing.Color.LightBlue;
         public enum category { Distribution, Transmission, Unknown };
         public enum data { Case, Bus, BusType, Bus_BusTypeRelationship, Line, LineSpacing, Conductor, LineType, Line_LineTypeRelationship, LossZone, Bus_LossZoneRelationship, Line_LossZoneRelationship, LoadModel, Load, DistributedLoad, ShuntElement, Transformer, Line_TransformerRelationship, Bus_BusControl, Line_BusControl, Generation, Regulator, TieLines, Interchange, Area, Unknown};
+        public enum operation { Insert, Remove, Update, Query, Unknown };
 
-        public void GenerateNewForm(string host, string UserID, string databaseName, string password, int categorystring, int datastring, string Operation)
+        public void GenerateNewForm(string password, int categorySelectedValue, int dataSelectedValue, int operationSelectedValue)
         {
-            category Category = SelectedValueToEnumeratedCategoryID(categorystring);
-            data Data = SelectedValueToEnumeratedDataID(datastring);
+            category Category = SelectedValueToEnumeratedCategoryID(categorySelectedValue);
+            data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
+            operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
+
+
         }
-             
+
+        public operation SelectedValueToEnumeratedOperationID(int operationID)
+        {
+            switch (operationID)
+            {
+                case 0:
+                    return operation.Insert;
+                case 1:
+                    return operation.Remove;
+                case 2:
+                    return operation.Update;
+                case 3:
+                    return operation.Query;
+            }
+            return operation.Unknown;
+        }
+
         public category SelectedValueToEnumeratedCategoryID(int categoryID)
         {
             switch (categoryID)
             {
                 case 0:
-                    return category.Distribution;;
+                    return category.Distribution;
                 case 1:
                     return category.Transmission;
             }
@@ -61,7 +81,37 @@ namespace WindowsApplication1
                 case 9:
                     return data.Line_LineTypeRelationship;
                 case 10:
-                    return data.Line;
+                    return data.LossZone;
+                case 11:
+                    return data.Bus_LossZoneRelationship;
+                case 12:
+                    return data.Line_LossZoneRelationship;
+                case 13:
+                    return data.LoadModel;
+                case 14:
+                    return data.Load;
+                case 15:
+                    return data.DistributedLoad;
+                case 16:
+                    return data.ShuntElement;
+                case 17:
+                    return data.Transformer;
+                case 18:
+                    return data.Line_TransformerRelationship;
+                case 19:
+                    return data.Bus_BusControl;
+                case 20:
+                    return data.Line_BusControl;
+                case 21:
+                    return data.Generation;
+                case 22:
+                    return data.Regulator;
+                case 23:
+                    return data.TieLines;
+                case 24:
+                    return data.Interchange;
+                case 25:
+                    return data.Area;
             }
             return data.Unknown;
         }
@@ -81,7 +131,7 @@ namespace WindowsApplication1
         {
             CaseTable.Query_Case databaseAccess = new CaseTable.Query_Case();
             List<string[]> matrix = new List<string[]>();
-            matrix = databaseAccess.query(null, GetGenericInfoLabel("config.ini", "Host"), GetGenericInfoLabel("config.ini", "UserID"), GetGenericInfoLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
+            matrix = databaseAccess.query(null, GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
             matrix = CaseDistribuctionFiltering(matrix);
             return matrix;
         }
@@ -90,7 +140,7 @@ namespace WindowsApplication1
         {
             CaseTable.Query_Case databaseAccess = new CaseTable.Query_Case();
             List<string[]> matrix = new List<string[]>();
-            matrix = databaseAccess.query(null, GetGenericInfoLabel("config.ini", "Host"), GetGenericInfoLabel("config.ini", "UserID"), GetGenericInfoLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
+            matrix = databaseAccess.query(null, GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
             matrix = CaseTransmissionFiltering(matrix);
             return matrix;
         }
@@ -163,7 +213,7 @@ namespace WindowsApplication1
             return ans;
         }
 
-        public string GetGenericInfoLabel(string DictionaryFileName, string Key)
+        public string GetLabel(string DictionaryFileName, string Key)
         {
             string ErrorMsg = "ERROR.998";
             string label = GetSystemLabel(DictionaryFileName, ErrorMsg, Key);
@@ -445,27 +495,6 @@ namespace WindowsApplication1
         }
 
         
-        private string InsertDistribuctionCaseData(string title, string description)
-        {
-            CaseTable.Insert_Case DatabaseAccess = new CaseTable.Insert_Case();
-            CaseTable.Class_Case classCase = new CaseTable.Class_Case();
-
-            classCase.Title = title;
-            classCase.Description = description;
-            classCase.Author = string.Empty;
-            classCase.PowerBase = 0;
-            classCase.CaseDate = convencionalDateNull;
-            classCase.PublicationDate = convencionalDateNull;
-            classCase.SystemType = 0;
-
-            return DatabaseAccess.insert(classCase, GetGenericInfoLabel("config.ini", "Host"), GetGenericInfoLabel("config.ini", "UserID"), GetGenericInfoLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
-        }
-
-        private void textBox12_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void textBox13_TextChanged(object sender, EventArgs e)
         {
 
@@ -491,8 +520,7 @@ namespace WindowsApplication1
             
         }
 
-
-        private string[] RemoveIndices(string[] IndicesArray, int RemoveAt)
+        private string[] RemoveIndice(string[] IndicesArray, int RemoveAt)
         {
             string[] newIndicesArray = new string[IndicesArray.Length - 1];
             int i = 0;
