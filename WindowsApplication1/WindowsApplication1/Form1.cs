@@ -129,7 +129,7 @@ namespace WindowsApplication1
 
         private List<string[]> GetDistributionMatrix()
         {
-            CaseTable.Query_Case databaseAccess = new CaseTable.Query_Case();
+            DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
             List<string[]> matrix = new List<string[]>();
             matrix = databaseAccess.query(null, GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
             matrix = CaseDistribuctionFiltering(matrix);
@@ -138,7 +138,7 @@ namespace WindowsApplication1
 
         private List<string[]> GetTransmissionMatrix()
         {
-            CaseTable.Query_Case databaseAccess = new CaseTable.Query_Case();
+            DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
             List<string[]> matrix = new List<string[]>();
             matrix = databaseAccess.query(null, GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
             matrix = CaseTransmissionFiltering(matrix);
@@ -266,20 +266,34 @@ namespace WindowsApplication1
 
         private void SetPanelLocation(int PanelLocationX, int PanelLocationY, int PanelLocationH, int PanelLocationW)
         {
-            //panel5.Location = new Point(PanelLocationX, PanelLocationY);
-            //panel5.Size = new Size(PanelLocationH, PanelLocationW);
+            panel4.Location = new Point(PanelLocationX, PanelLocationY);
+            panel4.Size = new Size(PanelLocationH, PanelLocationW);
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
+            label5.Text = GetLabel(DictionaryFileName, "Error.RunMsg");
+
             // Correct the place of painels. 
-            int PanelLocationX = 412;
-            int PanelLocationY = 15;
-            int PanelLocationH = 457;
-            int PanelLocationW = 395;
+            int PanelLocationX = 12;
+            int PanelLocationY = 113;
+            int PanelLocationH = 857;
+            int PanelLocationW = 309;
 
             // Location of panels with forms.
             SetPanelLocation(PanelLocationX, PanelLocationY, PanelLocationH, PanelLocationW);
+
+            label1.Text = GetLabel(DictionaryFileName, "CategoryLabel") + ":";
+            label2.Text = GetLabel(DictionaryFileName, "OperationLabel") + ":";
+            label3.Text = GetLabel(DictionaryFileName, "DataLabel") + ":";
+            radioButton1.Text = GetLabel(DictionaryFileName, "OperationInformation.Insert");
+            radioButton2.Text = GetLabel(DictionaryFileName, "OperationInformation.Remove");
+            radioButton3.Text = GetLabel(DictionaryFileName, "OperationInformation.Update");
+            radioButton4.Text = GetLabel(DictionaryFileName, "OperationInformation.Query");
+
+            button1.Text = GetLabel(DictionaryFileName, "RunButton");
+
+            label4.Text = GetLabel(DictionaryFileName, "UserMsgLabel") + ":";
         }
 
         private void label1_Click(object sender, EventArgs e)

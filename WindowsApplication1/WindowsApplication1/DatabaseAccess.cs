@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MySql.Data.MySqlClient;
 
-namespace GeneralDatabaseAccess
+namespace DatabaseAccess
 {
     class Insert
     {
