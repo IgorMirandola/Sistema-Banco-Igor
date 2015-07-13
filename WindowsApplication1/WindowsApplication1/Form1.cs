@@ -436,16 +436,8 @@ namespace WindowsApplication1
             else if (button1.Text.Equals(GetLabel(DictionaryFileName,"RunButton")))
             {
                 List<bool> validation = new List<bool>();
-                validation.Add(ValidateAsSelectedfromCombobox(comboBox1, label1));
-                if (validation[0]==false)
-                {
-                    ShowError(989, label1.Text.Split(':')[0]);
-                }
                 validation.Add(ValidateAsSelectedfromCombobox(comboBox2, label3));
-                if (validation[1] == false)
-                {
-                    ShowError(989, label3.Text.Split(':')[0]);
-                }
+               
 
                 if (radioButton1.Checked == false && radioButton2.Checked == false && radioButton3.Checked == false && radioButton4.Checked == false)
                 {
@@ -456,6 +448,8 @@ namespace WindowsApplication1
                 {
                     validation.Add(true);
                 }
+
+                validation.Add(ValidateAsSelectedfromCombobox(comboBox1, label1));
 
                 if (CompleteValidation(validation) == true)
                 {
@@ -830,6 +824,19 @@ namespace WindowsApplication1
 
         }
 
+        private bool ValidateAsNotNullRichText(RichTextBox texbox, Label label)
+        {
+            if (texbox.Text.Equals(string.Empty))
+            {
+                ShowError(993, label.Text);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         private bool ValidateAsNotNullText(TextBox texbox, Label label)
         {
             if (texbox.Text.Equals(string.Empty))
@@ -934,6 +941,47 @@ namespace WindowsApplication1
             richTextBox2.Text = string.Empty;
             dateTimePicker1.Value = new DateTime(Convert.ToInt32(convencionalDateNull.Split('-')[0]), Convert.ToInt32(convencionalDateNull.Split('-')[1]), Convert.ToInt32(convencionalDateNull.Split('-')[2]));
             dateTimePicker2.Value = new DateTime(Convert.ToInt32(convencionalDateNull.Split('-')[0]), Convert.ToInt32(convencionalDateNull.Split('-')[1]), Convert.ToInt32(convencionalDateNull.Split('-')[2]));
+        }
+
+        private void showMsg(string Msg)
+        {
+            label5.Text = Msg;
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+
+            string publicationDate = string.Empty;
+            publicationDate = dateTimePicker2.Value.Year.ToString() + "-" + dateTimePicker2.Value.Month.ToString() + "-" + dateTimePicker2.Value.Day.ToString();
+
+            string caseDate = string.Empty;
+            caseDate = dateTimePicker1.Value.Year.ToString() + "-" + dateTimePicker1.Value.Month.ToString() + "-" + dateTimePicker1.Value.Day.ToString();
+
+            double powerBase = 0;
+            validationList.Add(ValidateAsDouble(textBox6, label14, out powerBase));
+
+            validationList.Add(ValidateAsNotNullRichText(richTextBox2, label13));
+            validationList.Add(ValidateAsNotNullText(textBox5, label15));
+            
+            if(CompleteValidation(validationList)==true)
+            {
+                DatabaseAccess.Insert databaseAccess = new DatabaseAccess.Insert();
+                string returnedMsg = databaseAccess.insert(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "INSERT INTO `sql583577`.`case` (`title`, `description`, `powerBase`, `caseDate`, `publicationDate`) VALUES ('" + textBox5.Text + "', '" + richTextBox2.Text + "', '"+textBox6.Text.Replace(',','.')+"', '"+caseDate+"', '"+publicationDate+"');");
+
+                //ValidateInsert(returnedMsg);
+                if (returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    textBox5.Text = string.Empty;
+                    richTextBox2.Text = string.Empty;
+                    textBox6.Text = string.Empty;
+                }
+                else
+                {
+                    ShowError(992, returnedMsg);
+                }
+            }
         }
     }
 }
