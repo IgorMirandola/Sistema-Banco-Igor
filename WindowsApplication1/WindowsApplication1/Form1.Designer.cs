@@ -829,6 +829,7 @@ namespace WindowsApplication1
             this.comboBox6.Name = "comboBox6";
             this.comboBox6.Size = new System.Drawing.Size(394, 24);
             this.comboBox6.TabIndex = 3;
+            this.comboBox6.TextChanged += new System.EventHandler(this.comboBox6_TextChanged);
             // 
             // comboBox7
             // 
@@ -854,6 +855,7 @@ namespace WindowsApplication1
             this.button8.TabIndex = 6;
             this.button8.Text = "button8";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button9
             // 
@@ -863,6 +865,7 @@ namespace WindowsApplication1
             this.button9.TabIndex = 7;
             this.button9.Text = "button9";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // Form1
             // 

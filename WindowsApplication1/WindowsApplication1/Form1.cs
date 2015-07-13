@@ -26,6 +26,17 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Transmission && Data == data.Bus_BusTypeRelationship && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel8);
+                label27.Text = GetLabel(DictionaryFileName,"Bus_BusType.CaseID");
+                label28.Text = GetLabel(DictionaryFileName,"Bus_BusType.BusID");
+                label29.Text = GetLabel(DictionaryFileName, "Bus_BusType.BusTypeID");
+                button8.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button9.Text = GetLabel(DictionaryFileName, "ClearButton");
+                SetTransmissionItemList(comboBox6);
+            }
+
             if (Category == category.Transmission && Data == data.BusType && Operation == operation.Insert)
             {
                 SetPanelLocationAndVisibility(panel7);
@@ -460,6 +471,7 @@ namespace WindowsApplication1
             panel5.Visible = false;
             panel6.Visible = false;
             panel7.Visible = false;
+            panel8.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1098,6 +1110,14 @@ namespace WindowsApplication1
 
         }
 
+        private List<string[]> Query(string msgQuery)
+        {
+            List<string[]> matrix = new List<string[]>();
+            DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
+            matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, msgQuery);
+            return matrix;
+        }
+
         private void comboBox3_TextUpdate(object sender, EventArgs e)
         {
             
@@ -1239,6 +1259,140 @@ namespace WindowsApplication1
                 }
             }
 
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            comboBox6.Text = string.Empty;
+            comboBox7.Text = string.Empty;
+            comboBox8.Text = string.Empty;
+        }
+
+        private bool checkQueryError(List<string[]> matrix)
+        {
+            try
+            {
+                if (matrix[0][0].ToLower().Equals("*error*"))
+                {
+                    ShowError(984, GetLabel(DictionaryFileName, "InternetConnection"));
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        private void SetBusList(ComboBox combobox, int caseID)
+        {
+            combobox.Items.Clear();
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `bus` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                for (int i = 0; i < matrix.Count; i++)
+                {
+                    combobox.Items.Add("BusNumber: " + matrix[i][0] + " / " + "busName: " + matrix[i][3]);
+                }
+            }
+            else
+            {
+                combobox.Text = string.Empty;
+            }
+        }
+
+        private int GetBusID(int selectedIndex, int caseID)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `bus` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                return Convert.ToInt32(matrix[selectedIndex][0]);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        
+        private void SetBusTypeList(ComboBox combobox, int caseID)
+        {
+            combobox.Items.Clear();
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `bustype` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                for (int i = 0; i < matrix.Count; i++)
+                {
+                    combobox.Items.Add("BusTypeID: " + matrix[i][0] + " / " + "Description: " + matrix[i][1]);
+                    
+                }
+            }
+            else
+            {
+                combobox.Text = string.Empty;
+            }
+        }
+
+        private int GetBusTypeID(int selectedIndex, int caseID)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `bustype` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                return Convert.ToInt32(matrix[selectedIndex][0]);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        private void comboBox6_TextChanged(object sender, EventArgs e)
+        {
+            if(comboBox6.SelectedIndex>-1)
+            {
+                int caseID = GetTransmissionCaseID(comboBox6.SelectedIndex);
+                SetBusList(comboBox7, caseID);
+                SetBusTypeList(comboBox8, caseID);
+            }
+            else
+            {
+                comboBox7.Text = string.Empty;
+                comboBox8.Text = string.Empty;
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox8, label29));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox7, label28));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox6, label27));
+
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox6.SelectedIndex);
+                int BusID = GetBusID(comboBox7.SelectedIndex, caseID);
+                int BusTypeID = GetBusID(comboBox8.SelectedIndex, caseID);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`bus_bustype` (`idCase`, `busNumber`, `busType`) VALUES ('" + caseID + "', '" + BusID.ToString() + "', '" + BusTypeID.ToString() + "');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox8.Text = string.Empty;
+                    comboBox6.Text = string.Empty;
+                    comboBox7.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
         }
     }
 }

@@ -79,7 +79,7 @@ BusType.Description <Descrição>
 
 Bus_BusType.CaseID <Caso base>
 Bus_BusType.BusID <Barra>
-Bus_BusType.BusTyoeID <Tipo de Barra>
+Bus_BusType.BusTypeID <Tipo de Barra>
 
 GenericItem.Select <Selecionar Item>
 
