@@ -46,9 +46,23 @@ namespace WindowsApplication1
             this.label5 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -256,12 +270,137 @@ namespace WindowsApplication1
             this.panel4.TabIndex = 12;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.button3);
+            this.panel5.Controls.Add(this.button2);
+            this.panel5.Controls.Add(this.dateTimePicker2);
+            this.panel5.Controls.Add(this.dateTimePicker1);
+            this.panel5.Controls.Add(this.textBox5);
+            this.panel5.Controls.Add(this.textBox6);
+            this.panel5.Controls.Add(this.richTextBox2);
+            this.panel5.Controls.Add(this.label13);
+            this.panel5.Controls.Add(this.label14);
+            this.panel5.Controls.Add(this.label15);
+            this.panel5.Controls.Add(this.label17);
+            this.panel5.Controls.Add(this.label18);
+            this.panel5.Location = new System.Drawing.Point(830, 12);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(595, 410);
+            this.panel5.TabIndex = 13;
+            this.panel5.Visible = false;
+            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint_1);
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(176, 13);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(351, 22);
+            this.textBox5.TabIndex = 10;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(176, 112);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(351, 22);
+            this.textBox6.TabIndex = 9;
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Location = new System.Drawing.Point(176, 43);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(351, 60);
+            this.richTextBox2.TabIndex = 8;
+            this.richTextBox2.Text = "";
+            this.richTextBox2.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(17, 43);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(54, 17);
+            this.label13.TabIndex = 7;
+            this.label13.Text = "label13";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(17, 112);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(54, 17);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "label14";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(17, 17);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(54, 17);
+            this.label15.TabIndex = 5;
+            this.label15.Text = "label15";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(17, 184);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(54, 17);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "label17";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(17, 145);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(54, 17);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "label18";
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(176, 145);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(351, 22);
+            this.dateTimePicker1.TabIndex = 12;
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Location = new System.Drawing.Point(176, 179);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(351, 22);
+            this.dateTimePicker2.TabIndex = 13;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(20, 226);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(251, 36);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(295, 226);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(232, 36);
+            this.button3.TabIndex = 15;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1370, 498);
+            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -275,6 +414,8 @@ namespace WindowsApplication1
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -299,6 +440,19 @@ namespace WindowsApplication1
         private System.Windows.Forms.MaskedTextBox maskedTextBox1;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
 

@@ -26,7 +26,17 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
-
+            if (Category == category.Transmission && Data == data.Case && Operation == operation.Insert)
+            {
+                label15.Text = GetLabel(DictionaryFileName, "Case.Title");
+                label13.Text = GetLabel(DictionaryFileName, "Case.Description");
+                label14.Text = GetLabel(DictionaryFileName, "Case.PowerBase");
+                label18.Text = GetLabel(DictionaryFileName, "Case.CaseDate");
+                label17.Text = GetLabel(DictionaryFileName, "Case.PublicationDate");
+                button2.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button3.Text = GetLabel(DictionaryFileName, "ClearButton");
+                SetPanelLocationAndVisibility(panel5);
+            }
         }
 
         public operation SelectedValueToEnumeratedOperationID(int operationID)
@@ -264,25 +274,21 @@ namespace WindowsApplication1
         }
 
 
-        private void SetPanelLocation(int PanelLocationX, int PanelLocationY, int PanelLocationH, int PanelLocationW)
+        private void SetPanelLocationAndVisibility(Panel panel)
         {
-            panel4.Location = new Point(PanelLocationX, PanelLocationY);
-            panel4.Size = new Size(PanelLocationH, PanelLocationW);
+            int PanelLocationX = 272;
+            int PanelLocationY = 12;
+            int PanelLocationH = 550;
+            int PanelLocationW = 410;
+            panel.Location = new Point(PanelLocationX, PanelLocationY);
+            panel.Size = new Size(PanelLocationH, PanelLocationW);
+            panel.Visible = true;
+            panel4.Visible = false;
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
             label5.Text = GetLabel(DictionaryFileName, "Error.RunMsg");
-
-            // Correct the place of painels. 
-            int PanelLocationX = 272;
-            int PanelLocationY = 12;
-            int PanelLocationH = 550;
-            int PanelLocationW = 410;
-
-            // Location of panels with forms.
-            SetPanelLocation(PanelLocationX, PanelLocationY, PanelLocationH, PanelLocationW);
-
             label1.Text = GetLabel(DictionaryFileName, "CategoryLabel") + ":";
             label2.Text = GetLabel(DictionaryFileName, "OperationLabel") + ":";
             label3.Text = GetLabel(DictionaryFileName, "DataLabel") + ":";
@@ -403,16 +409,26 @@ namespace WindowsApplication1
             return label;
         }
 
+        private void Close_panel()
+        {
+            panel5.Visible = false;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             button1.Visible = false;
             if(button1.Text.Equals(GetLabel(DictionaryFileName,"StopButton")))
             {
+                // Clean panel
+                Close_panel();
+
+                // Back
                 comboBox1.Enabled = true;
                 comboBox2.Enabled = true;
                 maskedTextBox1.Enabled = true;
                 radioButton1.Enabled = true;
                 radioButton2.Enabled = true;
+                panel4.Visible = true;
                 radioButton3.Enabled = true;
                 radioButton4.Enabled = true;
                 button1.Text = GetLabel(DictionaryFileName, "RunButton");
@@ -447,10 +463,21 @@ namespace WindowsApplication1
                     // Testar conexão
                     DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
                     List<string[]> matrix = new List<string[]>();
+                    bool errorShown = false;
                     try
                     { 
                        matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "SELECT * FROM `case`");
-                       if (!matrix[0][0].ToLower().Contains("*error*"))
+                       if (matrix[0][0].ToLower().Contains("*error*") && matrix[0][0].ToLower().Contains("access denied for user"))
+                       {
+                           ShowError(997, label4.Text.Split(':')[0]);
+                           errorShown = true;
+                       }
+                       else if (matrix[0][0].ToLower().Contains("*error*"))
+                       {
+                           ShowError(984, GetLabel(DictionaryFileName,"InternetConnection"));
+                           errorShown = true;
+                       }
+                       else
                        {
                            noerror = true;
                        }
@@ -465,12 +492,16 @@ namespace WindowsApplication1
                     }
                     if (noerror == false)
                     {
-                        ShowError(997, label4.Text.Split(':')[0]);
+                        if ( errorShown == false)
+                        { 
+                            ShowError(997, label4.Text.Split(':')[0]);
+                        }
                     }
                     else
                     {
                         comboBox1.Enabled = false;
                         comboBox2.Enabled = false;
+                        label5.Text = GetLabel(DictionaryFileName, "NoError.OK");
                         maskedTextBox1.Enabled = false;
                         radioButton1.Enabled = false;
                         int operationSelectedValue = -1;
@@ -884,6 +915,25 @@ namespace WindowsApplication1
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
             // INSERT INTO `sql583577`.`case` (`id`, `title`, `description`, `powerBase`, `caseDate`, `publicationDate`) VALUES ('1', 'teste', 'teste', '1.1', '2015-07-08', '2015-07-08');
+        }
+
+        private void richTextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            textBox5.Text = string.Empty;
+            textBox6.Text = string.Empty;
+            richTextBox2.Text = string.Empty;
+            dateTimePicker1.Value = new DateTime(Convert.ToInt32(convencionalDateNull.Split('-')[0]), Convert.ToInt32(convencionalDateNull.Split('-')[1]), Convert.ToInt32(convencionalDateNull.Split('-')[2]));
+            dateTimePicker2.Value = new DateTime(Convert.ToInt32(convencionalDateNull.Split('-')[0]), Convert.ToInt32(convencionalDateNull.Split('-')[1]), Convert.ToInt32(convencionalDateNull.Split('-')[2]));
         }
     }
 }
