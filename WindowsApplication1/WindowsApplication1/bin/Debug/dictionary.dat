@@ -68,13 +68,18 @@ Bus.Name <Nome da barra>
 Bus.Voltage <Magnitude de tensão>
 Bus.Phase <Ângulo de fase>
 Bus.VoltageBase <Tensão Base>
-Bus.DesiredVoltage <Tensão Especificada>
-Bus.MaxReactivePowerOrVoltage <Potência/Tensão máxima>
-Bus.MinReactivePowerOrVoltage <Potência/Tensão mínima>
+Bus.DesiredVoltage <T. Especificada>
+Bus.MaxReactivePowerOrVoltage <Limite máximo>
+Bus.MinReactivePowerOrVoltage <Limite mínimo>
+Bus.Area <Área>
 
 BusType.CaseID <ID Case Base>
 BusType.ID <ID do tipo de barra>
 BusType.Description <Descrição>
+
+Bus_BusType.CaseID <Caso base>
+Bus_BusType.BusID <Barra>
+Bus_BusType.BusTyoeID <Tipo de Barra>
 
 GenericItem.Select <Selecionar Item>
 
@@ -90,6 +95,7 @@ UserMsgLabel <Mensagens para o usuário>
 FormNotUsed <Esta opção não é aplicável nesta situação.>
 
 InternetConnection <Conexão com internet. >
+Database <Banco de dados>
 
 Error.RunMsg <Estado atual: pronto para ser executado.>
 VerifyInfo <Verifique>

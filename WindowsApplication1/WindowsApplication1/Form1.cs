@@ -26,11 +26,34 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Transmission && Data == data.BusType && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel7);
+                SetTransmissionItemList(comboBox5);
+                label20.Text = GetLabel(DictionaryFileName, "BusType.ID");
+                label22.Text = GetLabel(DictionaryFileName, "BusType.CaseID");
+                label26.Text = GetLabel(DictionaryFileName, "BusType.Description");
+                button6.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button7.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
             if (Category == category.Transmission && Data == data.Bus && Operation == operation.Insert)
             {
                 SetPanelLocationAndVisibility(panel6);
                 SetTransmissionItemList(comboBox3);
-                
+                label7.Text = GetLabel(DictionaryFileName, "Bus.Case");
+                label8.Text = GetLabel(DictionaryFileName, "Bus.Number");
+                label9.Text = GetLabel(DictionaryFileName, "Bus.SequencialNumber");
+                label10.Text = GetLabel(DictionaryFileName, "Bus.Voltage");
+                label11.Text = GetLabel(DictionaryFileName, "Bus.Phase");
+                label12.Text = GetLabel(DictionaryFileName, "Bus.VoltageBase");
+                label16.Text = GetLabel(DictionaryFileName, "Bus.DesiredVoltage");
+                label19.Text = GetLabel(DictionaryFileName, "Bus.MaxReactivePowerOrVoltage");
+                label21.Text = GetLabel(DictionaryFileName, "Bus.MinReactivePowerOrVoltage");
+                label23.Text = GetLabel(DictionaryFileName, "Bus.Name");
+                label24.Text = GetLabel(DictionaryFileName, "Bus.Area");
+                button4.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button5.Text = GetLabel(DictionaryFileName, "ClearButton");
             }
 
             if (Category == category.Transmission && Data == data.Case && Operation == operation.Insert)
@@ -436,6 +459,7 @@ namespace WindowsApplication1
         {
             panel5.Visible = false;
             panel6.Visible = false;
+            panel7.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1013,6 +1037,29 @@ namespace WindowsApplication1
 
         }
 
+        private int GetAreaID(int selectedIndex)
+        {
+            if (selectedIndex >= 0)
+            {
+                List<string[]> matrix = new List<string[]>();
+                DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
+                matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "SELECT * FROM  `area`");
+                try
+                {
+                    return Convert.ToInt32(matrix[selectedIndex][0]);
+                }
+                catch
+                {
+                    return -1;
+                }
+                
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         private int GetTransmissionCaseID(int selectedIndex)
         {
             if (selectedIndex >= 0)
@@ -1073,6 +1120,124 @@ namespace WindowsApplication1
 
         private void label25_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            comboBox3.Text = string.Empty;
+            textBox1.Text = string.Empty;
+            textBox8.Text = string.Empty;
+            textBox2.Text = string.Empty;
+            textBox12.Text = string.Empty;
+            textBox3.Text = string.Empty;
+            textBox11.Text = string.Empty;
+            textBox4.Text = string.Empty;
+            textBox7.Text = string.Empty;
+            textBox13.Text = string.Empty;
+            comboBox4.Text = string.Empty;
+        }
+
+        private void ShowInsertError(string returnedMsg)
+        {
+            if (returnedMsg.Contains("Duplicate entry"))
+            {
+                ShowError(985, GetLabel(DictionaryFileName, "Database"));
+            }
+            else
+            {
+                ShowError(992, returnedMsg);
+            }
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox4, label24));
+            validationList.Add(ValidateAsNotNullText(textBox13, label23));
+            double minLimit = 0;
+            validationList.Add(ValidateAsDouble(textBox7, label21, out minLimit));
+            double maxLimit = 0;
+            validationList.Add(ValidateAsDouble(textBox4, label19, out maxLimit));
+            double desiredVoltage = 0;
+            validationList.Add(ValidateAsDouble(textBox11, label16, out desiredVoltage));
+            double voltageBase = 0;
+            validationList.Add(ValidateAsDouble(textBox3, label12, out voltageBase));
+            double phase = 0;
+            validationList.Add(ValidateAsDouble(textBox12, label11, out phase));
+            double voltage = 0;
+            validationList.Add(ValidateAsDouble(textBox2, label10, out voltage));
+            int sequencialNumber = 0;
+            validationList.Add(ValidateAsInt(textBox8,label9,out sequencialNumber));
+            int busNumber = 0;
+            validationList.Add(ValidateAsInt(textBox1,label9,out busNumber));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox3, label7));
+
+            if(CompleteValidation(validationList)==true)
+            {
+                int caseID = GetTransmissionCaseID(comboBox3.SelectedIndex);
+                int areaID = GetAreaID(comboBox4.SelectedIndex);
+                DatabaseAccess.Insert databaseAccess = new DatabaseAccess.Insert();
+                string returnedMsg = databaseAccess.insert(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "INSERT INTO `sql583577`.`bus` (`busNumber`, `caseID`, `sequencialNumber`, `busName`, `Voltage`, `phase`, `voltageBase`, `desiredVoltage`, `maxReactivePower`, `minReactivePower`, `areaID`) VALUES ('" + busNumber.ToString() + "', '" + caseID.ToString() + "', '" + sequencialNumber.ToString() + "', '" + textBox13.Text + "', '" + voltage.ToString().Replace(',', '.') + "', '" + phase.ToString().Replace(',', '.') + "', '" + voltageBase.ToString().Replace(',', '.') + "', '" + desiredVoltage.ToString().Replace(',', '.') + "', '" + maxLimit.ToString().Replace(',', '.') + "', '" + minLimit.ToString().Replace(',', '.') + "', '" + areaID.ToString() + "');");
+                if (returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox3.Text = string.Empty;
+                    textBox1.Text = string.Empty;
+                    textBox8.Text = string.Empty;
+                    textBox2.Text = string.Empty;
+                    textBox12.Text = string.Empty;
+                    textBox3.Text = string.Empty;
+                    textBox11.Text = string.Empty;
+                    textBox4.Text = string.Empty;
+                    textBox7.Text = string.Empty;
+                    textBox13.Text = string.Empty;
+                    comboBox4.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox9.Text = string.Empty;
+            comboBox5.Text = string.Empty;
+            richTextBox1.Text = string.Empty;
+        }
+
+        private string Insert(string insertMsg)
+        {
+            DatabaseAccess.Insert databaseAccess = new DatabaseAccess.Insert();
+            return databaseAccess.insert(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, insertMsg);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsNotNullRichText(richTextBox1, label22));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox5, label21));
+            int busTypeID = 0;
+            validationList.Add(ValidateAsInt(textBox9, label20, out busTypeID));
+
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox5.SelectedIndex);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`bustype` (`busTypeID`, `description`, `caseID`) VALUES ('" + busTypeID.ToString() + "', '" + richTextBox1.Text + "', '" + caseID.ToString() + "');");
+                if (returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName,"InsertSuccess"));
+                    textBox9.Text = string.Empty;
+                    comboBox5.Text = string.Empty;
+                    richTextBox1.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
 
         }
     }
