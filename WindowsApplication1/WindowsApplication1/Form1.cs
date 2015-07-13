@@ -26,6 +26,13 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Transmission && Data == data.Bus && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel6);
+                SetTransmissionItemList(comboBox3);
+                
+            }
+
             if (Category == category.Transmission && Data == data.Case && Operation == operation.Insert)
             {
                 label15.Text = GetLabel(DictionaryFileName, "Case.Title");
@@ -141,7 +148,7 @@ namespace WindowsApplication1
         {
             DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
             List<string[]> matrix = new List<string[]>();
-            matrix = databaseAccess.query(null, GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
+            matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "SELECT * FROM  `case`");
             matrix = CaseDistribuctionFiltering(matrix);
             return matrix;
         }
@@ -150,9 +157,25 @@ namespace WindowsApplication1
         {
             DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
             List<string[]> matrix = new List<string[]>();
-            matrix = databaseAccess.query(null, GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text);
+            matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text,"SELECT * FROM  `case`");
             matrix = CaseTransmissionFiltering(matrix);
             return matrix;
+        }
+
+        private void SetAreaList(ComboBox comboBox, int caseID)
+        {
+            comboBox.Text = string.Empty;
+            comboBox.Items.Clear();
+            DatabaseAccess.Query databaseAccess = new DatabaseAccess.Query();
+            List<string[]> matrix = new List<string[]>();
+            matrix = databaseAccess.query(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "SELECT * FROM  `area` WHERE `caseID` = " + caseID.ToString() + "");
+            for (int i = 0; i < matrix.Count; i++)
+            {
+                if (caseID.ToString().Equals(matrix[i][1]))
+                { 
+                    comboBox.Items.Add(matrix[i][0] + " - " + matrix[i][2]);
+                }
+            }
         }
 
         private void SetTransmissionItemList(ComboBox comboBox)
@@ -171,7 +194,7 @@ namespace WindowsApplication1
             List<string[]> filteredMatrix = new List<string[]>();
             for (int i = 0; i < matrix.Count; i++)
             {
-                if (matrix[i][matrix[0].Length-1].Equals("0"))
+                if (matrix[i][matrix[0].Length - 1].Equals("DISTRIBUTION"))
                 {
                     filteredMatrix.Add(matrix[i]);
                 }
@@ -184,7 +207,7 @@ namespace WindowsApplication1
             List<string[]> filteredMatrix = new List<string[]>();
             for (int i = 0; i < matrix.Count; i++)
             {
-                if (matrix[i][matrix[0].Length-1].Equals("1"))
+                if (matrix[i][matrix[0].Length - 1].Equals("TRANSMISSION"))
                 {
                     filteredMatrix.Add(matrix[i]);
                 }
@@ -412,6 +435,7 @@ namespace WindowsApplication1
         private void Close_panel()
         {
             panel5.Visible = false;
+            panel6.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -967,7 +991,7 @@ namespace WindowsApplication1
             if(CompleteValidation(validationList)==true)
             {
                 DatabaseAccess.Insert databaseAccess = new DatabaseAccess.Insert();
-                string returnedMsg = databaseAccess.insert(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "INSERT INTO `sql583577`.`case` (`title`, `description`, `powerBase`, `caseDate`, `publicationDate`) VALUES ('" + textBox5.Text + "', '" + richTextBox2.Text + "', '"+textBox6.Text.Replace(',','.')+"', '"+caseDate+"', '"+publicationDate+"');");
+                string returnedMsg = databaseAccess.insert(GetLabel("config.ini", "Host"), GetLabel("config.ini", "UserID"), GetLabel("config.ini", "DatabaseName"), maskedTextBox1.Text, "INSERT INTO `sql583577`.`case` (`title`, `description`, `powerBase`, `caseDate`, `publicationDate`, `systemType`) VALUES ('" + textBox5.Text + "', '" + richTextBox2.Text + "', '" + textBox6.Text.Replace(',', '.') + "', '" + caseDate + "', '" + publicationDate + "', 'TRANSMISSION');");
 
                 //ValidateInsert(returnedMsg);
                 if (returnedMsg.ToLower().Equals("ok"))
@@ -982,6 +1006,74 @@ namespace WindowsApplication1
                     ShowError(992, returnedMsg);
                 }
             }
+        }
+
+        private void comboBox4_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private int GetTransmissionCaseID(int selectedIndex)
+        {
+            if (selectedIndex >= 0)
+            {
+                List<string[]> matrix = new List<string[]>();
+                matrix = GetTransmissionMatrix();
+                return Convert.ToInt32(matrix[selectedIndex][0]);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        private int GetDistributionCaseID(int selectedIndex)
+        {
+            if (selectedIndex >= 0)
+            {
+                List<string[]> matrix = new List<string[]>();
+                matrix = GetDistributionMatrix();
+                return Convert.ToInt32(matrix[selectedIndex][0]);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        private void comboBox3_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel6_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void comboBox3_TextUpdate(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void comboBox3_TextChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = comboBox3.SelectedIndex;
+            int ID = GetTransmissionCaseID(selectedIndex);
+            if (ID >= 0)
+            {
+                SetAreaList(comboBox4, ID);
+            }
+            else
+            {
+                comboBox4.Text = string.Empty;
+                comboBox4.Items.Clear();
+            }
+        }
+
+        private void label25_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
