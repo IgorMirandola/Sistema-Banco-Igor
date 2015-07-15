@@ -26,6 +26,22 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Transmission && Data == data.LineType && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel12);
+                SetTransmissionItemList(comboBox13);
+                label46.Text = GetLabel(DictionaryFileName,"LineType.caseID");
+                label47.Text = GetLabel(DictionaryFileName,"LineType.ID");
+                label48.Text = GetLabel(DictionaryFileName,"LineType.Description");
+                button12.Text = GetLabel(DictionaryFileName,"SubmitButton");
+                button13.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
+            if (Category == category.Transmission && Data == data.Conductor && Operation == operation.Insert)
+            {
+                label44.Text = GetLabel(DictionaryFileName, "FormNotUsed");
+            }
+
             if (Category == category.Transmission && Data == data.LineSpacing && Operation == operation.Insert)
             {
                 label43.Text = GetLabel(DictionaryFileName, "FormNotUsed");
@@ -484,6 +500,8 @@ namespace WindowsApplication1
             panel8.Visible = false;
             panel9.Visible = false;
             panel10.Visible = false;
+            panel11.Visible = false;
+            panel12.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1538,6 +1556,44 @@ namespace WindowsApplication1
                 }
             }
 
+        }
+
+        private void maskedTextBox1_MaskInputRejected_1(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void button13_Click_1(object sender, EventArgs e)
+        {
+            comboBox13.Text = string.Empty;
+            textBox10.Text = string.Empty;
+            richTextBox3.Text = string.Empty;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsNotNullRichText(richTextBox3, label48));
+            int lineType = 0;
+            validationList.Add(ValidateAsInt(textBox10, label47, out lineType));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox13, label46));
+
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox13.SelectedIndex);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`linetype` (`ID`, `caseID`, `lineSpacing`, `phasing`, `conductorID`, `tapeShieldedConductorID`, `neutralConductorID`, `description`) VALUES ('" + lineType.ToString() + "', '" + caseID.ToString() + "', NULL, '', NULL, NULL, NULL, '" + richTextBox3.Text+ "');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName,"InsertSuccess"));
+                    comboBox13.Text = string.Empty;
+                    textBox10.Text = string.Empty;
+                    richTextBox3.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
         }
     }
 }

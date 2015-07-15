@@ -95,6 +95,10 @@ Line.Description <Descrição>
 Line.CircuitNumber <Número circuito>
 Line.Area <Área>
 
+LineType.caseID <Caso base>
+LineType.ID <Tipo de ramo>
+LineType.Description <Descrição>
+
 GenericItem.Select <Selecionar Item>
 
 InsertSuccess <Item inserido com sucesso>
