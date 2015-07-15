@@ -73,13 +73,27 @@ Bus.MaxReactivePowerOrVoltage <Limite máximo>
 Bus.MinReactivePowerOrVoltage <Limite mínimo>
 Bus.Area <Área>
 
-BusType.CaseID <ID Case Base>
+BusType.CaseID <Case Base>
 BusType.ID <ID do tipo de barra>
 BusType.Description <Descrição>
 
 Bus_BusType.CaseID <Caso base>
 Bus_BusType.BusID <Barra>
 Bus_BusType.BusTypeID <Tipo de Barra>
+
+Line.Case <Caso base>
+Line.InicialBus <Barra Inicial>
+Line.FinalBus <Barra final>
+Line.SequencialNumber <Número sequencial>
+Line.Resistence <Resistência>
+Line.Reactance <Reatância>
+Line.Susceptance <Suscpetância>
+Line.PowerRating1 <Classificação 1>
+Line.PowerRating2 <Classificação 2>
+Line.PowerRating3 <Classificação 3>
+Line.Description <Descrição>
+Line.CircuitNumber <Número circuito>
+Line.Area <Área>
 
 GenericItem.Select <Selecionar Item>
 
