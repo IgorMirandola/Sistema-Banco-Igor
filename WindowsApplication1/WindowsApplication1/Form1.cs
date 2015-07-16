@@ -26,6 +26,34 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Transmission && Data == data.LoadModel && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel17);
+                label63.Text = GetLabel(DictionaryFileName, "FormNotUsed");
+            }
+
+            if (Category == category.Transmission && Data == data.Line_LossZoneRelationship && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel16);
+                SetTransmissionItemList(comboBox23);
+                label62.Text = GetLabel(DictionaryFileName, "Line_LossZoneRelationship.CaseID");
+                label61.Text = GetLabel(DictionaryFileName, "Line_LossZoneRelationship.LineID");
+                label60.Text = GetLabel(DictionaryFileName, "Line_LossZoneRelationship.LossZoneID");
+                button21.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button20.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
+            if (Category == category.Transmission && Data == data.Bus_LossZoneRelationship && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel15);
+                SetTransmissionItemList(comboBox18);
+                label57.Text = GetLabel(DictionaryFileName, "Bus_LossZoneRelationship.CaseID");
+                label57.Text = GetLabel(DictionaryFileName, "Bus_LossZoneRelationship.BusID");
+                label57.Text = GetLabel(DictionaryFileName, "Bus_LossZoneRelationship.LossZoneID");
+                button18.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button19.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
             if (Category == category.Transmission && Data == data.LossZone && Operation == operation.Insert)
             {
                 SetPanelLocationAndVisibility(panel14);
@@ -62,11 +90,13 @@ namespace WindowsApplication1
 
             if (Category == category.Transmission && Data == data.Conductor && Operation == operation.Insert)
             {
+                SetPanelLocationAndVisibility(panel11);
                 label44.Text = GetLabel(DictionaryFileName, "FormNotUsed");
             }
 
             if (Category == category.Transmission && Data == data.LineSpacing && Operation == operation.Insert)
             {
+                SetPanelLocationAndVisibility(panel10);
                 label43.Text = GetLabel(DictionaryFileName, "FormNotUsed");
             }
 
@@ -527,6 +557,9 @@ namespace WindowsApplication1
             panel12.Visible = false;
             panel13.Visible = false;
             panel14.Visible = false;
+            panel15.Visible = false;
+            label16.Visible = false;
+            label17.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1188,8 +1221,7 @@ namespace WindowsApplication1
             }
             else
             {
-                comboBox4.Text = string.Empty;
-                comboBox4.Items.Clear();
+                ClearComboBox(comboBox4);
             }
         }
 
@@ -1406,6 +1438,38 @@ namespace WindowsApplication1
                 return -1;
             }
         }
+
+        private void SetLossZoneList(ComboBox combobox, int caseID)
+        {
+            combobox.Items.Clear();
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `lossZone` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                for (int i = 0; i < matrix.Count; i++)
+                {
+                    combobox.Items.Add(matrix[i][0] + " / " + "description: " + matrix[i][2] + " / " + "sequencial Number: " + matrix[i][3]);
+                }
+            }
+            else
+            {
+                combobox.Text = string.Empty;
+            }
+        }
+
+        private int GetLossZoneID(int selectedIndex, int caseID)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `lossZone` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                return Convert.ToInt32(matrix[selectedIndex][0]);
+            }
+            else
+            {
+                return -1;
+            }
+        }
         
         private void SetBusTypeList(ComboBox combobox, int caseID)
         {
@@ -1515,8 +1579,8 @@ namespace WindowsApplication1
             }
             else
             {
-                comboBox7.Text = string.Empty;
-                comboBox8.Text = string.Empty;
+                ClearComboBox(comboBox7);
+                ClearComboBox(comboBox8);
             }
         }
 
@@ -1568,9 +1632,9 @@ namespace WindowsApplication1
             }
             else
             {
-                comboBox10.Text = string.Empty;
-                comboBox11.Text = string.Empty;
-                comboBox12.Text = string.Empty;
+                ClearComboBox(comboBox10);
+                ClearComboBox(comboBox11);
+                ClearComboBox(comboBox12);
             }
         }
 
@@ -1589,6 +1653,27 @@ namespace WindowsApplication1
             textBox22.Text = string.Empty;
             textBox23.Text = string.Empty;
             comboBox10.Text = string.Empty;
+        }
+
+        private bool ExtraLineValidation(int inicialBus, int finalBus, int caseID)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `line` WHERE `caseID` = " + caseID.ToString() + " AND `inicialBusNumber` = " + inicialBus.ToString() + " AND `finalBusNumber` = " + finalBus.ToString() + "");
+            if(checkQueryError(matrix))
+            {
+                if(matrix.Count>0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -1622,27 +1707,36 @@ namespace WindowsApplication1
                 int areaID = GetAreaID(comboBox10.SelectedIndex);
                 int finalBus = GetBusID(comboBox12.SelectedIndex, caseID);
                 int inicialBus = GetBusID(comboBox11.SelectedIndex, caseID);
-                string returnedMsg = Insert("INSERT INTO `sql583577`.`line` (`caseID`, `inicialBusNumber`, `finalBusNumber`, `sequencialNumber`, `length`, `resistence`, `reactance`, `shuntSusceptance`, `rating1`, `rating2`, `rating3`, `description`, `circuitoNumber`, `areaID`) VALUES ('" + caseID.ToString() + "', '" + inicialBus.ToString() + "', '" + finalBus.ToString() + "', '" + sequencialNumber.ToString() + "', NULL, '" + resistence.ToString().Replace(',', '.') + "', '" + reactance.ToString().Replace(',', '.') + "', '" + suspectance.ToString().Replace(',', '.') + "', '" + rating1.ToString().Replace(',', '.') + "', '" + rating2.ToString().Replace(',', '.') + "', '" + rating3.ToString().Replace(',', '.') + "', '"+textBox22.Text+"', '"+circuitNumber.ToString()+"', '"+areaID.ToString()+"');");
-                if(returnedMsg.ToLower().Equals("ok"))
+
+                // Check If inicial Bus and Final bus already on the system
+                if (ExtraLineValidation(inicialBus, finalBus, caseID))
                 {
-                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
-                    comboBox9.Text = string.Empty;
-                    comboBox11.Text = string.Empty;
-                    comboBox12.Text = string.Empty;
-                    textBox15.Text = string.Empty;
-                    textBox16.Text = string.Empty;
-                    textBox17.Text = string.Empty;
-                    textBox18.Text = string.Empty;
-                    textBox19.Text = string.Empty;
-                    textBox20.Text = string.Empty;
-                    textBox21.Text = string.Empty;
-                    textBox22.Text = string.Empty;
-                    textBox23.Text = string.Empty;
-                    comboBox10.Text = string.Empty;
+                    string returnedMsg = Insert("INSERT INTO `sql583577`.`line` (`caseID`, `inicialBusNumber`, `finalBusNumber`, `sequencialNumber`, `length`, `resistence`, `reactance`, `shuntSusceptance`, `rating1`, `rating2`, `rating3`, `description`, `circuitoNumber`, `areaID`) VALUES ('" + caseID.ToString() + "', '" + inicialBus.ToString() + "', '" + finalBus.ToString() + "', '" + sequencialNumber.ToString() + "', NULL, '" + resistence.ToString().Replace(',', '.') + "', '" + reactance.ToString().Replace(',', '.') + "', '" + suspectance.ToString().Replace(',', '.') + "', '" + rating1.ToString().Replace(',', '.') + "', '" + rating2.ToString().Replace(',', '.') + "', '" + rating3.ToString().Replace(',', '.') + "', '" + textBox22.Text + "', '" + circuitNumber.ToString() + "', '" + areaID.ToString() + "');");
+                    if (returnedMsg.ToLower().Equals("ok"))
+                    {
+                        showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                        comboBox9.Text = string.Empty;
+                        comboBox11.Text = string.Empty;
+                        comboBox12.Text = string.Empty;
+                        textBox15.Text = string.Empty;
+                        textBox16.Text = string.Empty;
+                        textBox17.Text = string.Empty;
+                        textBox18.Text = string.Empty;
+                        textBox19.Text = string.Empty;
+                        textBox20.Text = string.Empty;
+                        textBox21.Text = string.Empty;
+                        textBox22.Text = string.Empty;
+                        textBox23.Text = string.Empty;
+                        comboBox10.Text = string.Empty;
+                    }
+                    else
+                    {
+                        ShowInsertError(returnedMsg);
+                    }
                 }
                 else
                 {
-                    ShowInsertError(returnedMsg);
+                    ShowError(985,GetLabel(DictionaryFileName,"Database"));
                 }
             }
 
@@ -1696,8 +1790,8 @@ namespace WindowsApplication1
             }
             else
             {
-                comboBox15.Text = string.Empty;
-                comboBox16.Text = string.Empty;
+                ClearComboBox(comboBox15);
+                ClearComboBox(comboBox16);
             }
         }
 
@@ -1763,6 +1857,116 @@ namespace WindowsApplication1
                     textBox14.Text = string.Empty;
                     textBox24.Text = string.Empty;
                     richTextBox4.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void ClearComboBox(ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
+            comboBox.Text = string.Empty;
+        }
+
+        private void comboBox18_TextChanged(object sender, EventArgs e)
+        {
+            if(comboBox18.SelectedIndex>-1)
+            {
+                int caseID = GetTransmissionCaseID(comboBox18.SelectedIndex);
+                SetBusList(comboBox19, caseID);
+                SetLossZoneList(comboBox20, caseID);
+            }
+            else
+            {
+                ClearComboBox(comboBox19);
+                ClearComboBox(comboBox20);
+            }
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            comboBox18.Text = string.Empty;
+            comboBox19.Text = string.Empty;
+            comboBox20.Text = string.Empty;
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox20, label59));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox19, label58));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox18, label57));
+
+            if (CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox18.SelectedIndex);
+                int busID = GetBusID(comboBox19.SelectedIndex, caseID);
+                int lossZoneID = GetLossZoneID(comboBox20.SelectedIndex, caseID);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`bus_losszone` (`busNumber`, `lossZoneID`, `caseID`) VALUES ('" + busID.ToString() + "', '" + lossZoneID.ToString() + "', '" + caseID.ToString() + "');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox18.Text = string.Empty;
+                    comboBox19.Text = string.Empty;
+                    comboBox20.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void comboBox18_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox23_TextChanged(object sender, EventArgs e)
+        {
+            if(comboBox23.SelectedIndex>-1)
+            {
+                int caseID = GetTransmissionCaseID(comboBox23.SelectedIndex);
+                SetLineList(comboBox22, caseID);
+                SetLossZoneList(comboBox21, caseID);
+            }
+            else
+            {
+                ClearComboBox(comboBox22);
+                ClearComboBox(comboBox21);
+            }
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            comboBox23.Text = string.Empty;
+            comboBox22.Text = string.Empty;
+            comboBox21.Text = string.Empty;
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox21, label60));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox22, label61));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox23, label62));
+
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox23.SelectedIndex);
+                int LineID = GetLineID(comboBox22.SelectedIndex, caseID);
+                int lossZone = GetLossZoneID(comboBox21.SelectedIndex, caseID);
+
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`line_losszone` (`caseID`, `lineID`, `lossZoneID`) VALUES ('" + caseID.ToString() + "', '" + LineID.ToString() + "', '" + lossZone.ToString() + "');");
+                if (returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox23.Text = string.Empty;
+                    comboBox22.Text = string.Empty;
+                    comboBox21.Text = string.Empty;
                 }
                 else
                 {

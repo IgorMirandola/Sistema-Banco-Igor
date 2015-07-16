@@ -108,6 +108,14 @@ LossZone.LossZone <Zona de perdas>
 LossZone.SequencialNumber <Número sequencial>
 LossZone.Description <Descrição>
 
+Bus_LossZoneRelationship.CaseID <Caso base>
+Bus_LossZoneRelationship.BusID <Barra>
+Bus_LossZoneRelationship.LossZoneID <Zona de perdas>
+
+Line_LossZoneRelationship.CaseID <Caso base>
+Line_LossZoneRelationship.LineID <Ramo>
+Line_LossZoneRelationship.LossZoneID <Zona de perdas>
+
 GenericItem.Select <Selecionar Item>
 
 InsertSuccess <Item inserido com sucesso>
