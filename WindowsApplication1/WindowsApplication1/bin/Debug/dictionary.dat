@@ -116,6 +116,17 @@ Line_LossZoneRelationship.CaseID <Caso base>
 Line_LossZoneRelationship.LineID <Ramo>
 Line_LossZoneRelationship.LossZoneID <Zona de perdas>
 
+Load.CaseID <Case base>
+Load.BusID <Barra>
+Load.ActivePower <Potência ativa>
+Load.ReactivePower <Potência reativa>
+
+ShuntElement.CaseID <Caso base>
+ShuntElement.Bus <Barra>
+ShuntElement.Conductance <Condutância>
+ShuntElement.Susceptance <Susceptância>
+ShuntElement.Description <Descrição>
+
 GenericItem.Select <Selecionar Item>
 
 InsertSuccess <Item inserido com sucesso>

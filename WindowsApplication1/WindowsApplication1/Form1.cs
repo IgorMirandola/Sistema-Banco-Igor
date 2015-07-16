@@ -26,6 +26,37 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Transmission && Data == data.ShuntElement && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel20);
+                SetTransmissionItemList(comboBox26);
+                label70.Text = GetLabel(DictionaryFileName, "ShuntElement.CaseID");
+                label71.Text = GetLabel(DictionaryFileName, "ShuntElement.Bus");
+                label72.Text = GetLabel(DictionaryFileName, "ShuntElement.Conductance");
+                label73.Text = GetLabel(DictionaryFileName, "ShuntElement.Susceptance");
+                label74.Text = GetLabel(DictionaryFileName, "ShuntElement.Description");
+                button24.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button25.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
+            if (Category == category.Transmission && Data == data.DistributedLoad && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel19);
+                label68.Text = GetLabel(DictionaryFileName, "FormNotUsed");
+            }
+
+            if (Category == category.Transmission && Data == data.Load && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel18);
+                SetTransmissionItemList(comboBox24);
+                label64.Text = GetLabel(DictionaryFileName, "Load.CaseID");
+                label65.Text = GetLabel(DictionaryFileName, "Load.BusID");
+                label66.Text = GetLabel(DictionaryFileName, "Load.ActivePower");
+                label67.Text = GetLabel(DictionaryFileName, "Load.ReactivePower");
+                button22.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button23.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
             if (Category == category.Transmission && Data == data.LoadModel && Operation == operation.Insert)
             {
                 SetPanelLocationAndVisibility(panel17);
@@ -401,6 +432,22 @@ namespace WindowsApplication1
             InitializeComponent();
             this.Text = GetSystemTitleLabel();
             this.Size = new Size(852, 543);
+
+            // Define the border style of the form to a dialog box.
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+            // Set the MaximizeBox to false to remove the maximize box.
+            this.MaximizeBox = false;
+
+            // Set the MinimizeBox to false to remove the minimize box.
+            //this.MinimizeBox = false;
+
+            // Set the start position of the form to the center of the screen.
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            // Display the form as a modal dialog box.
+            //this.ShowDialog();
+
             panel1.Location = new Point(12, 14);
             panel1.Size = new Size(254, 408);
             panel2.Location = new Point(12, 427);
@@ -558,8 +605,11 @@ namespace WindowsApplication1
             panel13.Visible = false;
             panel14.Visible = false;
             panel15.Visible = false;
-            label16.Visible = false;
-            label17.Visible = false;
+            panel16.Visible = false;
+            panel17.Visible = false;
+            panel18.Visible = false;
+            panel19.Visible = false;
+            panel20.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1967,6 +2017,110 @@ namespace WindowsApplication1
                     comboBox23.Text = string.Empty;
                     comboBox22.Text = string.Empty;
                     comboBox21.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void comboBox24_TextChanged(object sender, EventArgs e)
+        {
+            if(comboBox24.SelectedIndex>-1)
+            {
+                int caseID = GetTransmissionCaseID(comboBox24.SelectedIndex);
+                SetBusList(comboBox25, caseID);
+            }
+            else
+            {
+                ClearComboBox(comboBox25);
+            }
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            comboBox24.Text = string.Empty;
+            comboBox25.Text = string.Empty;
+            textBox25.Text = string.Empty;
+            textBox26.Text = string.Empty;
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            double reactivePower = 0;
+            validationList.Add(ValidateAsDouble(textBox26, label67, out reactivePower));
+            double activePower = 0;
+            validationList.Add(ValidateAsDouble(textBox25, label66, out activePower));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox25, label65));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox24, label64));
+
+            if (CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox24.SelectedIndex);
+                int busID = GetBusID(comboBox25.SelectedIndex, caseID);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`load` (`busID`, `caseID`, `activePowerAtPhaseA`, `activePowerAtPhaseB`, `activePowerAtPhaseC`, `reactivePowerAtPhaseA`, `reactivePowerAtPhaseB`, `reactivePowerAtPhaseC`, `modelLoadID`) VALUES ('" + busID.ToString() + "', '" + caseID.ToString() + "', '" + activePower.ToString() + "', '" + activePower.ToString() + "', '" + activePower.ToString() + "', '" + reactivePower.ToString() + "', '" + reactivePower.ToString() + "', '" + reactivePower.ToString() + "', NULL);");
+                if (returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox24.Text = string.Empty;
+                    comboBox25.Text = string.Empty;
+                    textBox25.Text = string.Empty;
+                    textBox26.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void comboBox26_TextChanged(object sender, EventArgs e)
+        {
+            if(comboBox26.SelectedIndex>-1)
+            {
+                int caseID = GetTransmissionCaseID(comboBox26.SelectedIndex);
+                SetBusList(comboBox27, caseID);
+            }
+            else
+            {
+                ClearComboBox(comboBox27);
+            }
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            comboBox26.Text = string.Empty;
+            comboBox27.Text = string.Empty;
+            textBox27.Text = string.Empty;
+            textBox28.Text = string.Empty;
+            richTextBox5.Text = string.Empty;
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsNotNullRichText(richTextBox5, label74));
+            double susceptance = 0;
+            validationList.Add(ValidateAsDouble(textBox28, label73, out susceptance));
+            double conductance = 0;
+            validationList.Add(ValidateAsDouble(textBox27, label72, out conductance));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox27, label71));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox26, label70));
+            if (CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox26.SelectedIndex);
+                int busID = GetBusID(comboBox27.SelectedIndex, caseID);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`shuntelement` (`busID`, `caseID`, `conductance`, `susceptance`, `description`, `activePowerAtPhaseA`, `activePowerAtPhaseB`, `activePowerAtPhaseC`, `reactivePowerAtPhaseA`, `reactivePowerAtPhaseB`, `reactivePowerAtPhaseC`) VALUES ('" + busID.ToString() + "', '" + caseID.ToString() + "', '" + conductance.ToString().Replace(',', '.') + "', '" + susceptance.ToString().Replace(',', '.') + "', '" + richTextBox5.Text + "', '', '', '', '', '', '');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox26.Text = string.Empty;
+                    comboBox27.Text = string.Empty;
+                    textBox27.Text = string.Empty;
+                    textBox28.Text = string.Empty;
+                    richTextBox5.Text = string.Empty;
                 }
                 else
                 {
