@@ -26,6 +26,29 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Transmission && Data == data.LossZone && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel14);
+                SetTransmissionItemList(comboBox17);
+                label52.Text = GetLabel(DictionaryFileName, "LossZone.CaseID");
+                label53.Text = GetLabel(DictionaryFileName, "LossZone.LossZone");
+                label54.Text = GetLabel(DictionaryFileName, "LossZone.SequencialNumber");
+                label55.Text = GetLabel(DictionaryFileName, "LossZone.Description");
+                button16.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button17.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
+            if (Category == category.Transmission && Data == data.Line_LineTypeRelationship && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel13);
+                SetTransmissionItemList(comboBox14);
+                label49.Text = GetLabel(DictionaryFileName, "LineLineType.CaseID");
+                label50.Text = GetLabel(DictionaryFileName, "LineLineType.LineID");
+                label51.Text = GetLabel(DictionaryFileName, "LineLineType.LineTypeID");
+                button14.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button15.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
             if (Category == category.Transmission && Data == data.LineType && Operation == operation.Insert)
             {
                 SetPanelLocationAndVisibility(panel12);
@@ -502,6 +525,8 @@ namespace WindowsApplication1
             panel10.Visible = false;
             panel11.Visible = false;
             panel12.Visible = false;
+            panel13.Visible = false;
+            panel14.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1415,6 +1440,71 @@ namespace WindowsApplication1
             }
         }
 
+        private void SetLineList(ComboBox combobox, int caseID)
+        {
+            combobox.Items.Clear();
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `line` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                for (int i = 0; i < matrix.Count; i++)
+                {
+                    combobox.Items.Add("Inicial: " + matrix[i][2] + " / " + "Final: " + matrix[i][3] + " / " + "Number: " + matrix[i][3]);
+                }
+            }
+            else
+            {
+                combobox.Text = string.Empty;
+            }
+        }
+
+
+        private int GetLineID(int selectedIndex, int caseID)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `line` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                return Convert.ToInt32(matrix[selectedIndex][0]);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        private void SetLineTypeList(ComboBox combobox, int caseID)
+        {
+            combobox.Items.Clear();
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `linetype` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                for (int i = 0; i < matrix.Count; i++)
+                {
+                    combobox.Items.Add("ID: " + matrix[i][0] + " / " + "Description: " + matrix[i][7]);
+                }
+            }
+            else
+            {
+                combobox.Text = string.Empty;
+            }
+        }
+
+        private int GetLineTypeID(int selectedIndex, int caseID)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `linetype` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                return Convert.ToInt32(matrix[selectedIndex][0]);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         private void comboBox6_TextChanged(object sender, EventArgs e)
         {
             if(comboBox6.SelectedIndex>-1)
@@ -1588,6 +1678,91 @@ namespace WindowsApplication1
                     comboBox13.Text = string.Empty;
                     textBox10.Text = string.Empty;
                     richTextBox3.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void comboBox14_TextChanged(object sender, EventArgs e)
+        {
+            if(comboBox14.SelectedIndex>-1)
+            {
+                int caseID = GetTransmissionCaseID(comboBox14.SelectedIndex);
+                SetLineList(comboBox15, caseID);
+                SetLineTypeList(comboBox16, caseID);
+            }
+            else
+            {
+                comboBox15.Text = string.Empty;
+                comboBox16.Text = string.Empty;
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            comboBox14.Text = string.Empty;
+            comboBox15.Text = string.Empty;
+            comboBox16.Text = string.Empty;
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox16, label51));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox15, label50));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox14, label49));
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox14.SelectedIndex);
+                int lineID = GetLineID(comboBox15.SelectedIndex,caseID);
+                int lineTypeID = GetLineTypeID(comboBox16.SelectedIndex, caseID);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`line_linetype` (`caseID`, `lineID`, `lineTypeID`) VALUES ('"+caseID.ToString()+"', '"+lineID.ToString()+"', '"+lineTypeID.ToString()+"');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox14.Text = string.Empty;
+                    comboBox15.Text = string.Empty;
+                    comboBox16.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            comboBox17.Text = string.Empty;
+            textBox14.Text = string.Empty;
+            textBox24.Text = string.Empty;
+            richTextBox4.Text = string.Empty;
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsNotNullRichText(richTextBox4, label55));
+            int sequencialNumber;
+            validationList.Add(ValidateAsInt(textBox24, label54, out sequencialNumber));
+            int lossZone;
+            validationList.Add(ValidateAsInt(textBox14, label53, out lossZone));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox17, label52));
+
+            if (CompleteValidation(validationList))
+            {
+                int caseID = GetTransmissionCaseID(comboBox17.SelectedIndex);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`lossZone` (`zoneNumber`, `caseID`, `description`, `sequencialNumber`) VALUES ('" + lossZone.ToString() + "', '"+caseID.ToString()+"', '"+richTextBox4.Text+"', '"+sequencialNumber.ToString()+"');");
+                if (returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox17.Text = string.Empty;
+                    textBox14.Text = string.Empty;
+                    textBox24.Text = string.Empty;
+                    richTextBox4.Text = string.Empty;
                 }
                 else
                 {

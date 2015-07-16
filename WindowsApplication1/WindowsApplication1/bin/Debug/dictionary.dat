@@ -99,6 +99,15 @@ LineType.caseID <Caso base>
 LineType.ID <Tipo de ramo>
 LineType.Description <Descrição>
 
+LineLineType.CaseID <Caso base>
+LineLineType.LineID <Ramo>
+LineLineType.LineTypeID <Tipo de ramo>
+
+LossZone.CaseID <Caso base>
+LossZone.LossZone <Zona de perdas>
+LossZone.SequencialNumber <Número sequencial>
+LossZone.Description <Descrição>
+
 GenericItem.Select <Selecionar Item>
 
 InsertSuccess <Item inserido com sucesso>
