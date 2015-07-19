@@ -26,6 +26,12 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Transmission && Data == data.Regulator && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel26);
+                label98.Text = GetLabel(DictionaryFileName, "FormNotUsed");
+            }
+
             if (Category == category.Transmission && Data == data.Generation && Operation == operation.Insert)
             {
                 SetPanelLocationAndVisibility(panel25);
@@ -678,6 +684,7 @@ namespace WindowsApplication1
             panel23.Visible = false;
             panel24.Visible = false;
             panel25.Visible = false;
+            panel26.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1916,7 +1923,8 @@ namespace WindowsApplication1
             if(CompleteValidation(validationList))
             {
                 int caseID = GetTransmissionCaseID(comboBox13.SelectedIndex);
-                string returnedMsg = Insert("INSERT INTO `sql583577`.`linetype` (`ID`, `caseID`, `lineSpacing`, `phasing`, `conductorID`, `tapeShieldedConductorID`, `neutralConductorID`, `description`) VALUES ('" + lineType.ToString() + "', '" + caseID.ToString() + "', NULL, '', NULL, NULL, NULL, '" + richTextBox3.Text+ "');");
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`linetype` (`ID`, `caseID`, `lineSpacing`, `phasing`, `conductorID`, `tapeShieldedConductorID`, `neutralConductorID`, `description`) VALUES ('" + lineType.ToString() + "', '" + caseID.ToString() + "', NULL, '', NULL, NULL, NULL, '" + richTextBox3.Text + "');");
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`linetype` (`ID`, `caseID`, `lineSpacing`, `phasing`, `conductorID`, `tapeShieldedConductorID`, `neutralConductorID`, `description`) VALUES ('" + lineType.ToString() + "', '" + caseID.ToString() + "', NULL, '', NULL, NULL, NULL, '" + richTextBox3.Text + "');");
                 if(returnedMsg.ToLower().Equals("ok"))
                 {
                     showMsg(GetLabel(DictionaryFileName,"InsertSuccess"));
@@ -2500,6 +2508,11 @@ namespace WindowsApplication1
                     ShowInsertError(returnedMsg);
                 }
             }
+        }
+
+        private void panel26_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
