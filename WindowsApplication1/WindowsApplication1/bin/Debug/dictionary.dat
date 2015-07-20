@@ -131,7 +131,8 @@ Transformer.Case <Caso base>
 Transformer.FinalVoltageRatio <Taxa de tensão>
 Transformer.FinalPhaseAngle <Ângulo de fase>
 Transformer.FinalVoltageRatioOrFinalPhaseAngleMinLimit <Lim. mín. taxa/ângulo>
-Transformer.FinalVoltageRatioOrFinalPhaseAngleMaxLimit <Lim. max. taxa/ângulo>Transformer.stepSize <Passo>
+Transformer.FinalVoltageRatioOrFinalPhaseAngleMaxLimit <Lim. max. taxa/ângulo>
+Transformer.stepSize <Passo>
 Transformer.voltageOrPowerMinLimit <Lim. min. tensão/potência>
 Transformer.voltageOrPowerMaxLimit <Lim. max. tensão/potência>
 
@@ -152,6 +153,22 @@ Generation.CaseID <Caso base>
 Generation.BusID <Barra>
 Generation.ActivePower <Potência ativa>
 Generation.ReactivePower <Potência reativa>
+
+TieLines.CaseID <Caso base>
+TieLines.MeasuredBusID <Barra medida>
+TieLines.NonMeasuredBusID <Barra não medida>
+TieLines.SequencialNumber <Número sequencial>
+TieLines.CircuitNumber <Número do circuito>
+
+Interchange.CaseID <Caso base>
+Interchange.BusID <Barra>
+Interchange.AreaID <Area>
+Interchange.ExportedPower <Potência exportada>
+Interchange.Tolerance <Tolerância>
+
+Area.CaseID <Caso base>
+Area.ID <Código área>
+Area.Description <Descrição>
 
 GenericItem.Select <Selecionar Item>
 
