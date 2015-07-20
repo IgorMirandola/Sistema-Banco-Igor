@@ -311,6 +311,13 @@ namespace WindowsApplication1
             this.comboBox46 = new System.Windows.Forms.ComboBox();
             this.textBox43 = new System.Windows.Forms.TextBox();
             this.richTextBox6 = new System.Windows.Forms.RichTextBox();
+            this.panel30 = new System.Windows.Forms.Panel();
+            this.label112 = new System.Windows.Forms.Label();
+            this.label113 = new System.Windows.Forms.Label();
+            this.button42 = new System.Windows.Forms.Button();
+            this.button43 = new System.Windows.Forms.Button();
+            this.textBox44 = new System.Windows.Forms.TextBox();
+            this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -339,6 +346,7 @@ namespace WindowsApplication1
             this.panel27.SuspendLayout();
             this.panel28.SuspendLayout();
             this.panel29.SuspendLayout();
+            this.panel30.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -545,6 +553,7 @@ namespace WindowsApplication1
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(550, 410);
             this.panel4.TabIndex = 12;
+            this.panel4.Visible = false;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // panel5
@@ -3056,9 +3065,9 @@ namespace WindowsApplication1
             this.panel29.Controls.Add(this.label111);
             this.panel29.Controls.Add(this.label110);
             this.panel29.Controls.Add(this.label109);
-            this.panel29.Location = new System.Drawing.Point(828, 173);
+            this.panel29.Location = new System.Drawing.Point(1004, 132);
             this.panel29.Name = "panel29";
-            this.panel29.Size = new System.Drawing.Size(550, 410);
+            this.panel29.Size = new System.Drawing.Size(10, 10);
             this.panel29.TabIndex = 13;
             this.panel29.Visible = false;
             // 
@@ -3132,12 +3141,82 @@ namespace WindowsApplication1
             this.richTextBox6.TabIndex = 7;
             this.richTextBox6.Text = "";
             // 
+            // panel30
+            // 
+            this.panel30.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.panel30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel30.Controls.Add(this.label113);
+            this.panel30.Controls.Add(this.textBox44);
+            this.panel30.Controls.Add(this.label112);
+            this.panel30.Controls.Add(this.richTextBox7);
+            this.panel30.Controls.Add(this.button43);
+            this.panel30.Controls.Add(this.button42);
+            this.panel30.Location = new System.Drawing.Point(828, 169);
+            this.panel30.Name = "panel30";
+            this.panel30.Size = new System.Drawing.Size(550, 410);
+            this.panel30.TabIndex = 13;
+            this.panel30.Visible = false;
+            // 
+            // label112
+            // 
+            this.label112.AutoSize = true;
+            this.label112.Location = new System.Drawing.Point(9, 10);
+            this.label112.Name = "label112";
+            this.label112.Size = new System.Drawing.Size(62, 17);
+            this.label112.TabIndex = 0;
+            this.label112.Text = "label112";
+            // 
+            // label113
+            // 
+            this.label113.AutoSize = true;
+            this.label113.Location = new System.Drawing.Point(9, 43);
+            this.label113.Name = "label113";
+            this.label113.Size = new System.Drawing.Size(62, 17);
+            this.label113.TabIndex = 1;
+            this.label113.Text = "label113";
+            // 
+            // button42
+            // 
+            this.button42.Location = new System.Drawing.Point(12, 116);
+            this.button42.Name = "button42";
+            this.button42.Size = new System.Drawing.Size(234, 37);
+            this.button42.TabIndex = 3;
+            this.button42.Text = "button42";
+            this.button42.UseVisualStyleBackColor = true;
+            this.button42.Click += new System.EventHandler(this.button42_Click);
+            // 
+            // button43
+            // 
+            this.button43.Location = new System.Drawing.Point(284, 116);
+            this.button43.Name = "button43";
+            this.button43.Size = new System.Drawing.Size(238, 37);
+            this.button43.TabIndex = 4;
+            this.button43.Text = "button43";
+            this.button43.UseVisualStyleBackColor = true;
+            this.button43.Click += new System.EventHandler(this.button43_Click);
+            // 
+            // textBox44
+            // 
+            this.textBox44.Location = new System.Drawing.Point(135, 8);
+            this.textBox44.Name = "textBox44";
+            this.textBox44.Size = new System.Drawing.Size(387, 22);
+            this.textBox44.TabIndex = 5;
+            // 
+            // richTextBox7
+            // 
+            this.richTextBox7.Location = new System.Drawing.Point(135, 40);
+            this.richTextBox7.Name = "richTextBox7";
+            this.richTextBox7.Size = new System.Drawing.Size(387, 62);
+            this.richTextBox7.TabIndex = 6;
+            this.richTextBox7.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1370, 498);
+            this.Controls.Add(this.panel30);
             this.Controls.Add(this.panel29);
             this.Controls.Add(this.panel28);
             this.Controls.Add(this.panel27);
@@ -3231,6 +3310,8 @@ namespace WindowsApplication1
             this.panel28.PerformLayout();
             this.panel29.ResumeLayout(false);
             this.panel29.PerformLayout();
+            this.panel30.ResumeLayout(false);
+            this.panel30.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3521,6 +3602,13 @@ namespace WindowsApplication1
         private System.Windows.Forms.Label label111;
         private System.Windows.Forms.Label label110;
         private System.Windows.Forms.Label label109;
+        private System.Windows.Forms.RichTextBox richTextBox7;
+        private System.Windows.Forms.TextBox textBox44;
+        private System.Windows.Forms.Button button43;
+        private System.Windows.Forms.Button button42;
+        private System.Windows.Forms.Label label113;
+        private System.Windows.Forms.Label label112;
+        private System.Windows.Forms.Panel panel30;
     }
 }
 

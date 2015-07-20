@@ -26,6 +26,16 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Distribution && Data == data.Case && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel30);
+                SetDistribuctionItemList(comboBox44);
+                label112.Text = GetLabel(DictionaryFileName, "Case.Title");
+                label113.Text = GetLabel(DictionaryFileName, "Case.Description");
+                button42.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button43.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
             if (Category == category.Transmission && Data == data.Area && Operation == operation.Insert)
             {
                 SetPanelLocationAndVisibility(panel29);
@@ -725,6 +735,7 @@ namespace WindowsApplication1
             panel27.Visible = false;
             panel28.Visible = false;
             panel29.Visible = false;
+            panel30.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -2763,6 +2774,34 @@ namespace WindowsApplication1
                     comboBox46.Text = string.Empty;
                     textBox43.Text = string.Empty;
                     richTextBox6.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void button43_Click(object sender, EventArgs e)
+        {
+            textBox44.Text = string.Empty;
+            richTextBox7.Text = string.Empty;
+        }
+
+        private void button42_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsNotNullRichText(richTextBox7, label113));
+            validationList.Add(ValidateAsNotNullText(textBox44, label112));
+            
+            if(CompleteValidation(validationList))
+            {
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`case` (`id`, `title`, `description`, `powerBase`, `caseDate`, `publicationDate`, `systemType`) VALUES (NULL, '" + textBox44.Text + "', '" + richTextBox7.Text+ "', NULL, NULL, NULL, 'DISTRIBUTION');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    textBox44.Text = string.Empty;
+                    richTextBox7.Text = string.Empty;
                 }
                 else
                 {
