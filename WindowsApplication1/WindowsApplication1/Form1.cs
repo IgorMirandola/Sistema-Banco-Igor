@@ -26,6 +26,61 @@ namespace WindowsApplication1
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
 
+            if (Category == category.Distribution && Data == data.LineSpacing && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel35);
+                SetDistribuctionItemList(comboBox55);
+                label126.Text = GetLabel(DictionaryFileName, "LineSpacing.Case");
+                label127.Text = GetLabel(DictionaryFileName, "LineSpacing.ID");
+                label128.Text = GetLabel(DictionaryFileName, "LineSpacing.Description");
+                button52.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button53.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
+            if (Category == category.Distribution && Data == data.Line && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel34);
+                SetDistribuctionItemList(comboBox52);
+                label122.Text = GetLabel(DictionaryFileName, "Line.Case");
+                label123.Text = GetLabel(DictionaryFileName, "Line.InicialBus");
+                label124.Text = GetLabel(DictionaryFileName, "Line.FinalBus");
+                label125.Text = GetLabel(DictionaryFileName, "Line.Length");
+                button50.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button51.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
+            if (Category == category.Distribution && Data == data.Bus_BusTypeRelationship && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel33);
+                SetDistribuctionItemList(comboBox51);
+                label121.Text = GetLabel(DictionaryFileName, "Bus_BusType.CaseID");
+                label120.Text = GetLabel(DictionaryFileName, "Bus_BusType.BusID");
+                label119.Text = GetLabel(DictionaryFileName, "Bus_BusType.BusTypeID");
+                button49.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button48.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
+            if (Category == category.Distribution && Data == data.BusType && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel32);
+                SetDistribuctionItemList(comboBox48);
+                label116.Text = GetLabel(DictionaryFileName, "BusType.CaseID");
+                label117.Text = GetLabel(DictionaryFileName, "BusType.ID");
+                label118.Text = GetLabel(DictionaryFileName, "BusType.Description");
+                button46.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button47.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
+            if (Category == category.Distribution && Data == data.Bus && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel31);
+                SetDistribuctionItemList(comboBox47);
+                label114.Text = GetLabel(DictionaryFileName, "Bus.Case");
+                label115.Text = GetLabel(DictionaryFileName, "Bus.Number");
+                button44.Text = GetLabel(DictionaryFileName, "SubmitButton");
+                button45.Text = GetLabel(DictionaryFileName, "ClearButton");
+            }
+
             if (Category == category.Distribution && Data == data.Case && Operation == operation.Insert)
             {
                 SetPanelLocationAndVisibility(panel30);
@@ -546,6 +601,7 @@ namespace WindowsApplication1
         public Form1()
         {
             InitializeComponent();
+            Close_panel();
             this.Text = GetSystemTitleLabel();
             this.Size = new Size(852, 543);
 
@@ -570,6 +626,13 @@ namespace WindowsApplication1
             panel2.Size = new Size(810, 25);
             panel3.Location = new Point(12, 449);
             panel3.Size = new Size(810, 39);
+            int PanelLocationX = 272;
+            int PanelLocationY = 12;
+            int PanelLocationH = 550;
+            int PanelLocationW = 410;
+            panel4.Location = new Point(PanelLocationX, PanelLocationY);
+            panel4.Size = new Size(PanelLocationH, PanelLocationW);
+            panel4.Visible = true;
         }
 
 
@@ -736,6 +799,11 @@ namespace WindowsApplication1
             panel28.Visible = false;
             panel29.Visible = false;
             panel30.Visible = false;
+            panel31.Visible = false;
+            panel32.Visible = false;
+            panel33.Visible = false;
+            panel34.Visible = false;
+            panel35.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -2802,6 +2870,225 @@ namespace WindowsApplication1
                     showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
                     textBox44.Text = string.Empty;
                     richTextBox7.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void button45_Click(object sender, EventArgs e)
+        {
+            comboBox47.Text = string.Empty;
+            textBox45.Text = string.Empty;
+        }
+
+        private void button44_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            int busNumber = 0;
+            validationList.Add(ValidateAsInt(textBox45, label115, out busNumber));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox47, label114));
+
+            if (CompleteValidation(validationList))
+            {
+                int caseID = GetDistributionCaseID(comboBox47.SelectedIndex);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`bus` (`busNumber`, `caseID`, `sequencialNumber`, `busName`, `Voltage`, `phase`, `voltageBase`, `desiredVoltage`, `maxReactivePower`, `minReactivePower`, `areaID`) VALUES ('"+busNumber.ToString()+"', '"+caseID.ToString()+"', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox47.Text = string.Empty;
+                    textBox45.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void button47_Click(object sender, EventArgs e)
+        {
+            comboBox48.Text = string.Empty;
+            textBox46.Text = string.Empty;
+            richTextBox8.Text = string.Empty;
+        }
+
+        private void button46_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsNotNullRichText(richTextBox8, label118));
+            int busTypeID = 0;
+            validationList.Add(ValidateAsInt(textBox46,label117,out busTypeID));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox48, label116));
+
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetDistributionCaseID(comboBox48.SelectedIndex);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`bustype` (`busTypeID`, `description`, `caseID`) VALUES ('"+busTypeID.ToString()+"', '"+richTextBox8.Text+"', '"+caseID.ToString()+"');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox48.Text = string.Empty;
+                    textBox46.Text = string.Empty;
+                    richTextBox8.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void button48_Click(object sender, EventArgs e)
+        {
+            comboBox49.Text = string.Empty;
+            comboBox50.Text = string.Empty;
+            comboBox51.Text = string.Empty;
+        }
+
+        private void button49_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox49, label119));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox50, label120));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox51, label121));
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetDistributionCaseID(comboBox51.SelectedIndex);
+                int busID = GetBusID(comboBox50.SelectedIndex, caseID);
+                int busTypeID = GetBusTypeID(comboBox49.SelectedIndex, caseID);
+
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`bus_bustype` (`idCase`, `busNumber`, `busType`) VALUES ('"+caseID.ToString()+"', '"+busID.ToString()+"', '"+busTypeID.ToString()+"');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox49.Text = string.Empty;
+                    comboBox50.Text = string.Empty;
+                    comboBox51.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void comboBox51_TextChanged(object sender, EventArgs e)
+        {
+            if(comboBox51.SelectedIndex>-1)
+            {
+                int caseID = GetDistributionCaseID(comboBox51.SelectedIndex);
+                SetBusList(comboBox50, caseID);
+                SetBusTypeList(comboBox49, caseID);
+            }
+            else
+            {
+                ClearComboBox(comboBox49);
+                ClearComboBox(comboBox50);
+            }
+        }
+
+        private void comboBox51_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox49.Text = string.Empty;
+            comboBox50.Text = string.Empty;
+        }
+
+        private void comboBox52_TextChanged(object sender, EventArgs e)
+        {
+            if(comboBox52.SelectedIndex>-1)
+            {
+                int caseID = GetDistributionCaseID(comboBox52.SelectedIndex);
+                SetBusList(comboBox53, caseID);
+                SetBusList(comboBox54, caseID);
+            }
+            else
+            {
+                ClearComboBox(comboBox53);
+                ClearComboBox(comboBox54);
+            }
+        }
+
+        private void comboBox52_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox53.Text = string.Empty;
+            comboBox54.Text = string.Empty;
+        }
+
+        private void button51_Click(object sender, EventArgs e)
+        {
+            comboBox52.Text = string.Empty;
+            comboBox53.Text = string.Empty;
+            comboBox54.Text = string.Empty;
+            textBox47.Text = string.Empty;
+        }
+
+        private void panel34_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button50_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            double length = 0;
+            validationList.Add(ValidateAsDouble(textBox47, label122, out length));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox54, label124));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox53, label123));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox52, label122));
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetDistributionCaseID(comboBox52.SelectedIndex);
+                int inicialBusID = GetBusID(comboBox53.SelectedIndex, caseID);
+                int finalBusID = GetBusID(comboBox54.SelectedIndex, caseID);
+
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`line` (`caseID`, `inicialBusNumber`, `finalBusNumber`, `sequencialNumber`, `length`, `resistence`, `reactance`, `shuntSusceptance`, `rating1`, `rating2`, `rating3`, `description`, `circuitoNumber`, `areaID`) VALUES ('"+caseID.ToString()+"', '"+inicialBusID.ToString()+"', '"+finalBusID.ToString()+"', NULL, '"+length.ToString()+"', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);");
+                if (returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox52.Text = string.Empty;
+                    comboBox53.Text = string.Empty;
+                    comboBox54.Text = string.Empty;
+                    textBox47.Text = string.Empty;
+                }
+                else
+                {
+                    ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void comboBox53_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button53_Click(object sender, EventArgs e)
+        {
+            comboBox55.Text = string.Empty;
+            textBox48.Text = string.Empty;
+            richTextBox9.Text = string.Empty;
+        }
+
+        private void button52_Click(object sender, EventArgs e)
+        {
+            List<bool> validationList = new List<bool>();
+            validationList.Add(ValidateAsNotNullRichText(richTextBox9, label128));
+            validationList.Add(ValidateAsNotNullText(textBox48, label127));
+            validationList.Add(ValidateAsSelectedfromCombobox(comboBox55, label126));
+
+            if(CompleteValidation(validationList))
+            {
+                int caseID = GetDistributionCaseID(comboBox55.SelectedIndex);
+                string returnedMsg = Insert("INSERT INTO `sql583577`.`linespacing` (`ID`, `caseID`, `description`) VALUES ('"+textBox48.Text+"', '"+caseID.ToString()+"', '"+richTextBox9.Text+"');");
+                if(returnedMsg.ToLower().Equals("ok"))
+                {
+                    showMsg(GetLabel(DictionaryFileName, "InsertSuccess"));
+                    comboBox55.Text = string.Empty;
+                    textBox48.Text = string.Empty;
+                    richTextBox9.Text = string.Empty;
                 }
                 else
                 {

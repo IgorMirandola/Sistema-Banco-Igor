@@ -94,6 +94,11 @@ Line.PowerRating3 <Classificação 3>
 Line.Description <Descrição>
 Line.CircuitNumber <Número circuito>
 Line.Area <Área>
+Line.Length <Comprimento>
+
+LineSpacing.Case <Caso base>
+LineSpacing.ID <Código>
+LineSpacing.Description <Descrição>
 
 LineType.caseID <Caso base>
 LineType.ID <Tipo de ramo>
