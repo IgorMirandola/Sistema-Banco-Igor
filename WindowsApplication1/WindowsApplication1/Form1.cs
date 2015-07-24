@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
-using Excel = Microsoft.Office.Interop.Excel; 
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace WindowsApplication1
 {
@@ -19,12 +19,102 @@ namespace WindowsApplication1
         public enum category { Distribution, Transmission, Unknown };
         public enum data { Case, Bus, BusType, Bus_BusTypeRelationship, Line, LineSpacing, Conductor, LineType, Line_LineTypeRelationship, LossZone, Bus_LossZoneRelationship, Line_LossZoneRelationship, LoadModel, Load, DistributedLoad, ShuntElement, Transformer, Line_TransformerRelationship, Bus_BusControl, Line_BusControl, Generation, Regulator, TieLines, Interchange, Area, Unknown};
         public enum operation { Insert, Remove, Update, Query, Unknown };
+        Color BackColor1 = Color.LightGreen;
+        Color BackColor2 = Color.MediumAquamarine;
+        public enum objectType { textBox, comboBox, richTextBox, button };
+        public enum validation { NotNullRichTextBox, SelectedFromComboBox, NotNullTextBox, Integer, Double, Null };
+        Dictionary<string, validation> validationDictionary = new Dictionary<string, validation>();
+        Dictionary<string, Label> labelList = new Dictionary<string, Label>();
+
+        Panel panelDistributionInsertLineType = new Panel();
+        private string insertString = string.Empty;
+        
+
+        private void SetList(ComboBox c3, Control c, string ComboBoxName, int caseID)
+        {
+            switch (ComboBoxName)
+            {
+                /// DEFINA AQUI TODOS AS POSSIBILIDADES DE LISTAS
+                case "LineSpacing":
+                    c3 = (ComboBox)c;
+                    SetLineSpacingList(c3, caseID);
+                    break;
+                case "Bus":
+                    c3 = (ComboBox)c;
+                    SetBusList(c3, caseID);
+                    break;
+                case "Line":
+                    c3 = (ComboBox)c;
+                    SetLineList(c3, caseID);
+                    break;
+                case "LineType":
+                    c3 = (ComboBox)c;
+                    SetLineTypeList(c3, caseID);
+                    break;
+                case "BusType":
+                    c3 = (ComboBox)c;
+                    SetBusTypeList(c3, caseID);
+                    break;
+                case "LossZone":
+                    c3 = (ComboBox)c;
+                    SetLossZoneList(c3, caseID);
+                    break;
+            }
+        }
 
         public void GenerateNewForm(string password, int categorySelectedValue, int dataSelectedValue, int operationSelectedValue)
         {
             category Category = SelectedValueToEnumeratedCategoryID(categorySelectedValue);
             data Data = SelectedValueToEnumeratedDataID(dataSelectedValue);
             operation Operation = SelectedValueToEnumeratedOperationID(operationSelectedValue);
+
+            if (Category == category.Distribution && Data == data.LineType && Operation == operation.Insert)
+            {
+                Panel panel = CreateNewPanel();
+
+                labelList.Clear();
+                validationDictionary.Clear();
+
+                List<int> Location = new List<int>();
+                Location.Add(150);
+                Location.Add(20);
+
+                Location = setNewLine(Location, panel, "LineType.caseID", objectType.comboBox, "caseID"); // caseID
+                Location = setNewLine(Location, panel, "LineType.ID", objectType.textBox, "LineType");
+                Location = setNewLine(Location, panel, "LineType.LineSpacing", objectType.comboBox, "LineSpacing#CaseID"); // fisrt what dependes of what. (LineSpacing, Bus, BusType, Line, LineType, LossZone / CaseID )
+                Location = setNewLine(Location, panel, "LineType.Phasing", objectType.textBox, "LinePhasing");
+                Location = setNewLine(Location, panel, "LineType.PhaseConductor", objectType.comboBox, "PhaseConductor");
+                Location = setNewLine(Location, panel, "LineType.NeutralConductor", objectType.comboBox, "NeutralConductor");
+                Location = setNewLine(Location, panel, "LineType.Description", objectType.richTextBox, "Description");
+                Location = setNewLine(Location, panel, "SubmitButton", objectType.button, "SubmitButton");
+                Location = setNewLine(Location, panel, "ClearButton", objectType.button, "ClearButton");
+
+                determineCaseIdItemList(panel, "caseID", category.Distribution);// caseID
+                determineConductorPhaseList(panel, "PhaseConductor");
+                determineConductorNeutralList(panel, "NeutralConductor");
+                determineClearHandle(panel);
+
+                validationDictionary.Add("caseID", validation.SelectedFromComboBox); //caseID
+                validationDictionary.Add("LineType", validation.Integer);
+                validationDictionary.Add("LineSpacing#CaseID", validation.SelectedFromComboBox);
+                validationDictionary.Add("LinePhasing", validation.NotNullTextBox);
+                validationDictionary.Add("PhaseConductor", validation.SelectedFromComboBox);
+                validationDictionary.Add("NeutralConductor", validation.SelectedFromComboBox);
+                validationDictionary.Add("Description", validation.NotNullRichTextBox);
+
+                // String Msg
+                insertString = "INSERT INTO `sql583577`.`linetype` (`ID`, `caseID`, `lineSpacing`, `phasing`, `conductorID`, `tapeShieldedConductorID`, `neutralConductorID`, `description`) VALUES ('";
+
+                determineDistrLineTypeInsertHandle(panel);
+            }
+
+            if (Category == category.Distribution && Data == data.LineSpacing && Operation == operation.Insert)
+            {
+                SetPanelLocationAndVisibility(panel37);
+                radioButton10.Text = GetLabel(DictionaryFileName, "Conductor.PhaseConductor");
+                radioButton9.Text = GetLabel(DictionaryFileName, "Conductor.NeutralConductor");
+                radioButton8.Text = GetLabel(DictionaryFileName, "Conductor.TapeShieldedPhaseConductor");
+            }
 
             if (Category == category.Distribution && Data == data.LineSpacing && Operation == operation.Insert)
             {
@@ -598,10 +688,13 @@ namespace WindowsApplication1
             return label;
         }
 
+        
+
         public Form1()
         {
             InitializeComponent();
             Close_panel();
+            Paint_panel();
             this.Text = GetSystemTitleLabel();
             this.Size = new Size(852, 543);
 
@@ -771,8 +864,38 @@ namespace WindowsApplication1
             return label;
         }
 
+        private void Paint_panel()
+        {
+            foreach (Control p in this.Controls)
+            {
+                if (p is Panel)
+                {
+                    if (!((p.Name.ToString().Equals("panel1")) || (p.Name.ToString().Equals("panel2"))))
+                    {
+                        p.BackColor = BackColor1;
+                    }
+                    else
+                    {
+                        p.BackColor = BackColor2;
+                    }
+                }
+            }
+            button1.BackColor = BackColor1;
+        }
+
         private void Close_panel()
         {
+            foreach (Control p in this.Controls)
+            {
+                if (p is Panel)
+                {
+                    if(p.Name.ToString().Equals("panel"))
+                    {
+                        this.Controls.Remove(p);
+                    }
+                }
+            }
+
             panel5.Visible = false;
             panel6.Visible = false;
             panel7.Visible = false;
@@ -804,6 +927,9 @@ namespace WindowsApplication1
             panel33.Visible = false;
             panel34.Visible = false;
             panel35.Visible = false;
+            panel36.Visible = false;
+            panel37.Visible = false;
+            panelDistributionInsertLineType.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -1673,6 +1799,38 @@ namespace WindowsApplication1
         {
             List<string[]> matrix = new List<string[]>();
             matrix = Query("SELECT * FROM  `bus` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                return Convert.ToInt32(matrix[selectedIndex][0]);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        private void SetLineSpacingList(ComboBox combobox, int caseID)
+        {
+            combobox.Items.Clear();
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `linespacing` WHERE `caseID` = " + caseID.ToString() + "");
+            if (checkQueryError(matrix))
+            {
+                for (int i = 0; i < matrix.Count; i++)
+                {
+                    combobox.Items.Add(matrix[i][0] + " - "+ matrix[i][2]);
+                }
+            }
+            else
+            {
+                combobox.Text = string.Empty;
+            }
+        }
+
+        private int GetLineSpacingID(int selectedIndex, int caseID)
+        {
+            List<string[]> matrix = new List<string[]>();
+            matrix = Query("SELECT * FROM  `linespacing` WHERE `caseID` = " + caseID.ToString() + "");
             if (checkQueryError(matrix))
             {
                 return Convert.ToInt32(matrix[selectedIndex][0]);
@@ -3030,6 +3188,8 @@ namespace WindowsApplication1
 
         }
 
+        
+
         private void button50_Click(object sender, EventArgs e)
         {
             List<bool> validationList = new List<bool>();
@@ -3093,6 +3253,575 @@ namespace WindowsApplication1
                 else
                 {
                     ShowInsertError(returnedMsg);
+                }
+            }
+        }
+
+        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton7_CheckedChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+
+ 
+        }
+
+        private Panel CreateNewPanel()
+        {
+            Panel panel = new Panel();
+            panel.Name = "panel";
+            panel.BorderStyle = BorderStyle.FixedSingle;
+            this.Controls.Add(panel);
+            panel.BackColor = BackColor1;
+            SetPanelLocationAndVisibility(panel);
+            return panel;
+        }
+
+        private void ComboBoxIndexChanged(object sender, System.EventArgs e)
+        {
+            foreach (Control p in this.Controls)
+            {
+                if (p is Panel)
+                {
+                    if (p.Name.ToString().Equals("panel"))
+                    {
+                        foreach (Control c in p.Controls)
+                        {
+                            if (c is ComboBox)
+                            {
+                                if (c.Name.ToString().Contains("#"))
+                                {
+                                    string[] ComboBoxName = c.Name.ToString().Split('#');
+                                    for (int i = 1; i < ComboBoxName.Length; i++)
+                                    {
+                                        switch (ComboBoxName[i])
+                                        {
+                                            case "CaseID":
+                                                foreach (Control c1 in p.Controls)
+                                                {
+                                                    if (c1 is ComboBox)
+                                                    {
+                                                        if (c1.Name.ToString().Equals("caseID"))
+                                                        {
+                                                            ComboBox c2 = new ComboBox();
+                                                            c2 = (ComboBox)c;
+                                                            c2.Text = string.Empty;
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        
+
+        private void ClearButtonClicked(object sender, System.EventArgs e)
+        {
+            foreach (Control p in this.Controls)
+            {
+                if (p is Panel)
+                {
+                    if (p.Name.ToString().Equals("panel"))
+                    {
+                        foreach (Control c in p.Controls)
+                        {
+                            if ((c is Button) || (c is Label))
+                            {
+
+                            }
+                            else
+                            {
+                                c.Text = string.Empty;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private void ComboBoxDistributionTextSelected(object sender, System.EventArgs e)
+        {
+            // Procurar pelo painel chamado "panel". Dentro dele, devo procurar por algo que me diga que é dependente do caso base. 
+            ComboBox control = sender as ComboBox;
+            if (control.SelectedIndex > -1)
+            {
+                int caseID = 0;
+                foreach (Control p in this.Controls)
+                {
+                    if (p is Panel)
+                    {
+                        if (p.Name.ToString().Equals("panel"))
+                        {
+                            foreach (Control c in p.Controls)
+                            {
+                                if (c is ComboBox)
+                                {
+                                    if (c.Name.ToString().Contains("#"))
+                                    {
+                                        string[] ComboBoxName = c.Name.ToString().Split('#');
+                                        for (int i = 1; i < ComboBoxName.Length; i++)
+                                        {
+                                            switch (ComboBoxName[i])
+                                            {
+                                                case "CaseID":
+                                                    foreach (Control c1 in p.Controls)
+                                                    {
+                                                        if (c1 is ComboBox)
+                                                        {
+                                                            if (c1.Name.ToString().Equals("caseID"))
+                                                            {
+                                                                ComboBox c2 = new ComboBox();
+                                                                c2 = (ComboBox)c1;
+                                                                caseID = GetDistributionCaseID(c2.SelectedIndex);
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                        ComboBox c3 = new ComboBox();
+                                        SetList(c3, c, ComboBoxName[0], caseID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (Control p in this.Controls)
+                {
+                    if (p is Panel)
+                    {
+                        if (p.Name.ToString().Equals("panel"))
+                        {
+                            foreach (Control c in p.Controls)
+                            {
+                                if (c is ComboBox)
+                                {
+                                    if (c.Name.ToString().Contains("#"))
+                                    {
+                                        string[] ComboBoxName = c.Name.ToString().Split('#');
+                                        for (int i = 1; i < ComboBoxName.Length; i++)
+                                        {
+                                            switch (ComboBoxName[i])
+                                            {
+                                                case "CaseID":
+                                                    foreach (Control c1 in p.Controls)
+                                                    {
+                                                        if (c1 is ComboBox)
+                                                        {
+                                                            if (c1.Name.ToString().Equals("caseID"))
+                                                            {
+                                                                ComboBox c2 = new ComboBox();
+                                                                c2 = (ComboBox)c;
+                                                                ClearComboBox(c2);
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ComboBoxTransmissionTextSelected(object sender, System.EventArgs e)
+        {
+            // Procurar pelo painel chamado "panel". Dentro dele, devo procurar por algo que me diga que é dependente do caso base. 
+            ComboBox control = sender as ComboBox;
+            if (control.SelectedIndex > -1)
+            {
+                int caseID = 0;
+                foreach (Control p in this.Controls)
+                {
+                    if (p is Panel)
+                    {
+                        if (p.Name.ToString().Equals("panel"))
+                        {
+                            foreach (Control c in p.Controls)
+                            {
+                                if (c is ComboBox)
+                                {
+                                    if (c.Name.ToString().Contains("#"))
+                                    {
+                                        string[] ComboBoxName = c.Name.ToString().Split('#');
+                                        for (int i = 1; i < ComboBoxName.Length; i++)
+                                        {
+                                            switch (ComboBoxName[i])
+                                            {
+                                                case "CaseID":
+                                                    foreach (Control c1 in p.Controls)
+                                                    {
+                                                        if (c1 is ComboBox)
+                                                        {
+                                                            if (c1.Name.ToString().Equals("caseID"))
+                                                            {
+                                                                ComboBox c2 = new ComboBox();
+                                                                c2 = (ComboBox)c1;
+                                                                caseID = GetTransmissionCaseID(c2.SelectedIndex);
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                        ComboBox c3 = new ComboBox();
+                                        SetList(c3, c, ComboBoxName[0], caseID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (Control p in this.Controls)
+                {
+                    if (p is Panel)
+                    {
+                        if (p.Name.ToString().Equals("panel"))
+                        {
+                            foreach (Control c in p.Controls)
+                            {
+                                if (c is ComboBox)
+                                {
+                                    if (c.Name.ToString().Contains("#"))
+                                    {
+                                        string[] ComboBoxName = c.Name.ToString().Split('#');
+                                        for (int i = 1; i < ComboBoxName.Length; i++)
+                                        {
+                                            switch (ComboBoxName[i])
+                                            {
+                                                case "CaseID":
+                                                    foreach (Control c1 in p.Controls)
+                                                    {
+                                                        if (c1 is ComboBox)
+                                                        {
+                                                            if (c1.Name.ToString().Equals("caseID"))
+                                                            {
+                                                                ComboBox c2 = new ComboBox();
+                                                                c2 = (ComboBox)c;
+                                                                ClearComboBox(c2);
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<int> setNewLine(List<int> location, Panel panel, string labeltext, objectType objecttype, string nameOfobjecttype)
+        {
+            labeltext = GetLabel(DictionaryFileName, labeltext);
+            switch (objecttype)
+            {
+                case objectType.richTextBox:
+                    {
+                        RichTextBox richTextBox = new RichTextBox();
+                        richTextBox.Name = nameOfobjecttype;
+                        richTextBox.Location = new Point(location[0], location[1]);
+                        richTextBox.Size = new Size(380, 60);
+                        panel.Controls.Add(richTextBox);
+                        break;
+                    }
+                case objectType.comboBox:
+                    {
+                        ComboBox comboBox = new ComboBox();
+                        comboBox.Name = nameOfobjecttype;
+                        comboBox.Location = new Point(location[0], location[1]);
+                        comboBox.Size = new Size(380, 20);
+                        panel.Controls.Add(comboBox);
+                        break;
+                    }
+                case objectType.textBox:
+                    {
+                        TextBox textBox = new TextBox();
+                        textBox.Name = nameOfobjecttype;
+                        textBox.Location = new Point(location[0], location[1]);
+                        textBox.Size = new Size(380, 20);
+                        panel.Controls.Add(textBox);
+                        break;
+                    }
+            }
+            if (objecttype != objectType.button)
+            {
+                Label label = new Label();
+                label.Text = labeltext;
+                panel.Controls.Add(label);
+                labelList.Add(nameOfobjecttype, label);
+                List<int> Location = new List<int>();
+
+                label.Location = new Point(20, location[1]);
+                location[1] = location[1] + 35;
+                if (objecttype == objectType.richTextBox)
+                {
+                    location[1] = location[1] + 40;
+                }
+                return location;
+            }
+            else
+            {
+                Button button = new Button();
+                panel.Controls.Add(button);
+                button.Name = nameOfobjecttype;
+                button.Text = labeltext;
+                button.Location = new Point(location[0] - 130, location[1] + 10);
+                button.Size = new Size(215, 35);
+                button.BackColor = BackColor2;
+                location[0] = location[0] + button.Size.Width + 80;
+                return location;
+            }
+        }
+
+        /*
+        public void determineInsertHandle(Panel panel)
+        {
+            foreach (Control c in panel.Controls)
+            {
+                if (c is Button)
+                {
+                    if (c.Name.ToString().Equals("SubmitButton"))
+                    {
+                        Button button = new Button();
+                        button = (Button)c;
+                        button.Click += new System.EventHandler(determineInsertHandle1);
+                    }
+                }
+            }
+        }
+         */
+
+        public void determineDistrLineTypeInsertHandle(Panel panel)
+        {
+            foreach (Control c in panel.Controls)
+            {
+                if (c is Button)
+                {
+                    if (c.Name.ToString().Equals("SubmitButton"))
+                    {
+                        Button button = new Button();
+                        button = (Button)c;
+                        button.Click += new System.EventHandler(determineDistrLineTypeInsertHandle1);
+                    }
+                }
+            }
+        }
+
+        private void determineDistrLineTypeInsertHandle1(object sender, System.EventArgs e)
+        {
+            List<bool> ValidationList = new List<bool>();
+            foreach (Control p in this.Controls)
+            {
+                if (p is Panel)
+                {
+                    if (p.Name.ToString().Equals("panel"))
+                    {
+                        foreach (Control c in p.Controls)
+                        {
+                            if (!((c is Label)||(c is Button)))
+                            {
+                                validation validationType = validation.Null;
+                                validationDictionary.TryGetValue(c.Name.ToString(), out validationType);
+
+                                Label label = new Label();
+                                labelList.TryGetValue(c.Name.ToString(), out label);
+
+                                switch (validationType)
+                                {
+                                    case validation.SelectedFromComboBox:
+                                        ComboBox combobox = new ComboBox();
+                                        combobox = (ComboBox)c;
+                                            if (CompleteValidation(ValidationList))
+                                            {
+                                                ValidationList.Add(ValidateAsSelectedfromCombobox(combobox, label));
+                                            }
+                                        break;
+                                    case validation.Double:
+                                        TextBox textbox = new TextBox();
+                                        textbox = (TextBox)c;
+                                        double number = 0;
+                                            if (CompleteValidation(ValidationList))
+                                            {
+                                                ValidationList.Add(ValidateAsDouble(textbox, label, out number));
+                                            }
+                                        break;
+                                    case validation.Integer:
+                                        TextBox textbox1 = new TextBox();
+                                        textbox1 = (TextBox)c;
+                                        int number1 = 0;
+                                            if (CompleteValidation(ValidationList))
+                                            {
+                                                ValidationList.Add(ValidateAsInt(textbox1, label, out number1));
+                                            }
+                                        break;
+                                    case validation.NotNullRichTextBox:
+                                        RichTextBox rtextbox = new RichTextBox();
+                                        rtextbox = (RichTextBox)c;
+                                            if (CompleteValidation(ValidationList))
+                                            {
+                                                ValidationList.Add(ValidateAsNotNullRichText(rtextbox, label));
+                                            }
+                                        break;
+                                    case validation.NotNullTextBox:
+                                        TextBox textbox2 = new TextBox();
+                                        textbox2 = (TextBox)c;
+                                            if (CompleteValidation(ValidationList))
+                                            {
+                                                ValidationList.Add(ValidateAsNotNullText(textbox2, label));
+                                            }                                        
+                                        break;
+                                }
+                            }
+                        }
+                        if(CompleteValidation(ValidationList))
+                        {
+                            // Insert Msg
+                            string a = insertString;
+
+                        }
+                    }
+                }
+            }
+        }
+
+        private void determineConductorPhaseList(Panel panel, string comboBoxName)
+        {
+            foreach (Control c in panel.Controls)
+            {
+                if (c is ComboBox)
+                {
+                    if (c.Name.ToString().Equals(comboBoxName))
+                    {
+                        ComboBox C = new ComboBox();
+                        C = (ComboBox)c;
+                        List<string[]> matrix = new List<string[]>();
+                        matrix = Query("SELECT * FROM  `conductor`");
+                        for (int i = 0; i < matrix.Count; i++)
+                        {
+                            C.Items.Add(matrix[i][2] + " - " + matrix[i][1]);
+                        }
+                        List<string[]> matrix1 = new List<string[]>();
+                        matrix1 = Query("SELECT * FROM  `tapeshieldedconductor`");
+                        for (int i = 0; i < matrix1.Count; i++)
+                        {
+                            C.Items.Add("Tape Shielded: " + matrix1[i][1]);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void determineConductorNeutralList(Panel panel, string comboBoxName)
+        {
+            foreach (Control c in panel.Controls)
+            {
+                if (c is ComboBox)
+                {
+                    if (c.Name.ToString().Equals(comboBoxName))
+                    {
+                        ComboBox C = new ComboBox();
+                        C = (ComboBox)c;
+                        List<string[]> matrix = new List<string[]>();
+                        matrix = Query("SELECT * FROM  `neutralconductor`");
+                        for (int i = 0; i < matrix.Count; i++)
+                        {
+                            C.Items.Add(matrix[i][1]);
+                        }
+                    }
+                }
+            }
+        }
+        private void determineCaseIdItemList(Panel panel, string comboBoxName, category Category)
+        {
+            foreach (Control c in panel.Controls)
+            {
+                if (c is ComboBox)
+                {
+                    if (c.Name.ToString().Equals(comboBoxName))
+                    {
+                        ComboBox C = new ComboBox();
+                        C = (ComboBox)c;
+
+                        switch (Category)
+                        {
+                            case category.Distribution:
+                                SetDistribuctionItemList(((ComboBox)c));
+                                C.TextChanged += new System.EventHandler(ComboBoxDistributionTextSelected);
+                                C.SelectedIndexChanged += new System.EventHandler(ComboBoxIndexChanged);
+                                break;
+                            case category.Transmission:
+                                SetTransmissionItemList(((ComboBox)c));
+                                C.TextChanged += new System.EventHandler(ComboBoxTransmissionTextSelected);
+                                C.SelectedIndexChanged += new System.EventHandler(ComboBoxIndexChanged);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private ComboBox getComboBox(Panel panel, string comboBoxName)
+        {
+            foreach (Control c in panel.Controls)
+            {
+                if (c is ComboBox)
+                {
+                    if (c.Name.ToString().Equals(comboBoxName))
+                    {
+                        return (ComboBox)c;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void determineClearHandle(Panel panel)
+        {
+            foreach (Control c in panel.Controls)
+            {
+                if (c is Button)
+                {
+                    if (c.Name.ToString().Equals("ClearButton"))
+                    {
+                        Button button = new Button();
+                        button = (Button)c;
+                        button.Click += new System.EventHandler(ClearButtonClicked);
+                    }
                 }
             }
         }

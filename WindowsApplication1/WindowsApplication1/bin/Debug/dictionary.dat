@@ -102,7 +102,13 @@ LineSpacing.Description <Descrição>
 
 LineType.caseID <Caso base>
 LineType.ID <Tipo de ramo>
+LineType.LineSpacing <Espaçamento>
 LineType.Description <Descrição>
+LineType.Phasing <Faseamento>
+LineType.PhaseConductor <Condutor Fase>
+LineType.NeutralConductor <Condutor Neutro>
+
+
 
 LineLineType.CaseID <Caso base>
 LineLineType.LineID <Ramo>
@@ -174,6 +180,10 @@ Interchange.Tolerance <Tolerância>
 Area.CaseID <Caso base>
 Area.ID <Código área>
 Area.Description <Descrição>
+
+Conductor.PhaseConductor <Condutor Fase>
+Conductor.NeutralConductor <Condutor Neutro>
+Conductor.TapeShieldedPhaseConductor <Condutor TapeShielded>
 
 GenericItem.Select <Selecionar Item>
 

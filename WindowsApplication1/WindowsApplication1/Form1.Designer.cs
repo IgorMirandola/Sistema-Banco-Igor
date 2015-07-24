@@ -355,14 +355,37 @@ namespace WindowsApplication1
             this.label123 = new System.Windows.Forms.Label();
             this.label122 = new System.Windows.Forms.Label();
             this.panel35 = new System.Windows.Forms.Panel();
-            this.label126 = new System.Windows.Forms.Label();
-            this.label127 = new System.Windows.Forms.Label();
-            this.label128 = new System.Windows.Forms.Label();
-            this.comboBox55 = new System.Windows.Forms.ComboBox();
-            this.textBox48 = new System.Windows.Forms.TextBox();
-            this.richTextBox9 = new System.Windows.Forms.RichTextBox();
-            this.button52 = new System.Windows.Forms.Button();
             this.button53 = new System.Windows.Forms.Button();
+            this.button52 = new System.Windows.Forms.Button();
+            this.richTextBox9 = new System.Windows.Forms.RichTextBox();
+            this.textBox48 = new System.Windows.Forms.TextBox();
+            this.comboBox55 = new System.Windows.Forms.ComboBox();
+            this.label128 = new System.Windows.Forms.Label();
+            this.label127 = new System.Windows.Forms.Label();
+            this.label126 = new System.Windows.Forms.Label();
+            this.panel36 = new System.Windows.Forms.Panel();
+            this.radioButton5 = new System.Windows.Forms.RadioButton();
+            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.radioButton7 = new System.Windows.Forms.RadioButton();
+            this.label129 = new System.Windows.Forms.Label();
+            this.label130 = new System.Windows.Forms.Label();
+            this.label131 = new System.Windows.Forms.Label();
+            this.label132 = new System.Windows.Forms.Label();
+            this.label133 = new System.Windows.Forms.Label();
+            this.label134 = new System.Windows.Forms.Label();
+            this.textBox49 = new System.Windows.Forms.TextBox();
+            this.textBox50 = new System.Windows.Forms.TextBox();
+            this.textBox51 = new System.Windows.Forms.TextBox();
+            this.textBox52 = new System.Windows.Forms.TextBox();
+            this.textBox53 = new System.Windows.Forms.TextBox();
+            this.comboBox56 = new System.Windows.Forms.ComboBox();
+            this.button54 = new System.Windows.Forms.Button();
+            this.button55 = new System.Windows.Forms.Button();
+            this.panel37 = new System.Windows.Forms.Panel();
+            this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.radioButton9 = new System.Windows.Forms.RadioButton();
+            this.radioButton10 = new System.Windows.Forms.RadioButton();
+            this.label135 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -397,6 +420,8 @@ namespace WindowsApplication1
             this.panel33.SuspendLayout();
             this.panel34.SuspendLayout();
             this.panel35.SuspendLayout();
+            this.panel36.SuspendLayout();
+            this.panel37.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -495,7 +520,7 @@ namespace WindowsApplication1
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.maskedTextBox1);
@@ -565,7 +590,7 @@ namespace WindowsApplication1
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label6);
             this.panel2.Location = new System.Drawing.Point(12, 427);
@@ -3629,70 +3654,10 @@ namespace WindowsApplication1
             this.panel35.Controls.Add(this.label128);
             this.panel35.Controls.Add(this.label127);
             this.panel35.Controls.Add(this.label126);
-            this.panel35.Location = new System.Drawing.Point(828, 163);
+            this.panel35.Location = new System.Drawing.Point(1113, 28);
             this.panel35.Name = "panel35";
-            this.panel35.Size = new System.Drawing.Size(550, 410);
+            this.panel35.Size = new System.Drawing.Size(10, 10);
             this.panel35.TabIndex = 13;
-            // 
-            // label126
-            // 
-            this.label126.AutoSize = true;
-            this.label126.Location = new System.Drawing.Point(13, 21);
-            this.label126.Name = "label126";
-            this.label126.Size = new System.Drawing.Size(62, 17);
-            this.label126.TabIndex = 0;
-            this.label126.Text = "label126";
-            // 
-            // label127
-            // 
-            this.label127.AutoSize = true;
-            this.label127.Location = new System.Drawing.Point(13, 52);
-            this.label127.Name = "label127";
-            this.label127.Size = new System.Drawing.Size(62, 17);
-            this.label127.TabIndex = 1;
-            this.label127.Text = "label127";
-            // 
-            // label128
-            // 
-            this.label128.AutoSize = true;
-            this.label128.Location = new System.Drawing.Point(13, 87);
-            this.label128.Name = "label128";
-            this.label128.Size = new System.Drawing.Size(62, 17);
-            this.label128.TabIndex = 2;
-            this.label128.Text = "label128";
-            // 
-            // comboBox55
-            // 
-            this.comboBox55.FormattingEnabled = true;
-            this.comboBox55.Location = new System.Drawing.Point(154, 17);
-            this.comboBox55.Name = "comboBox55";
-            this.comboBox55.Size = new System.Drawing.Size(377, 24);
-            this.comboBox55.TabIndex = 3;
-            // 
-            // textBox48
-            // 
-            this.textBox48.Location = new System.Drawing.Point(154, 50);
-            this.textBox48.Name = "textBox48";
-            this.textBox48.Size = new System.Drawing.Size(375, 22);
-            this.textBox48.TabIndex = 4;
-            // 
-            // richTextBox9
-            // 
-            this.richTextBox9.Location = new System.Drawing.Point(154, 84);
-            this.richTextBox9.Name = "richTextBox9";
-            this.richTextBox9.Size = new System.Drawing.Size(375, 53);
-            this.richTextBox9.TabIndex = 5;
-            this.richTextBox9.Text = "";
-            // 
-            // button52
-            // 
-            this.button52.Location = new System.Drawing.Point(16, 153);
-            this.button52.Name = "button52";
-            this.button52.Size = new System.Drawing.Size(231, 38);
-            this.button52.TabIndex = 6;
-            this.button52.Text = "button52";
-            this.button52.UseVisualStyleBackColor = true;
-            this.button52.Click += new System.EventHandler(this.button52_Click);
             // 
             // button53
             // 
@@ -3704,12 +3669,308 @@ namespace WindowsApplication1
             this.button53.UseVisualStyleBackColor = true;
             this.button53.Click += new System.EventHandler(this.button53_Click);
             // 
+            // button52
+            // 
+            this.button52.Location = new System.Drawing.Point(16, 153);
+            this.button52.Name = "button52";
+            this.button52.Size = new System.Drawing.Size(231, 38);
+            this.button52.TabIndex = 6;
+            this.button52.Text = "button52";
+            this.button52.UseVisualStyleBackColor = true;
+            this.button52.Click += new System.EventHandler(this.button52_Click);
+            // 
+            // richTextBox9
+            // 
+            this.richTextBox9.Location = new System.Drawing.Point(154, 84);
+            this.richTextBox9.Name = "richTextBox9";
+            this.richTextBox9.Size = new System.Drawing.Size(375, 53);
+            this.richTextBox9.TabIndex = 5;
+            this.richTextBox9.Text = "";
+            // 
+            // textBox48
+            // 
+            this.textBox48.Location = new System.Drawing.Point(154, 50);
+            this.textBox48.Name = "textBox48";
+            this.textBox48.Size = new System.Drawing.Size(375, 22);
+            this.textBox48.TabIndex = 4;
+            // 
+            // comboBox55
+            // 
+            this.comboBox55.FormattingEnabled = true;
+            this.comboBox55.Location = new System.Drawing.Point(154, 17);
+            this.comboBox55.Name = "comboBox55";
+            this.comboBox55.Size = new System.Drawing.Size(377, 24);
+            this.comboBox55.TabIndex = 3;
+            // 
+            // label128
+            // 
+            this.label128.AutoSize = true;
+            this.label128.Location = new System.Drawing.Point(13, 87);
+            this.label128.Name = "label128";
+            this.label128.Size = new System.Drawing.Size(62, 17);
+            this.label128.TabIndex = 2;
+            this.label128.Text = "label128";
+            // 
+            // label127
+            // 
+            this.label127.AutoSize = true;
+            this.label127.Location = new System.Drawing.Point(13, 52);
+            this.label127.Name = "label127";
+            this.label127.Size = new System.Drawing.Size(62, 17);
+            this.label127.TabIndex = 1;
+            this.label127.Text = "label127";
+            // 
+            // label126
+            // 
+            this.label126.AutoSize = true;
+            this.label126.Location = new System.Drawing.Point(13, 21);
+            this.label126.Name = "label126";
+            this.label126.Size = new System.Drawing.Size(62, 17);
+            this.label126.TabIndex = 0;
+            this.label126.Text = "label126";
+            // 
+            // panel36
+            // 
+            this.panel36.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.panel36.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel36.Controls.Add(this.button55);
+            this.panel36.Controls.Add(this.button54);
+            this.panel36.Controls.Add(this.comboBox56);
+            this.panel36.Controls.Add(this.textBox53);
+            this.panel36.Controls.Add(this.textBox52);
+            this.panel36.Controls.Add(this.textBox51);
+            this.panel36.Controls.Add(this.textBox50);
+            this.panel36.Controls.Add(this.textBox49);
+            this.panel36.Controls.Add(this.label134);
+            this.panel36.Controls.Add(this.label133);
+            this.panel36.Controls.Add(this.label132);
+            this.panel36.Controls.Add(this.label131);
+            this.panel36.Controls.Add(this.label130);
+            this.panel36.Controls.Add(this.label129);
+            this.panel36.Controls.Add(this.radioButton5);
+            this.panel36.Controls.Add(this.radioButton6);
+            this.panel36.Controls.Add(this.radioButton7);
+            this.panel36.Location = new System.Drawing.Point(828, 76);
+            this.panel36.Name = "panel36";
+            this.panel36.Size = new System.Drawing.Size(550, 410);
+            this.panel36.TabIndex = 13;
+            // 
+            // radioButton5
+            // 
+            this.radioButton5.AutoSize = true;
+            this.radioButton5.Location = new System.Drawing.Point(16, 68);
+            this.radioButton5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.radioButton5.Name = "radioButton5";
+            this.radioButton5.Size = new System.Drawing.Size(69, 21);
+            this.radioButton5.TabIndex = 8;
+            this.radioButton5.Text = "radio3";
+            this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
+            // 
+            // radioButton6
+            // 
+            this.radioButton6.AutoSize = true;
+            this.radioButton6.Location = new System.Drawing.Point(16, 43);
+            this.radioButton6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.radioButton6.Name = "radioButton6";
+            this.radioButton6.Size = new System.Drawing.Size(69, 21);
+            this.radioButton6.TabIndex = 7;
+            this.radioButton6.Text = "radio2";
+            this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
+            // 
+            // radioButton7
+            // 
+            this.radioButton7.AutoSize = true;
+            this.radioButton7.Checked = true;
+            this.radioButton7.Location = new System.Drawing.Point(16, 18);
+            this.radioButton7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.radioButton7.Name = "radioButton7";
+            this.radioButton7.Size = new System.Drawing.Size(69, 21);
+            this.radioButton7.TabIndex = 6;
+            this.radioButton7.TabStop = true;
+            this.radioButton7.Text = "radio1";
+            this.radioButton7.UseVisualStyleBackColor = true;
+            this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged_1);
+            // 
+            // label129
+            // 
+            this.label129.AutoSize = true;
+            this.label129.Location = new System.Drawing.Point(13, 107);
+            this.label129.Name = "label129";
+            this.label129.Size = new System.Drawing.Size(62, 17);
+            this.label129.TabIndex = 9;
+            this.label129.Text = "label129";
+            // 
+            // label130
+            // 
+            this.label130.AutoSize = true;
+            this.label130.Location = new System.Drawing.Point(13, 140);
+            this.label130.Name = "label130";
+            this.label130.Size = new System.Drawing.Size(62, 17);
+            this.label130.TabIndex = 10;
+            this.label130.Text = "label130";
+            // 
+            // label131
+            // 
+            this.label131.AutoSize = true;
+            this.label131.Location = new System.Drawing.Point(13, 172);
+            this.label131.Name = "label131";
+            this.label131.Size = new System.Drawing.Size(62, 17);
+            this.label131.TabIndex = 11;
+            this.label131.Text = "label131";
+            // 
+            // label132
+            // 
+            this.label132.AutoSize = true;
+            this.label132.Location = new System.Drawing.Point(13, 202);
+            this.label132.Name = "label132";
+            this.label132.Size = new System.Drawing.Size(62, 17);
+            this.label132.TabIndex = 12;
+            this.label132.Text = "label132";
+            // 
+            // label133
+            // 
+            this.label133.AutoSize = true;
+            this.label133.Location = new System.Drawing.Point(13, 235);
+            this.label133.Name = "label133";
+            this.label133.Size = new System.Drawing.Size(62, 17);
+            this.label133.TabIndex = 13;
+            this.label133.Text = "label133";
+            // 
+            // label134
+            // 
+            this.label134.AutoSize = true;
+            this.label134.Location = new System.Drawing.Point(13, 267);
+            this.label134.Name = "label134";
+            this.label134.Size = new System.Drawing.Size(62, 17);
+            this.label134.TabIndex = 14;
+            this.label134.Text = "label134";
+            // 
+            // textBox49
+            // 
+            this.textBox49.Location = new System.Drawing.Point(148, 19);
+            this.textBox49.Name = "textBox49";
+            this.textBox49.Size = new System.Drawing.Size(374, 22);
+            this.textBox49.TabIndex = 15;
+            // 
+            // textBox50
+            // 
+            this.textBox50.Location = new System.Drawing.Point(179, 169);
+            this.textBox50.Name = "textBox50";
+            this.textBox50.Size = new System.Drawing.Size(325, 22);
+            this.textBox50.TabIndex = 16;
+            // 
+            // textBox51
+            // 
+            this.textBox51.Location = new System.Drawing.Point(181, 199);
+            this.textBox51.Name = "textBox51";
+            this.textBox51.Size = new System.Drawing.Size(325, 22);
+            this.textBox51.TabIndex = 17;
+            // 
+            // textBox52
+            // 
+            this.textBox52.Location = new System.Drawing.Point(181, 232);
+            this.textBox52.Name = "textBox52";
+            this.textBox52.Size = new System.Drawing.Size(325, 22);
+            this.textBox52.TabIndex = 18;
+            // 
+            // textBox53
+            // 
+            this.textBox53.Location = new System.Drawing.Point(181, 264);
+            this.textBox53.Name = "textBox53";
+            this.textBox53.Size = new System.Drawing.Size(325, 22);
+            this.textBox53.TabIndex = 19;
+            // 
+            // comboBox56
+            // 
+            this.comboBox56.FormattingEnabled = true;
+            this.comboBox56.Location = new System.Drawing.Point(181, 137);
+            this.comboBox56.Name = "comboBox56";
+            this.comboBox56.Size = new System.Drawing.Size(325, 24);
+            this.comboBox56.TabIndex = 20;
+            // 
+            // button54
+            // 
+            this.button54.Location = new System.Drawing.Point(16, 302);
+            this.button54.Name = "button54";
+            this.button54.Size = new System.Drawing.Size(214, 36);
+            this.button54.TabIndex = 21;
+            this.button54.Text = "button54";
+            this.button54.UseVisualStyleBackColor = true;
+            // 
+            // button55
+            // 
+            this.button55.Location = new System.Drawing.Point(284, 302);
+            this.button55.Name = "button55";
+            this.button55.Size = new System.Drawing.Size(221, 36);
+            this.button55.TabIndex = 22;
+            this.button55.Text = "button55";
+            this.button55.UseVisualStyleBackColor = true;
+            // 
+            // panel37
+            // 
+            this.panel37.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.panel37.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel37.Controls.Add(this.radioButton8);
+            this.panel37.Controls.Add(this.radioButton9);
+            this.panel37.Controls.Add(this.radioButton10);
+            this.panel37.Location = new System.Drawing.Point(1246, 14);
+            this.panel37.Name = "panel37";
+            this.panel37.Size = new System.Drawing.Size(112, 103);
+            this.panel37.TabIndex = 23;
+            this.panel37.Visible = false;
+            // 
+            // radioButton8
+            // 
+            this.radioButton8.AutoSize = true;
+            this.radioButton8.Location = new System.Drawing.Point(16, 68);
+            this.radioButton8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.radioButton8.Name = "radioButton8";
+            this.radioButton8.Size = new System.Drawing.Size(69, 21);
+            this.radioButton8.TabIndex = 8;
+            this.radioButton8.Text = "radio3";
+            this.radioButton8.UseVisualStyleBackColor = true;
+            // 
+            // radioButton9
+            // 
+            this.radioButton9.AutoSize = true;
+            this.radioButton9.Location = new System.Drawing.Point(16, 43);
+            this.radioButton9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.radioButton9.Name = "radioButton9";
+            this.radioButton9.Size = new System.Drawing.Size(69, 21);
+            this.radioButton9.TabIndex = 7;
+            this.radioButton9.Text = "radio2";
+            this.radioButton9.UseVisualStyleBackColor = true;
+            // 
+            // radioButton10
+            // 
+            this.radioButton10.AutoSize = true;
+            this.radioButton10.Location = new System.Drawing.Point(16, 18);
+            this.radioButton10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.radioButton10.Name = "radioButton10";
+            this.radioButton10.Size = new System.Drawing.Size(69, 21);
+            this.radioButton10.TabIndex = 6;
+            this.radioButton10.Text = "radio1";
+            this.radioButton10.UseVisualStyleBackColor = true;
+            // 
+            // label135
+            // 
+            this.label135.AutoSize = true;
+            this.label135.Location = new System.Drawing.Point(1071, 52);
+            this.label135.Name = "label135";
+            this.label135.Size = new System.Drawing.Size(0, 17);
+            this.label135.TabIndex = 24;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1370, 498);
+            this.Controls.Add(this.label135);
+            this.Controls.Add(this.panel37);
+            this.Controls.Add(this.panel36);
             this.Controls.Add(this.panel35);
             this.Controls.Add(this.panel34);
             this.Controls.Add(this.panel33);
@@ -3821,6 +4082,10 @@ namespace WindowsApplication1
             this.panel34.PerformLayout();
             this.panel35.ResumeLayout(false);
             this.panel35.PerformLayout();
+            this.panel36.ResumeLayout(false);
+            this.panel36.PerformLayout();
+            this.panel37.ResumeLayout(false);
+            this.panel37.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4163,6 +4428,29 @@ namespace WindowsApplication1
         private System.Windows.Forms.Label label128;
         private System.Windows.Forms.Label label127;
         private System.Windows.Forms.Label label126;
+        private System.Windows.Forms.Panel panel36;
+        private System.Windows.Forms.RadioButton radioButton5;
+        private System.Windows.Forms.RadioButton radioButton6;
+        private System.Windows.Forms.RadioButton radioButton7;
+        private System.Windows.Forms.Label label133;
+        private System.Windows.Forms.Label label132;
+        private System.Windows.Forms.Label label131;
+        private System.Windows.Forms.Label label130;
+        private System.Windows.Forms.Label label129;
+        private System.Windows.Forms.ComboBox comboBox56;
+        private System.Windows.Forms.TextBox textBox53;
+        private System.Windows.Forms.TextBox textBox52;
+        private System.Windows.Forms.TextBox textBox51;
+        private System.Windows.Forms.TextBox textBox50;
+        private System.Windows.Forms.TextBox textBox49;
+        private System.Windows.Forms.Label label134;
+        private System.Windows.Forms.Button button55;
+        private System.Windows.Forms.Button button54;
+        private System.Windows.Forms.Panel panel37;
+        private System.Windows.Forms.RadioButton radioButton8;
+        private System.Windows.Forms.RadioButton radioButton9;
+        private System.Windows.Forms.RadioButton radioButton10;
+        private System.Windows.Forms.Label label135;
     }
 }
 
